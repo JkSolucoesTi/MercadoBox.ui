@@ -1,0 +1,36 @@
+<div class="home-container p-4">
+  <h2 class="mb-3 text-green-700">Minhas Compras Finalizadas</h2>
+
+  <p-table [value]="compras" responsiveLayout="scroll" class="custom-table">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Código</th>
+        <th>Data</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-compra>
+      <tr>
+        <td>{{ compra.id }}</td>
+        <td>{{ compra.data | date:'dd/MM/yyyy' }}</td>
+        <td>{{ compra.getTotalComum() | currency:'BRL' }}</td>
+        <td>
+          <span pBadge 
+                [value]="compra.status" 
+                [severity]="compra.status === 'FINALIZADA' ? 'success' : 'warning'">
+          </span>
+        </td>
+        <td>
+          <button pButton 
+                  icon="pi pi-search" 
+                  label="Detalhes" 
+                  class="p-button-rounded p-button-sm p-button-success">
+          </button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

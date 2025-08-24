@@ -1,0 +1,37 @@
+<div class="form-container">
+    <p-card header="Cadastro de Produto" styleClass="p-shadow-3">
+  
+    <form [formGroup]="form" (ngSubmit)="salvarProduto()" class="p-fluid">
+
+      <div class="field">
+        <label for="nome">Codigo de Barras</label>
+        <input id="nome" type="text" pInputText formControlName="codigoBarras" required placeholder="Codigo de Barras do Produto"/>
+      </div>
+
+
+      <div class="field">
+        <label for="nome">Nome</label>
+        <input id="nome" type="text" pInputText formControlName="nome" required placeholder="Nome do Produto"/>
+      </div>
+     
+      <div class="field">
+        <label for="categoria">Preço Unitario</label>
+        <p-dropdown
+        [options]="categorias"
+        formControlName="categoria"
+        optionValue="id"
+        optionLabel="nome"
+        placeholder="Selecione uma categoria">
+      </p-dropdown>
+      </div>
+      
+            <div class="field">
+        <label for="nome">Descrição</label>
+        <input id="nome" type="text" pInputText formControlName="descricao" required placeholder="Descrição do Produto"/>
+      </div>
+
+
+      <button pButton type="submit" label="Salvar" icon="pi pi-save" class="p-button-success"></button>
+    
+    </form>
+<div>
