@@ -11,6 +11,8 @@ import { CardModule } from 'primeng/card';
 
 import { Router } from '@angular/router';
 import { StatusE } from 'src/app/model/enum/statusE';
+import { CompraSignature } from 'src/app/model/Dto/signature/compraSignature';
+import { MercadoResponse } from 'src/app/model/Dto/response/mercadoResponse';
 
 @Component({
   selector: 'app-compra-form',
@@ -21,6 +23,7 @@ import { StatusE } from 'src/app/model/enum/statusE';
 })
 export class CompraFormComponent implements OnInit {
 
+  mercadoResponse: MercadoResponse[] = [];
   form!: FormGroup;
 
   constructor(private mercadoService: MercadoService, private compraService: CompraService, private fb: FormBuilder, private router: Router) {
@@ -28,31 +31,34 @@ export class CompraFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.carregarMercados();
-
     this.form = this.fb.group({
       mercadoId: [null, Validators.required],
       data: [new Date(), Validators.required]
     })
   }
 
-  mercados: Mercado[] = []
   carregarMercados() {
-    this.mercadoService.listar().subscribe(dados => this.mercados = dados);
+    this.mercadoService.listar()
+      .subscribe({
+        next: (dados) => {
+          this.mercadoResponse = dados;
+        },
+        error: (erro) => {
+        console.error("Erro ao carregar mercados:", erro);
+        }
+      })
   }
 
   iniciarCompra() {
     if (this.form.valid) {
-        let compra = new Compra();
-        compra.idmercado = this.form.get('mercadoId')?.value,
-        compra.data= this.form.get('data')?.value,
-        compra.itens= [],
-        compra.status= StatusE.Iniciado
+      let compra = new CompraSignature();
+      compra.idMercado = this.form.get('mercadoId')?.value,
+        compra.data = this.form.get('data')?.value,
+        compra.itens = [],
 
-      this.compraService.criarCompra(compra).subscribe(result => {
-        console.log(result);
-        localStorage.setItem('compra', JSON.stringify(result));
-        this.router.navigate(['/carrinho/' + result.id]);
-      });
+        this.compraService.criarCompra(compra).subscribe(result => {
+          this.router.navigate(['/carrinho/' + result.id]);
+        });
 
     } else {
       console.log('Preencha todos os campos');

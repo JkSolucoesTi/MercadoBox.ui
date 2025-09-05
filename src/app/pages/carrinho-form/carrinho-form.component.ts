@@ -78,7 +78,6 @@ export class CarrinhoFormComponent implements OnInit {
   }
 
   salvar() {
-    this.compra.status = StatusE.Concluido
     this.compraService.finalizar(this.compra).subscribe(x => {
       
     })

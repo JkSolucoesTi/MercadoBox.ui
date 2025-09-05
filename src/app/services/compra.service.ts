@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Compra } from '../model/compra/compra';
+import { CompraSignature } from '../model/Dto/signature/compraSignature';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ export class CompraService {
 
   constructor(private http: HttpClient) { }
 
-  criarCompra(compra: Compra): Observable<Compra> {
-    return this.http.post<Compra>(this.apiUrl, compra);
+  criarCompra(compra: CompraSignature): Observable<CompraSignature> {
+    return this.http.post<CompraSignature>(this.apiUrl, compra);
   }
 
   atualizar(compra: Compra): Observable<Compra> {

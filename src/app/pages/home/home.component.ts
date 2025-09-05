@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   carregarComprasFinalizadas(): void {
     this.compraService.listarCompras().subscribe({
       next: (lista: Compra[]) => {
-        this.compras = lista.filter(c => c.status === 3);
+        this.compras = lista.filter(c => c.idmercado);
       },
       error: (err : any) => {
         console.error('Erro ao carregar compras', err);

@@ -7,8 +7,6 @@ export class Compra {
   idmercado?: number;
   data?: string;
   itens: ItemCarrinho[];
-  status?: StatusE;
-
 
   constructor(itens: ItemCarrinho[] = []) {
     this.itens = itens

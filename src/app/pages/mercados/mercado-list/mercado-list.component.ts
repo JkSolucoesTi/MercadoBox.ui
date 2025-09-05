@@ -7,6 +7,7 @@ import { Mercado, MercadoService } from '../../../services/mercado.service';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { PanelComponent } from 'src/app/shared/panel/panel.component';
+import { MercadoResponse } from 'src/app/model/Dto/response/mercadoResponse';
 
 
 @Component({
@@ -21,14 +22,22 @@ export class MercadoListComponent implements OnInit{
   
   constructor(private mercadoService: MercadoService) {}
 
-  mercados: Mercado[] = [];
+  mercados: MercadoResponse[] = [];
   
   ngOnInit(): void {
     this.carregarMercados();
   }
 
   carregarMercados() {
-    this.mercadoService.listar().subscribe(dados => this.mercados = dados);
+    this.mercadoService.listar()
+    .subscribe({
+      next : (dados) =>{
+        this.mercados = dados
+      },
+      error : (erro) =>{
+        console.log("Erro ao carregar mercados",erro);
+      }
+    });
   }
 
   deletarMercado(id: number) {
