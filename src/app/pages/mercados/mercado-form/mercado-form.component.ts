@@ -6,6 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Mercado, MercadoService } from '../../../services/mercado.service';
 import { CardModule } from 'primeng/card';
+import { MercadoSignature } from 'src/app/model/Dto/signature/mercadoSignature';
 
 @Component({
   selector: 'app-mercado-form',
@@ -23,7 +24,7 @@ import { CardModule } from 'primeng/card';
 export class MercadoFormComponent implements OnInit {
 
   form!:FormGroup;
-  mercado: Mercado = { nome: '', endereco: '', cidade: '', estado: '', cnpj: '', telefone: '',descricao:'' ,quantidade:0};
+  mercado!: MercadoSignature 
   id?: number;
 
   constructor(

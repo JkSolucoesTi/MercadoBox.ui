@@ -4,7 +4,8 @@
       [btnDescricao]="'Itens'" [modal]="true"></app-panel>
     <p-divider />
 
-    <p-table [value]="compra.itens" responsiveLayout="scroll">
+
+    <p-table [value]="compraResponse.itens" responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
           <th>Produto</th>
@@ -20,13 +21,13 @@
             <i *ngIf="item.promocao" class="pi pi-tags promo-icon" title="Produto em promoção"></i>
             {{ item.nome }}
           </td>
-          <td>{{ item.preco | currency: 'BRL' }}</td>
+          <td>{{ item.valor | currency: 'BRL' }}</td>
           <td>{{ item.quantidade }}</td>
-          <td>{{ item.preco * item.quantidade | currency: 'BRL' }}</td>
+          <td>{{ item.valor * item.quantidade | currency: 'BRL' }}</td>
           <td>
             <ng-container *ngIf="item.promocao; else precoNormal">
               <span class="preco-antigo">{{ item.preco | currency:'BRL' }}</span>
-              <span class="preco-promocional">{{ item.valorPromocional| currency:'BRL'  }}</span>
+              <span class="preco-promocional">{{ item.valorPromocional| currency:'BRL' }}</span>
             </ng-container>
 
             <ng-template #precoNormal>
@@ -41,7 +42,7 @@
 </div>
 <footer class="footer-fixed">
   <div class="footer-content">
-    <h3 class="footer-total">Total {{calcularTotal(compra) | currency: 'BRL' }}</h3>
+    <h3 class="footer-total">Total </h3>
 
     <button pButton type="button" label="Finalizar Compra" icon="pi pi-save" class="p-button-success"
       (click)="salvar()">

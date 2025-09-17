@@ -1,16 +1,23 @@
 <form [formGroup]="form" class="p-fluid">
 
+
+
   <div class="grid">
-    <!-- Código de Barras -->
+
     <div class="col-12">
-      <div class="field">
-        <label for="codigoBarras">Código de Barras</label>
-        <input id="codigoBarras" type="text" pInputText formControlName="codigoBarras"
-          placeholder="Código de Barras do Produto" mask="9999999999999" />
-      </div>
+      <p-autoComplete formControlName="codigoDeBarras" [suggestions]="produtosFiltrados" field="codigo"
+        (completeMethod)="search($event)" [minLength]="3" placeholder="Digite o código de barras"
+        (onSelect)="onProdutoSelecionado($event)">
+        <ng-template let-produto pTemplate="item">
+          <div class="flex flex-column">
+            {{ produto.codigo }} - {{ produto.nome }} </div>
+        </ng-template>
+        <ng-template let-produto pTemplate="selectedItem">
+          {{ produto.codigo }}
+        </ng-template>
+      </p-autoComplete>
     </div>
 
-    <!-- Nome -->
     <div class="col-12">
       <div class="field">
         <label for="nome">Nome</label>
@@ -18,11 +25,11 @@
       </div>
     </div>
 
-    <!-- Preço e Quantidade na mesma linha -->
     <div class="col-12 md:col-6">
       <div class="field">
         <label for="preco">Preço</label>
-        <input type="text" pInputText formControlName="preco" (input)="onPrecoInput($event,'preco')" placeholder="R$ 0,00">
+        <input type="text" pInputText formControlName="preco" (input)="onPrecoInput($event,'preco')"
+          placeholder="R$ 0,00">
       </div>
     </div>
 
@@ -41,7 +48,8 @@
     <div class="col-12 md:col-6" *ngIf="isPromocao">
       <div class="field">
         <label for="valorPromocional">Valor Promocional</label>
-        <input type="text" pInputText formControlName="valorPromocional" (input)="onPrecoInput($event,'valorPromocional')" placeholder="R$ 0,00">
+        <input type="text" pInputText formControlName="valorPromocional"
+          (input)="onPrecoInput($event,'valorPromocional')" placeholder="R$ 0,00">
       </div>
     </div>
 

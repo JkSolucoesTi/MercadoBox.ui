@@ -14,16 +14,11 @@
     <div class="col-12 md:col-6 lg:col-4" *ngFor="let produto of produtos">
       <p-card styleClass="mercado-card">
         <div class="flex align-items-center gap-3 mb-3">
-          <i class="pi pi-store" style="font-size: 2rem; color: #4caf50;"></i>
+          <i class="pi pi-circle-on" style="font-size: 2rem; color: #4caf50;"></i>
           <div>
             <div class="font-semibold text-lg">{{ produto.nome }}</div>
-            <span class="badge-compra">{{ getNomeCategoria(produto.categoria) }}</span>
+            <span class="badge-compra">{{ produto.categoria }}</span>
           </div>
-        </div>
-
-        <div class="mb-2 flex align-items-center gap-2 text-gray-700">
-          <i class="pi pi-money-bill"></i>
-          <span>{{produto.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
         </div>
         <div class="mb-2 flex align-items-center gap-2 text-gray-700">
           <i class="pi pi-barcode"></i>

@@ -3,6 +3,7 @@ export const API_CONFIG = {
   endpoints: {
     mercados: 'Mercados',
     produtos: 'Produtos',
-    compras: 'Compras'
+    compras: 'Compras',
+    categorias:'Categorias'
   }
 };

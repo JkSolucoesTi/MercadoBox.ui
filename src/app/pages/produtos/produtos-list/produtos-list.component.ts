@@ -1,7 +1,6 @@
 import { Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Categoria } from 'src/app/model/categoria/categoria';
 import { ProdutosService } from 'src/app/services/produtos.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
@@ -14,7 +13,7 @@ import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { PanelModule } from 'primeng/panel';
 import { PanelComponent } from 'src/app/shared/panel/panel.component';
-import { ProdutoCompleto } from 'src/app/model/produto/produtoCompleto';
+import { ProdutoResponse } from 'src/app/model/Dto/response/produtoResponse';
 
 @Component({
   selector: 'app-produtos-list',
@@ -36,51 +35,32 @@ import { ProdutoCompleto } from 'src/app/model/produto/produtoCompleto';
   templateUrl: './produtos-list.component.html',
   styleUrls: ['./produtos-list.component.scss']
 })
-export class ProdutosListComponent {
+export class ProdutosListComponent implements OnInit {
 
     items: any[] = [];
   
-    produtos: ProdutoCompleto[] = [];
-  
-    categorias: Categoria[] = [];  // Array para armazenar as categorias
-    categoriaSelecionada: any;
-  
-    constructor(private produtosService: ProdutosService, private router:Router) {}
+    produtos: ProdutoResponse[] = [];
+   
+    constructor(private produtosService: ProdutosService) {}
   
     ngOnInit() {
-      this.listarProdutos();
-  
-      this.items = [
-        { label: 'Início', icon: 'pi pi-home', routerLink: ['/'] },
-        { label: 'Produtos', icon: 'pi pi-box', routerLink: ['/produtos'] },
-        { label: 'Compras', icon: 'pi pi-tags', routerLink: ['/categorias'] },
-      ];
-  
-  
-    }
+      debugger;
+      this.listarProdutos();  
+  }
   
     listarProdutos() {
-      this.produtosService.listar().subscribe((data) => {
-      this.produtos = data;  
-      this.listarCategoria();
-      });
-    }
-  
-    listarCategoria(){
-      this.produtosService.getCategorias().subscribe((categorias) => {
-        this.categorias = categorias; 
-      });  
-    }
+      this.produtosService.listar().subscribe({
+        next : (data) =>{
+          this.produtos = data;
+        }
+        ,error : (erro) =>{
+          console.log("Não foi possível listar os produtos",erro);     
+        }
+      }
+    )}
    
   deletarProduto(id: number) {
     this.produtosService.deletar(id).subscribe(() => this.listarProdutos());
   }
   
-
-  
-  getNomeCategoria(id?: number) {
-    const categoria = this.categorias.find(c => Number(c.id) === id)?.nome;
-    return categoria;
-  }
-
 }

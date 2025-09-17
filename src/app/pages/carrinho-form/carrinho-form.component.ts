@@ -1,5 +1,4 @@
 import { ItemCarrinho } from './../../model/carrinho/itemCarrinho';
-import { StorageService } from './../../services/storage.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -11,13 +10,13 @@ import { TableModule } from 'primeng/table';
 import { PanelComponent } from "src/app/shared/panel/panel.component";
 import { DividerModule } from 'primeng/divider';
 import { DialogModule } from 'primeng/dialog';
-import { EventEmitterService } from 'src/app/services/event-emitter.service';
 import { CompraService } from 'src/app/services/compra.service';
 import { Compra } from 'src/app/model/compra/compra';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
+import { CompraReponse } from 'src/app/model/Dto/response/compraResponse';
+import { CompraTokenSignature } from 'src/app/model/Dto/signature/compraTokenSignature';
 import { CarrinhoStoreService } from 'src/app/services/carrinho-store.service';
-import { StatusE } from 'src/app/model/enum/statusE';
 
 export interface Product {
   id: number;
@@ -47,50 +46,56 @@ export interface Product {
 })
 export class CarrinhoFormComponent implements OnInit {
 
+  compraToken: CompraTokenSignature = new CompraTokenSignature();
+  compraResponse: CompraReponse = new CompraReponse();
+  private subscription: Subscription = new Subscription();
 
-  compra!: Compra;
-  subscription: Subscription = new Subscription();
-
-  constructor(private eventeEmitter: EventEmitterService,
+  constructor(
     private compraService: CompraService,
-    
-    private carrinhoStorageService : CarrinhoStoreService,
     private activatedRoute: ActivatedRoute,
-  ) {
-  }
+    private router:Router,
+    private carrinhoService : CarrinhoStoreService
+  ) { }
 
   ngOnInit(): void {
 
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.compraService.buscarPorId(String(id)).subscribe(x => {
-      this.compra = x
-    });
+    this.subscription.add(
+      this.activatedRoute.paramMap.subscribe(params =>{
+        const guid = params.get('id');
+        if(guid){
+          this.carrinhoService.setCompraGuid(guid);
+          this.compraToken.Guid = guid;
+        }
+      })
+    )
 
-     this.carrinhoStorageService.getCompra$().subscribe(compraStore => {
-        if (compraStore && compraStore.itens) {
-         this.compra.itens = compraStore.itens;
-         this.compraService.atualizar(this.compra).subscribe(result => {
-          console.log(result);
-         })
-       }
-    });
+    this.subscription.add(
+      this.router.events
+        .pipe(filter(event => event instanceof NavigationEnd))
+        .subscribe((event: any) => {
+          if (!event.url.startsWith('/carrinho')) {
+            this.carrinhoService.clearCompraGuid();
+            this.compraToken.Guid = '';
+          }
+        })
+    );
 
+    this.compraService.buscarPorId(this.compraToken).subscribe(x => {
+      this.compraResponse = x     
+    });
   }
 
   salvar() {
-    this.compraService.finalizar(this.compra).subscribe(x => {
-      
-    })
+    // this.compraService.finalizar(this.compra).subscribe(x => {
+    // })
   }
 
-calcularTotal(compra: Compra): number {
-  return compra.itens?.reduce(
-    (soma, item) => soma + Number(item.preco) * Number(item.quantidade),
-    0
-  ) ?? 0;
-}
-
-
+  calcularTotal(compra: Compra): number {
+    return compra.itens?.reduce(
+      (soma, item) => soma + Number(item.preco) * Number(item.quantidade),
+      0
+    ) ?? 0;
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

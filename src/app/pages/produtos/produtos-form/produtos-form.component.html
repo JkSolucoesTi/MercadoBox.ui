@@ -1,11 +1,12 @@
 <div class="form-container">
-    <p-card header="Cadastro de Produto" styleClass="p-shadow-3">
+
+  <p-card header="Cadastro de Produto" styleClass="p-shadow-3">
   
     <form [formGroup]="form" (ngSubmit)="salvarProduto()" class="p-fluid">
 
       <div class="field">
         <label for="nome">Codigo de Barras</label>
-        <input id="nome" type="text" pInputText formControlName="codigoBarras" required placeholder="Codigo de Barras do Produto"/>
+        <input id="nome" type="text" pInputText formControlName="codigo" required placeholder="Codigo de Barras do Produto"/>
       </div>
 
 
@@ -15,10 +16,10 @@
       </div>
      
       <div class="field">
-        <label for="categoria">Preço Unitario</label>
+        <label for="categoria">Categoria</label>
         <p-dropdown
         [options]="categorias"
-        formControlName="categoria"
+        formControlName="categoriaId"
         optionValue="id"
         optionLabel="nome"
         placeholder="Selecione uma categoria">

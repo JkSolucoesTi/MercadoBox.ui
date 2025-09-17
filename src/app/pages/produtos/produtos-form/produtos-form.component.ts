@@ -8,10 +8,13 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { TableModule } from 'primeng/table';
-import { Categoria } from 'src/app/model/categoria/categoria';
+import { ToastModule } from 'primeng/toast';
 import { ProdutosService } from 'src/app/services/produtos.service';
 import { CardModule } from "primeng/card";
-import { ProdutoCompleto } from 'src/app/model/produto/produtoCompleto';
+import { CategoriaResponse } from 'src/app/model/Dto/response/categoriaResponse';
+import { CategoriaService } from 'src/app/services/categoria.service';
+import { MessageModule } from 'primeng/message';
+import { MessagesModule } from 'primeng/messages';
 
 @Component({
   selector: 'app-produtos-form',
@@ -26,6 +29,9 @@ import { ProdutoCompleto } from 'src/app/model/produto/produtoCompleto';
     TableModule,
     DropdownModule,
     ReactiveFormsModule,
+    ToastModule,
+    MessageModule, 
+    MessagesModule,
     CardModule
 ],
   templateUrl: './produtos-form.component.html',
@@ -34,65 +40,79 @@ import { ProdutoCompleto } from 'src/app/model/produto/produtoCompleto';
 export class ProdutosFormComponent {
 
   form!: FormGroup;
-  categorias: Categoria[] = [];
+  categorias: CategoriaResponse[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private produtosService: ProdutosService,
+    private categoriaService: CategoriaService,
     private fb: FormBuilder
   ) {}
   
     ngOnInit(): void {
 
-      debugger;
-      this.listarCategoria();    
-
       this.form = this.fb.group({
         id:[null],
-        codigoBarras: [0, [Validators.required, Validators.min(0)]],
+        codigo: [, [Validators.required, Validators.min(0)]],
         nome: ['', Validators.required],
-        categoria: ["", Validators.required],
+        categoriaId: ["", Validators.required],
         descricao: ["",Validators.required]
       });  
 
       const id = this.route.snapshot.paramMap.get('id');
       if (id) {
         this.carregarProduto(Number(id));       
-      }
-    }
- 
-    listarCategoria(){
-      this.produtosService.getCategorias().subscribe((categorias) => {
-        this.categorias = categorias; 
-      });  
+      } 
+
+      this.carregarCategorias();
     }
   
+    carregarCategorias(){
+      this.categoriaService.listar().subscribe({
+        next : (data) =>{
+          this.categorias = data;
+        },
+        error : (erro) =>{
+          console.log("Não foi possível carregar as categorias" , erro)
+        }
+      })
+    }
+
     carregarProduto(id: number) {
       this.produtosService.buscarPorId(id).subscribe( produto =>{
         this.form.controls['id'].setValue(produto.id);
         this.form.controls['nome'].setValue(produto.nome);
         this.form.controls['codigoBarras'].setValue(produto.codigo);
-        this.form.controls['categoria'].setValue(String(produto.categoria));
+        this.form.controls['categoriaId'].setValue(String(produto.categoriaId));
         this.form.controls['descricao'].setValue(produto.descricao);
       })
     }
   
     salvarProduto() {
-      let produto: ProdutoCompleto
-      produto = this.form.value;
+      
+      let produto = this.form.value;
 
       if (produto.id) {
-        this.produtosService.atualizar(produto).subscribe(() => {
-        });
+        this.produtosService.atualizar(produto).subscribe({
+          next : (data) => {
+            console.log(data);          
+          },error : (erro) =>{
+            console.log('Não foi possível atualizar o produto',erro)
+          }
+
+        })
   
       } else {
-        this.produtosService.criar(produto).subscribe(() => {
+        this.produtosService.criar(produto).subscribe({
+          next : (data) =>{
+            console.log(data);
+            this.router.navigate(['/produtos']);
+          },error : (erro) =>{
+            console.log('Não foi possível gravar o produto',erro)
+          }
         });
   
       }
-      this.router.navigate(['/produtos']);
     }  
-  
-
 }

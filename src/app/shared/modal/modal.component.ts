@@ -1,3 +1,4 @@
+import { CompraService } from './../../services/compra.service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
@@ -8,18 +9,22 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Categoria } from 'src/app/model/categoria/categoria';
 import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
-import { Subject } from 'rxjs';
+import { debounceTime, Subject } from 'rxjs';
 import { ItemCarrinho } from 'src/app/model/carrinho/itemCarrinho';
-import { EventEmitterService } from 'src/app/services/event-emitter.service';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CarrinhoStoreService } from 'src/app/services/carrinho-store.service';
+import { ProdutoResponse } from 'src/app/model/Dto/response/produtoResponse';
+import { ProdutosService } from 'src/app/services/produtos.service';
+import { ProdutoPesquisaSignature } from 'src/app/model/Dto/signature/produtoPesquisaSignature';
+import { ItemCarrinhoSignature } from 'src/app/model/Dto/signature/itemCarrinhoSignature';
 
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [CommonModule, DialogModule, InputTextModule, ButtonModule, ReactiveFormsModule, DropdownModule, CheckboxModule, InputMaskModule,InputNumberModule],
+  imports: [CommonModule, DialogModule, InputTextModule, ButtonModule, ReactiveFormsModule, DropdownModule, CheckboxModule, InputMaskModule, InputNumberModule, AutoCompleteModule],
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })
@@ -30,27 +35,51 @@ export class ModalComponent implements OnInit {
   categorias: Categoria[] = [];
 
 
-  constructor(private fb: FormBuilder, private carrinhoStoreService: CarrinhoStoreService ) {
+  constructor(private fb: FormBuilder,
+    private carrinhoStoreService: CarrinhoStoreService,
+    private compraService : CompraService,
+    private produtoService: ProdutosService
+  ) {
   }
 
   ref = inject(DynamicDialogRef);
   config = inject(DynamicDialogConfig);
 
+  produtosFiltrados: ProdutoResponse[] = [];
+  selectedProduto!: ProdutoResponse;
+
   ngOnInit(): void {
 
     this.form = this.fb.group({
-      codigoBarras: ['', [Validators.maxLength(13), Validators.required, Validators.pattern(/^\d{13}$/)]],
+      produtoSelecionado: [null],
+      codigoDeBarras: ['', [Validators.required]],
       nome: ['', Validators.required],
-      preco: ['', Validators.required],
+      preco: [0, Validators.required],
       quantidade: [1, Validators.required],
       promocao: [false],
-      valorPromocional: ['']
+      valorPromocional: [0]
     });
   }
 
   get isPromocao(): boolean {
-    console.log(this.form.get('promocao')?.value);
     return this.form.get('promocao')?.value;
+  }
+
+  search(event: any) {
+    let produtoPesquisaSignature = new ProdutoPesquisaSignature(event.query);
+    this.produtoService.searchByCodigo(produtoPesquisaSignature).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.produtosFiltrados = data
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+  onProdutoSelecionado(produtoResponse: ProdutoResponse) {
+    this.form.get("nome")?.setValue(produtoResponse.nome);
+    this.form.get('codigo')?.setValue(produtoResponse.codigo?.toString());     
+      this.form.get('produtoSelecionado')?.setValue(produtoResponse.id);     
   }
 
   cancelar() {
@@ -60,34 +89,41 @@ export class ModalComponent implements OnInit {
 
   salvar() {
     if (this.form.valid) {
-      const itemCarrinho: ItemCarrinho = {
-        codigo: this.form.get('codigoBarras')?.value,
+      debugger;
+      const itemCarrinho: ItemCarrinhoSignature = {
+        guid: this.carrinhoStoreService.getCompraGuid(),
+        produtoId : this.form.get('produtoSelecionado')?.value,
         nome: this.form.get('nome')?.value,
         preco: this.form.get('preco')?.value,
         quantidade: this.form.get('quantidade')?.value,
         promocao: this.form.get('promocao')?.value,
-        valorPromocional: this.form.get('valorPromocional')?.value
-      };
-      
-        this.carrinhoStoreService.addItem(itemCarrinho);
-      this.form.reset();
+        valorPromocional: this.form.get('valorPromocional')?.value 
+      };    
+      this.compraService.AdicionarItemCarrinho(itemCarrinho).subscribe({
+        next : (value: any) =>{
+          this.form.reset();
+          this.cancelar();
+        },error : (erro : any) =>{
+
+        }
+      })     
     } else {
       console.warn('Formulário inválido!');
     }
   }
 
-  onPrecoInput(event: any,formControlName: string) {
-  let value = event.target.value.replace(/\D/g, '');
-  if (!value) {
-    this.form.get(formControlName)?.setValue(null, { emitEvent: false });
-    event.target.value = '';
-    return;
-  }
-  const numericValue = parseFloat(value) / 100;
-  this.form.get(formControlName)?.setValue(numericValue, { emitEvent: false });
-  event.target.value = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
+  onPrecoInput(event: any, formControlName: string) {
+    let value = event.target.value.replace(/\D/g, '');
+    if (!value) {
+      this.form.get(formControlName)?.setValue(null, { emitEvent: false });
+      event.target.value = '';
+      return;
+    }
+    const numericValue = parseFloat(value) / 100;
+    this.form.get(formControlName)?.setValue(numericValue, { emitEvent: false });
+    event.target.value = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
     .format(numericValue);
-}
+  }
 
 
 }

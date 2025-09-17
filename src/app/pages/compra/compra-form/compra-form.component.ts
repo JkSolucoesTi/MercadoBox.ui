@@ -52,12 +52,15 @@ export class CompraFormComponent implements OnInit {
   iniciarCompra() {
     if (this.form.valid) {
       let compra = new CompraSignature();
-      compra.idMercado = this.form.get('mercadoId')?.value,
+      compra.mercadoId = this.form.get('mercadoId')?.value,
         compra.data = this.form.get('data')?.value,
         compra.itens = [],
 
-        this.compraService.criarCompra(compra).subscribe(result => {
-          this.router.navigate(['/carrinho/' + result.id]);
+        this.compraService.criarCompra(compra).subscribe(
+        { 
+          next : (data) =>{
+          this.router.navigate(['/carrinho/' + data.guid]);
+        }
         });
 
     } else {

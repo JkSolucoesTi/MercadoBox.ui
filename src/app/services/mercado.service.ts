@@ -14,8 +14,8 @@ export interface Mercado {
   estado: string;
   cnpj: string;
   telefone: string;
-  descricao:string;
-  quantidade:number;
+  descricao: string;
+  quantidade: number;
 }
 
 @Injectable({
@@ -23,9 +23,9 @@ export interface Mercado {
 })
 export class MercadoService {
 
-   private apiUrl = ApiUrlHelper.getUrl(API_CONFIG.endpoints.mercados)
+  private apiUrl = ApiUrlHelper.getUrl(API_CONFIG.endpoints.mercados)
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   listar(): Observable<MercadoResponse[]> {
     return this.http.get<MercadoResponse[]>(`${this.apiUrl}/GetAll`);
@@ -35,12 +35,12 @@ export class MercadoService {
     return this.http.get<Mercado>(`${this.apiUrl}/${id}`);
   }
 
-  criar(mercado: Mercado): Observable<MercadoSignature> {
+  criar(mercado: MercadoSignature): Observable<MercadoResponse> {
     return this.http.post<MercadoResponse>(this.apiUrl, mercado);
   }
 
-  atualizar(id: number, mercado: Mercado): Observable<Mercado> {
-    return this.http.put<Mercado>(`${this.apiUrl}/${id}`, mercado);
+  atualizar(id: number, mercado: MercadoSignature): Observable<MercadoResponse> {
+    return this.http.put<MercadoSignature>(`${this.apiUrl}/${id}`, mercado);
   }
 
   deletar(id: number): Observable<void> {

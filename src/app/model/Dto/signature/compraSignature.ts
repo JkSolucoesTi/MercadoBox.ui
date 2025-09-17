@@ -3,13 +3,13 @@ import { ItemCarrinho } from "../../carrinho/itemCarrinho";
 export class CompraSignature {
 
       id?: number;
-      idMercado?: number;
+      mercadoId?: number;
       data?: string;
       itens: ItemCarrinho[] = [];
 
   public Create(idMercado: number, data: string, itens: ItemCarrinho[]): CompraSignature {
     const compra = new CompraSignature();
-    compra.idMercado = idMercado;
+    compra.mercadoId = idMercado;
     compra.data = data;
     compra.itens = itens;
     return compra;
