@@ -1,6 +1,6 @@
 import { ItemCarrinho } from './../../model/carrinho/itemCarrinho';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -17,6 +17,7 @@ import { filter, Subscription } from 'rxjs';
 import { CompraReponse } from 'src/app/model/Dto/response/compraResponse';
 import { CompraTokenSignature } from 'src/app/model/Dto/signature/compraTokenSignature';
 import { CarrinhoStoreService } from 'src/app/services/carrinho-store.service';
+import { CarrinhoService } from './service/carrinho.service';
 
 export interface Product {
   id: number;
@@ -44,7 +45,7 @@ export interface Product {
   templateUrl: './carrinho-form.component.html',
   styleUrls: ['./carrinho-form.component.scss']
 })
-export class CarrinhoFormComponent implements OnInit {
+export class CarrinhoFormComponent implements OnInit , OnChanges{
 
   compraToken: CompraTokenSignature = new CompraTokenSignature();
   compraResponse: CompraReponse = new CompraReponse();
@@ -54,8 +55,13 @@ export class CarrinhoFormComponent implements OnInit {
     private compraService: CompraService,
     private activatedRoute: ActivatedRoute,
     private router:Router,
-    private carrinhoService : CarrinhoStoreService
+    private carrinhoService : CarrinhoStoreService ,
+    private carrinhoServiceBehavior : CarrinhoService
   ) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes)
+  }
 
   ngOnInit(): void {
 
@@ -80,15 +86,29 @@ export class CarrinhoFormComponent implements OnInit {
         })
     );
 
-    this.compraService.buscarPorId(this.compraToken).subscribe(x => {
-      this.compraResponse = x     
-    });
+    this.obterItensCarrinho();
+
+    this.carrinhoServiceBehavior.atualizarCarrinhoSource$
+    .pipe(
+      filter(param => param === true)
+    )
+    .subscribe(() =>{
+      this.obterItensCarrinho();
+    })
   }
 
   salvar() {
     // this.compraService.finalizar(this.compra).subscribe(x => {
     // })
   }
+
+  obterItensCarrinho(){
+   this.compraService.buscarPorId(this.compraToken).subscribe(x => {
+    console.log(x)
+      this.compraResponse = x     
+    });
+  }
+
 
   calcularTotal(compra: Compra): number {
     return compra.itens?.reduce(

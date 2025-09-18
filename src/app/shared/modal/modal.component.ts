@@ -19,7 +19,7 @@ import { ProdutoResponse } from 'src/app/model/Dto/response/produtoResponse';
 import { ProdutosService } from 'src/app/services/produtos.service';
 import { ProdutoPesquisaSignature } from 'src/app/model/Dto/signature/produtoPesquisaSignature';
 import { ItemCarrinhoSignature } from 'src/app/model/Dto/signature/itemCarrinhoSignature';
-
+import { CarrinhoService } from 'src/app/pages/carrinho-form/service/carrinho.service';
 
 @Component({
   selector: 'app-modal',
@@ -38,7 +38,9 @@ export class ModalComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private carrinhoStoreService: CarrinhoStoreService,
     private compraService : CompraService,
-    private produtoService: ProdutosService
+    private produtoService: ProdutosService,
+    private carrinhoServiceBehavior : CarrinhoService
+
   ) {
   }
 
@@ -68,8 +70,7 @@ export class ModalComponent implements OnInit {
   search(event: any) {
     let produtoPesquisaSignature = new ProdutoPesquisaSignature(event.query);
     this.produtoService.searchByCodigo(produtoPesquisaSignature).subscribe({
-      next: (data) => {
-        console.log(data);
+      next: (data) => {       
         this.produtosFiltrados = data
       },
       error: (err) => console.error(err)
@@ -101,8 +102,9 @@ export class ModalComponent implements OnInit {
       };    
       this.compraService.AdicionarItemCarrinho(itemCarrinho).subscribe({
         next : (value: any) =>{
-          this.form.reset();
+          console.log(value);
           this.cancelar();
+          this.carrinhoServiceBehavior.notificarAtualizacao(true);
         },error : (erro : any) =>{
 
         }

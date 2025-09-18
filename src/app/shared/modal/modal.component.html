@@ -1,9 +1,5 @@
 <form [formGroup]="form" class="p-fluid">
-
-
-
   <div class="grid">
-
     <div class="col-12">
       <p-autoComplete formControlName="codigoDeBarras" [suggestions]="produtosFiltrados" field="codigo"
         (completeMethod)="search($event)" [minLength]="3" placeholder="Digite o código de barras"

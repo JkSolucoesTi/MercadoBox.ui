@@ -9,5 +9,6 @@ export class ItemCarrinho extends ProdutoBase {
   produtoId?: number;
   quantidade?: number;
   promocao?: boolean;
+  valor?:number;
   valorPromocional?: number;
 }

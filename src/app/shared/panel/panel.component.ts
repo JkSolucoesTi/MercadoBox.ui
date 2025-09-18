@@ -35,6 +35,6 @@ export class PanelComponent implements OnInit {
   }
 
   Modal() {
-    this.modalService.openModal();
+     this.modalService.openModal();
   }
 }

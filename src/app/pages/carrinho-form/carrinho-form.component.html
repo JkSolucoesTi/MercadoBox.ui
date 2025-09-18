@@ -10,28 +10,35 @@
         <tr>
           <th>Produto</th>
           <th>Preço</th>
-          <th>Quantidade</th>
-          <th>Valor</th>
+          <th>Quantidade</th>        
           <th>Valor Promocional</th>
+          <th>Total</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-item>
         <tr>
-          <td>
-            <i *ngIf="item.promocao" class="pi pi-tags promo-icon" title="Produto em promoção"></i>
+          <td>            
             {{ item.nome }}
           </td>
           <td>{{ item.valor | currency: 'BRL' }}</td>
           <td>{{ item.quantidade }}</td>
-          <td>{{ item.valor * item.quantidade | currency: 'BRL' }}</td>
           <td>
             <ng-container *ngIf="item.promocao; else precoNormal">
-              <span class="preco-antigo">{{ item.preco | currency:'BRL' }}</span>
-              <span class="preco-promocional">{{ item.valorPromocional| currency:'BRL' }}</span>
+              <span class="preco-antigo">{{ item.valor * item.quantidade | currency:'BRL' }}</span>
+              <span class="preco-promocional">{{ item.valorPromocional | currency:'BRL' }}</span>
             </ng-container>
 
             <ng-template #precoNormal>
-              {{ item.preco * item.quatidade| currency:'BRL' }}
+             <span>{{ item.valor * item.quantidade | currency:'BRL' }}</span>
+            </ng-template>
+          </td>
+          <td>
+             <ng-container *ngIf="item.promocao; else totalSemDescontoNormal">
+              <span class="preco-promocional">{{ item.valorPromocional * item.quantidade| currency:'BRL' }}</span>
+            </ng-container>
+
+             <ng-template #totalSemDescontoNormal>
+              <span>{{ item.valor * item.quantidade| currency:'BRL' }}</span>
             </ng-template>
           </td>
         </tr>
@@ -42,8 +49,8 @@
 </div>
 <footer class="footer-fixed">
   <div class="footer-content">
-    <h3 class="footer-total">Total </h3>
-
+    <h3 class="footer-total">Total Com Desconto : {{compraResponse.totalComDesconto | currency:'BRL' }}</h3>
+    <h3 class="footer-total">Total : {{compraResponse.totalSemDesconto | currency:'BRL' }}</h3>
     <button pButton type="button" label="Finalizar Compra" icon="pi pi-save" class="p-button-success"
       (click)="salvar()">
     </button>

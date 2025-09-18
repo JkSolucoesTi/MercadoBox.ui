@@ -7,4 +7,6 @@ export class CompraReponse{
     }
     guid?: string;
     itens: ItemCarrinho[]=[]
+    totalSemDesconto?: number;
+    totalComDesconto?: number;
 }
