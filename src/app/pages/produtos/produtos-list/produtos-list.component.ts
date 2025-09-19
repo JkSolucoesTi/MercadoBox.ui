@@ -14,6 +14,8 @@ import { DividerModule } from 'primeng/divider';
 import { PanelModule } from 'primeng/panel';
 import { PanelComponent } from 'src/app/shared/panel/panel.component';
 import { ProdutoResponse } from 'src/app/model/Dto/response/produtoResponse';
+import { NotificacaoService } from 'src/app/shared/notificacao.service';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-produtos-list',
@@ -30,7 +32,8 @@ import { ProdutoResponse } from 'src/app/model/Dto/response/produtoResponse';
     CardModule,
     PanelModule,
     DividerModule,
-    PanelComponent
+    PanelComponent,
+    ToastModule
   ],
   templateUrl: './produtos-list.component.html',
   styleUrls: ['./produtos-list.component.scss']
@@ -41,10 +44,9 @@ export class ProdutosListComponent implements OnInit {
   
     produtos: ProdutoResponse[] = [];
    
-    constructor(private produtosService: ProdutosService) {}
+    constructor(private produtosService: ProdutosService , private notificacao : NotificacaoService) {}
   
     ngOnInit() {
-      debugger;
       this.listarProdutos();  
   }
   
@@ -52,9 +54,10 @@ export class ProdutosListComponent implements OnInit {
       this.produtosService.listar().subscribe({
         next : (data) =>{
           this.produtos = data;
+          this.notificacao.info('Mensagem','Produtos carregados')
         }
         ,error : (erro) =>{
-          console.log("Não foi possível listar os produtos",erro);     
+          this.notificacao.error('Mensagem',`Não foi possível listar os produtos :  ${erro.error}`);    
         }
       }
     )}

@@ -43,16 +43,15 @@
           </td>
         </tr>
       </ng-template>
-    </p-table>
-    <h3>Total: </h3>
+    </p-table>   
   </div>
 </div>
 <footer class="footer-fixed">
   <div class="footer-content">
-    <h3 class="footer-total">Total Com Desconto : {{compraResponse.totalComDesconto | currency:'BRL' }}</h3>
     <h3 class="footer-total">Total : {{compraResponse.totalSemDesconto | currency:'BRL' }}</h3>
+    <h3 class="footer-total">Total Com Desconto : {{compraResponse.totalComDesconto | currency:'BRL' }}</h3>
     <button pButton type="button" label="Finalizar Compra" icon="pi pi-save" class="p-button-success"
-      (click)="salvar()">
+      (click)="FinalizarCompra()">
     </button>
   </div>
 </footer>

@@ -9,6 +9,7 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -21,5 +22,6 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(),
     provideAnimations(),
     importProvidersFrom(DynamicDialogModule,BrowserAnimationsModule),
-    DialogService
+    DialogService,
+    MessageService 
   ]});

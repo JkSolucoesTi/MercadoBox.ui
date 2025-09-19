@@ -16,8 +16,9 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { CompraReponse } from 'src/app/model/Dto/response/compraResponse';
 import { CompraTokenSignature } from 'src/app/model/Dto/signature/compraTokenSignature';
-import { CarrinhoStoreService } from 'src/app/services/carrinho-store.service';
+import { CarrinhoStoreService } from 'src/app/pages/carrinho-form/service/carrinho-store.service';
 import { CarrinhoService } from './service/carrinho.service';
+import { NotificacaoService } from 'src/app/shared/notificacao.service';
 
 export interface Product {
   id: number;
@@ -56,7 +57,8 @@ export class CarrinhoFormComponent implements OnInit , OnChanges{
     private activatedRoute: ActivatedRoute,
     private router:Router,
     private carrinhoService : CarrinhoStoreService ,
-    private carrinhoServiceBehavior : CarrinhoService
+    private carrinhoServiceBehavior : CarrinhoService,
+    private notificacao : NotificacaoService
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -97,15 +99,27 @@ export class CarrinhoFormComponent implements OnInit , OnChanges{
     })
   }
 
-  salvar() {
-    // this.compraService.finalizar(this.compra).subscribe(x => {
-    // })
+  FinalizarCompra() {
+    debugger;
+    this.compraService.atualizarStatusCompra(this.compraToken).subscribe(
+      {
+        next : (value) =>{
+          this.router.navigate(['/home']);
+          this.notificacao.success('Mensagem','Mercados carregados');
+        },error : (erro) =>{
+           this.notificacao.error('Mensagem',`Não foi possível finalizar sua compra : ${erro.error}`);
+        }
+      }
+    )
   }
 
   obterItensCarrinho(){
-   this.compraService.buscarPorId(this.compraToken).subscribe(x => {
-    console.log(x)
-      this.compraResponse = x     
+   this.compraService.buscarPorId(this.compraToken).subscribe({
+    next:(value) =>{
+      this.compraResponse = value;  
+    },error : (erro) =>{
+       this.notificacao.error('Mensagem',`Não foi obter os itens do seu carrinho : ${erro.error}`);
+    }         
     });
   }
 

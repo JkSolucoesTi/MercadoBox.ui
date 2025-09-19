@@ -43,5 +43,7 @@ export class CompraService {
     return this.http.get<Compra[]>(this.apiUrl);
   }
 
-
+  atualizarStatusCompra(singnature:CompraTokenSignature) : Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/AtualizarStatus`,singnature);
+  }
 }

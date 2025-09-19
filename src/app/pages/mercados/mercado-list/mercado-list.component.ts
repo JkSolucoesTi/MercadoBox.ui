@@ -8,6 +8,7 @@ import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { PanelComponent } from 'src/app/shared/panel/panel.component';
 import { MercadoResponse } from 'src/app/model/Dto/response/mercadoResponse';
+import { NotificacaoService } from 'src/app/shared/notificacao.service';
 
 
 @Component({
@@ -20,7 +21,7 @@ import { MercadoResponse } from 'src/app/model/Dto/response/mercadoResponse';
 export class MercadoListComponent implements OnInit{
 
   
-  constructor(private mercadoService: MercadoService) {}
+  constructor(private mercadoService: MercadoService, private notificacao : NotificacaoService) {}
 
   mercados: MercadoResponse[] = [];
   
@@ -33,16 +34,17 @@ export class MercadoListComponent implements OnInit{
     .subscribe({
       next : (dados) =>{
         this.mercados = dados
-      },
-      error : (erro) =>{
-        console.log("Erro ao carregar mercados",erro);
-      }
+        this.notificacao.info('Mensagem','Mercados carregados')
+        }
+        ,error : (erro) =>{
+          this.notificacao.error('Mensagem',`Não foi possível listar os mercados : ${erro.error}`);    
+        }
     });
   }
 
   deletarMercado(id: number) {
     this.mercadoService.deletar(id).subscribe(() => {
-      this.carregarMercados(); // recarrega a lista após deletar
+      this.carregarMercados(); 
     });
   }
 }

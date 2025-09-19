@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Mercado, MercadoService } from '../../../services/mercado.service';
 import { CardModule } from 'primeng/card';
 import { MercadoSignature } from 'src/app/model/Dto/signature/mercadoSignature';
+import { NotificacaoService } from 'src/app/shared/notificacao.service';
 
 @Component({
   selector: 'app-mercado-form',
@@ -30,6 +31,7 @@ export class MercadoFormComponent implements OnInit {
   constructor(
     private fb : FormBuilder,
     private mercadoService: MercadoService,
+    private notificacao : NotificacaoService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -55,12 +57,24 @@ export class MercadoFormComponent implements OnInit {
   salvarMercado() {
     this.mercado = this.form.value;
     if (this.mercado.id) {
-      this.mercadoService.atualizar(this.mercado.id, this.mercado).subscribe(() => {
+      this.mercadoService.atualizar(this.mercado.id, this.mercado).subscribe({
+        next : () =>{
         this.router.navigate(['/mercados']);
+        this.notificacao.success('Mensagem','Mercado cadastrado com sucesso')
+        }
+        ,error : (erro) =>{
+          this.notificacao.error('Mensagem',`Não foi possível cadasatrar o mercado ${erro.error}`);    
+        }
       });
     } else {
-      this.mercadoService.criar(this.mercado).subscribe(() => {
+      this.mercadoService.criar(this.mercado).subscribe({
+       next : () =>{
         this.router.navigate(['/mercados']);
+        this.notificacao.success('Mensagem','Mercado editado com sucesso')
+        }
+        ,error : (erro) =>{
+          this.notificacao.error('Mensagem',`Não foi possível editar o mercado ${erro.error}`);    
+        }
       });
     }
   }

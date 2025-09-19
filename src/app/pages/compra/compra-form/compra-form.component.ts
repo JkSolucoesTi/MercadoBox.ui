@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { StatusE } from 'src/app/model/enum/statusE';
 import { CompraSignature } from 'src/app/model/Dto/signature/compraSignature';
 import { MercadoResponse } from 'src/app/model/Dto/response/mercadoResponse';
+import { NotificacaoService } from 'src/app/shared/notificacao.service';
 
 @Component({
   selector: 'app-compra-form',
@@ -26,7 +27,12 @@ export class CompraFormComponent implements OnInit {
   mercadoResponse: MercadoResponse[] = [];
   form!: FormGroup;
 
-  constructor(private mercadoService: MercadoService, private compraService: CompraService, private fb: FormBuilder, private router: Router) {
+  constructor(
+    private mercadoService: MercadoService, 
+    private notificacao : NotificacaoService,
+    private compraService: CompraService, 
+    private fb: FormBuilder, 
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -60,11 +66,15 @@ export class CompraFormComponent implements OnInit {
         { 
           next : (data) =>{
           this.router.navigate(['/carrinho/' + data.guid]);
+           this.notificacao.success('Mensagem','Compra iniciada com sucesso')
+        }
+        ,error : (erro) =>{
+          this.notificacao.error('Mensagem',`Não foi possível iniciar sua compra : ${erro.error}`);    
         }
         });
 
     } else {
-      console.log('Preencha todos os campos');
+      this.notificacao.warn('Mensagem','Preencher os campos obrigatórios');    
     }
   }
 

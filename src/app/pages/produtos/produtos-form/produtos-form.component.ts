@@ -15,6 +15,7 @@ import { CategoriaResponse } from 'src/app/model/Dto/response/categoriaResponse'
 import { CategoriaService } from 'src/app/services/categoria.service';
 import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
+import { NotificacaoService } from 'src/app/shared/notificacao.service';
 
 @Component({
   selector: 'app-produtos-form',
@@ -47,6 +48,7 @@ export class ProdutosFormComponent {
     private router: Router,
     private produtosService: ProdutosService,
     private categoriaService: CategoriaService,
+    private notificacao : NotificacaoService,
     private fb: FormBuilder
   ) {}
   
@@ -71,10 +73,10 @@ export class ProdutosFormComponent {
     carregarCategorias(){
       this.categoriaService.listar().subscribe({
         next : (data) =>{
-          this.categorias = data;
-        },
-        error : (erro) =>{
-          console.log("Não foi possível carregar as categorias" , erro)
+         this.categorias = data;        
+        }
+        ,error : (erro) =>{
+          this.notificacao.error('Mensagem',`Não foi possível listar as categorias : ${erro.error}`);    
         }
       })
     }
@@ -91,25 +93,27 @@ export class ProdutosFormComponent {
   
     salvarProduto() {
       
+
       let produto = this.form.value;
 
       if (produto.id) {
         this.produtosService.atualizar(produto).subscribe({
-          next : (data) => {
-            console.log(data);          
-          },error : (erro) =>{
-            console.log('Não foi possível atualizar o produto',erro)
+          next : () => {
+             this.router.navigate(['/produtos']);
+            this.notificacao.success('Mensagem','Produto cadastrado com sucesso')
+          },error : (error) =>{
+            this.notificacao.error('Mensagem',`Não foi possível cadastrar o produto :${error.erro}`)
           }
 
         })
   
       } else {
         this.produtosService.criar(produto).subscribe({
-          next : (data) =>{
-            console.log(data);
-            this.router.navigate(['/produtos']);
-          },error : (erro) =>{
-            console.log('Não foi possível gravar o produto',erro)
+           next : () => {
+             this.router.navigate(['/produtos']);
+            this.notificacao.success('Mensagem','Produto atualizado com sucesso')
+          },error : (error) =>{
+            this.notificacao.error('Mensagem',`Não foi possível atualizar o produto :${error.erro}`)
           }
         });
   

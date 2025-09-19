@@ -14,12 +14,13 @@ import { ItemCarrinho } from 'src/app/model/carrinho/itemCarrinho';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { CarrinhoStoreService } from 'src/app/services/carrinho-store.service';
+import { CarrinhoStoreService } from 'src/app/pages/carrinho-form/service/carrinho-store.service';
 import { ProdutoResponse } from 'src/app/model/Dto/response/produtoResponse';
 import { ProdutosService } from 'src/app/services/produtos.service';
 import { ProdutoPesquisaSignature } from 'src/app/model/Dto/signature/produtoPesquisaSignature';
 import { ItemCarrinhoSignature } from 'src/app/model/Dto/signature/itemCarrinhoSignature';
 import { CarrinhoService } from 'src/app/pages/carrinho-form/service/carrinho.service';
+import { NotificacaoService } from '../notificacao.service';
 
 @Component({
   selector: 'app-modal',
@@ -39,6 +40,7 @@ export class ModalComponent implements OnInit {
     private carrinhoStoreService: CarrinhoStoreService,
     private compraService : CompraService,
     private produtoService: ProdutosService,
+    private notificacao : NotificacaoService,
     private carrinhoServiceBehavior : CarrinhoService
 
   ) {
@@ -73,7 +75,9 @@ export class ModalComponent implements OnInit {
       next: (data) => {       
         this.produtosFiltrados = data
       },
-      error: (err) => console.error(err)
+      error: (err) =>{
+        this.notificacao.error('Mensagem',`Não foi possível encontrar seu produto : ${err.error}`)
+      } 
     });
   }
 
@@ -101,12 +105,12 @@ export class ModalComponent implements OnInit {
         valorPromocional: this.form.get('valorPromocional')?.value 
       };    
       this.compraService.AdicionarItemCarrinho(itemCarrinho).subscribe({
-        next : (value: any) =>{
-          console.log(value);
+        next : () =>{
           this.cancelar();
           this.carrinhoServiceBehavior.notificarAtualizacao(true);
+          this.notificacao.success("Mensagem","Item adicionado ao carrinho");
         },error : (erro : any) =>{
-
+          this.notificacao.error("Mensagem",`Não foi possível adicionar o item no carrinho : ${erro.error}`)
         }
       })     
     } else {
