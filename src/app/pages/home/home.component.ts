@@ -6,6 +6,9 @@ import { TableModule } from 'primeng/table';
 import { BadgeModule } from 'primeng/badge';
 import { Compra } from 'src/app/model/compra/compra';
 import { CompraService } from 'src/app/services/compra.service';
+import { CompraReponse } from 'src/app/model/Dto/response/compraResponse';
+import { NotificacaoService } from 'src/app/shared/notificacao.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -22,9 +25,9 @@ import { CompraService } from 'src/app/services/compra.service';
 })
 export class HomeComponent implements OnInit {
 
-  compras: Compra[] = [];
+  compras: CompraReponse[] = [];
 
-  constructor(private compraService: CompraService) {}
+  constructor(private compraService: CompraService , private notificacao : NotificacaoService , private router: Router) {}
 
   ngOnInit(): void {
     this.carregarComprasFinalizadas();
@@ -32,19 +35,18 @@ export class HomeComponent implements OnInit {
 
   carregarComprasFinalizadas(): void {
     this.compraService.listarCompras().subscribe({
-      next: (lista: Compra[]) => {
-        this.compras = lista.filter(c => c.idmercado);
+      next: (lista) => {
+       this.compras = lista;
+       this.notificacao.success('Mensagem','Lista de Compras carregada');       
       },
       error: (err : any) => {
-        console.error('Erro ao carregar compras', err);
+        this.notificacao.error('Mensagem','Não foi possível carregar a Lista de Compras : ' + err.error);     
       }
     });
   }
 
-  verDetalhes(compra: Compra): void {
-    console.log('Compra selecionada:', compra);
-    // Aqui você pode navegar para uma rota de detalhes
-    // this.router.navigate(['/compra', compra.id]);
+  verDetalhes(guid : string): void {
+   this.router.navigate(['/carrinho/' + guid]);
   }
 
 }

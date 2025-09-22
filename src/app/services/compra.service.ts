@@ -40,7 +40,7 @@ export class CompraService {
   }
 
   listarCompras(): Observable<Compra[]> {
-    return this.http.get<Compra[]>(this.apiUrl);
+    return this.http.get<Compra[]>(`${this.apiUrl}/ListarCompras`);
   }
 
   atualizarStatusCompra(singnature:CompraTokenSignature) : Observable<any> {

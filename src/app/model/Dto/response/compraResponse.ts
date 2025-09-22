@@ -6,6 +6,7 @@ export class CompraReponse{
         this.itens = []        
     }
     guid?: string;
+    data?: string;
     itens: ItemCarrinho[]=[]
     totalSemDesconto?: number;
     totalComDesconto?: number;
