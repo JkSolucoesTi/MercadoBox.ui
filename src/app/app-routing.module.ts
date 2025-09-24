@@ -9,6 +9,7 @@ import { ProdutosListComponent } from './pages/produtos/produtos-list/produtos-l
 import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
+   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path:'home',component:HomeComponent},
   { path: 'produtos', component: ProdutosListComponent },
   { path: 'produtos/novo', component: ProdutosFormComponent },
@@ -17,7 +18,8 @@ export const routes: Routes = [
   { path: 'mercados/novo', component: MercadoFormComponent },
   { path: 'mercados/editar/:id', component: MercadoFormComponent },
   { path :'carrinho/:id',component:CarrinhoFormComponent},
-  {path:'compras',component:CompraFormComponent}
+  {path:'compras',component:CompraFormComponent},
+  { path: '**', redirectTo: 'home' }
 ];
 
 @NgModule({
