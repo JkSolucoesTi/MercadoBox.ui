@@ -1,0 +1,28 @@
+import { Injectable } from '@angular/core';
+import { MessageService } from 'primeng/api'; // usando PrimeNG, mas pode ser outro método
+
+@Injectable({
+  providedIn: 'root'
+})
+export class NotificacaoService {
+
+  constructor(private messageService: MessageService) {}
+
+  success(summary: string, detail?: string) {
+    this.messageService.add({severity:'success', summary, detail});
+  }
+
+  error(summary: string, detail?: string) {
+    this.messageService.add({severity:'error', summary, detail});
+  }
+
+  warn(summary: string, detail?: string) {
+    this.messageService.add({severity:'warn', summary, detail});
+  }
+
+  info(summary: string, detail?: string) {
+    this.messageService.add({severity:'info', summary, detail});
+  }
+
+}
+ 

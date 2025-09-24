@@ -1,0 +1,44 @@
+<div class="form-container">
+    <p-card header="Cadastro de Mercado" styleClass="p-shadow-3">
+  
+    <form  [formGroup]="form" (ngSubmit)="salvarMercado()" class="p-fluid">
+
+      <div class="field">
+        <label>Nome</label>
+        <input type="text" formControlName="nome" pInputText name="nome" required />
+      </div>
+  
+      <div class="field">
+        <label>Endereço</label>
+        <input type="text" formControlName="endereco" pInputText name="endereco" required />
+      </div>
+  
+      <div class="field">
+        <label>Cidade</label>
+        <input type="text" formControlName="cidade" pInputText name="cidade" required />
+      </div>
+  
+      <div class="field">
+        <label>Estado</label>
+        <input type="text" formControlName="estado" pInputText  name="estado" required />
+      </div>
+  
+      <div class="field">
+        <label>CNPJ</label>
+        <input type="text" formControlName="cnpj" pInputText  name="cnpj" required />
+      </div>
+  
+      <div class="field">
+        <label>Telefone</label>
+        <input type="text" formControlName="telefone" pInputText name="telefone" required />
+      </div>
+
+      <div class="field">
+        <label>Descrição</label>
+        <input type="text" formControlName="descricao" pInputText  name="telefone" required />
+      </div>
+    
+      <button pButton type="submit" label="Salvar" icon="pi pi-save" class="p-button-success"></button>
+    </form>
+   </p-card>
+  </div>

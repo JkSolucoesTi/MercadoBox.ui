@@ -1,0 +1,46 @@
+.home-container {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.08);
+}
+
+::ng-deep .custom-table .p-datatable-thead > tr > th {
+  background-color: #e8f5e9; /* Verde bem claro */
+  color: #256029; /* Verde escuro */
+  font-weight: 600;
+  text-align: left;
+}
+
+::ng-deep .custom-table .p-datatable-tbody > tr:nth-child(even) {
+  background-color: #f1f8f4; /* Zebra */
+}
+
+::ng-deep .custom-table .p-datatable-tbody > tr:hover {
+  background-color: #dcedc8; /* Hover verde */
+  transition: background 0.3s ease;
+}
+
+h2 {
+  font-weight: 700;
+}
+
+
+.scanner-container {
+  max-width: 400px;
+  margin: 0 auto;
+  border: 2px solid #4caf50;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+zxing-scanner::ng-deep video {
+  object-fit: cover;
+}
+.result {
+  margin-top: 15px;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+

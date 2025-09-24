@@ -1,0 +1,39 @@
+@import "primeicons/primeicons.css";
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: #f5f5f5; /* cinza claro */
+}
+
+.main-content {
+    padding-top: 60px; /* altura do navbar (60px) + 20px de espaço */
+  }
+  .minha-tabela-personalizada {
+    background-color: #fefefe !important; /* cor do fundo da tabela */
+  }
+  
+  .minha-tabela-personalizada th {
+    background-color: #388e3c !important;
+    color: white !important;
+  }
+  
+  .minha-tabela-personalizada td {
+    background-color: #fff !important;
+    color: #333 !important;
+  }
+  
+  .minha-tabela-personalizada tbody tr:nth-child(even) {
+    background-color: #f1f1f1 !important;
+  }
+
+  .form-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+  }
+  
+  p-card {
+    width: 100%;
+    max-width: 500px;
+  }

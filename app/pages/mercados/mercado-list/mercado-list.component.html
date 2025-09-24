@@ -1,0 +1,36 @@
+<div class="container p-4">
+  <app-panel
+  [titulo]="'Mercado'"
+  [descricao]="'Gerencie os mercados onde você faz compra'"
+  [rota]="'/mercados/novo'"
+  [btnDescricao]="'Mercado'"
+  [modal]="false"
+
+  >
+  </app-panel>
+
+  <p-divider />
+
+  <!-- Cards dos mercados -->
+  <div class="grid">
+    <div class="col-12 md:col-6 lg:col-4" *ngFor="let mercado of mercados">
+      <p-card styleClass="mercado-card">
+        <div class="flex align-items-center gap-3 mb-3">
+          <i class="pi pi-store" style="font-size: 2rem; color: #4caf50;"></i>
+          <div>
+            <div class="font-semibold text-lg">{{ mercado.nome }}</div>
+          </div>
+        </div>
+
+        <div class="mb-2 flex align-items-center gap-2 text-gray-700">
+          <i class="pi pi-map-marker"></i>
+          <span>{{ mercado.endereco }}</span>
+        </div>
+        <div class="mb-2 flex align-items-center gap-2 text-gray-700">
+          <i class="pi pi-phone"></i>
+          <span>{{ mercado.telefone }}</span>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="form-container">
+
+  <p-card header="Iniciar sua Compra" styleClass="p-shadow-3">
+  <form [formGroup]="form" (ngSubmit)="iniciarCompra()" class="p-fluid">
+    <div class="field">
+      <label for="mercado">Mercado</label>
+      <p-dropdown
+        id="mercado"
+        [options]="mercadoResponse"
+        optionLabel="nome"
+        optionValue="id"
+        name="mercado"
+        placeholder="Selecione o mercado"
+        formControlName="mercadoId"
+      ></p-dropdown>
+    </div>
+
+    <div class="field">
+      <label for="dataCompra">Data da Compra</label>
+      <p-calendar
+        id="dataCompra"
+        name="dataCompra"
+        dateFormat="dd/mm/yy"
+        formControlName="data"
+      ></p-calendar>
+    </div>
+
+    <button
+      pButton
+      type="submit"
+      label="Iniciar Compra"
+      icon="pi pi-check"
+      class="p-button-success"
+      [disabled]="!this.form.valid"
+    ></button>
+  </form>
+  </p-card>
+</div>
+
+  
