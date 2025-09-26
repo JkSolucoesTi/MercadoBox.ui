@@ -5,10 +5,9 @@ import { provideHttpClient } from '@angular/common/http';
 import { routes } from './app/app-routing.module';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { importProvidersFrom, LOCALE_ID } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy, registerLocaleData } from '@angular/common';
+import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
-import { ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 
 registerLocaleData(localePt, 'pt-BR');
@@ -23,6 +22,5 @@ bootstrapApplication(AppComponent, {
     provideAnimations(),
     importProvidersFrom(DynamicDialogModule,BrowserAnimationsModule),
     DialogService,
-    MessageService ,
-     { provide: LocationStrategy, useClass: HashLocationStrategy }
+    MessageService     
   ]});

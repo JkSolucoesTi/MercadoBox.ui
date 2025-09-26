@@ -69,6 +69,7 @@ export class HomeComponent implements OnInit {
       this.availableDevices = devices.filter(d => d.kind === 'videoinput');
       if (this.availableDevices.length > 0) {
         this.currentDevice = this.availableDevices[0]; // pega a primeira câmera
+        console.log(this.currentDevice);
       }
     });
   }
