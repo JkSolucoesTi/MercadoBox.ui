@@ -1,3 +1,4 @@
+
 <form [formGroup]="form" class="p-fluid">
   <div class="grid">
     <div class="col-11">
@@ -16,9 +17,6 @@
     <div class="col-1" style="text-align: right;">
       <button pButton type="button" icon="pi pi-camera" (click)="openScanner()"></button>
     </div>
-      <app-barcode-scanner *ngIf="showScanner" (scanned)="onBarcodeScanned($event)" (close)="closeScanner()">
-        </app-barcode-scanner> 
-
     <div class="col-12">
       <div class="field">
         <label for="nome">Nome</label>
@@ -60,3 +58,6 @@
     </div>
   </div>
 </form>
+
+<app-barcode-scanner *ngIf="showScanner" (scanned)="onBarcodeScanned($event)" (close)="closeScanner()">
+</app-barcode-scanner> 
