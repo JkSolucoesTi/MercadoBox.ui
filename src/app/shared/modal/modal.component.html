@@ -1,6 +1,6 @@
 <form [formGroup]="form" class="p-fluid">
   <div class="grid">
-    <div class="col-12">
+    <div class="col-11">
       <p-autoComplete formControlName="codigoDeBarras" [suggestions]="produtosFiltrados" field="codigo"
         (completeMethod)="search($event)" [minLength]="3" placeholder="Digite o código de barras"
         (onSelect)="onProdutoSelecionado($event)">
@@ -11,8 +11,13 @@
         <ng-template let-produto pTemplate="selectedItem">
           {{ produto.codigo }}
         </ng-template>
-      </p-autoComplete>
+      </p-autoComplete>       
     </div>
+    <div class="col-1" style="text-align: right;">
+      <button pButton type="button" icon="pi pi-camera" (click)="openScanner()"></button>
+    </div>
+      <app-barcode-scanner *ngIf="showScanner" (scanned)="onBarcodeScanned($event)" (close)="closeScanner()">
+        </app-barcode-scanner> 
 
     <div class="col-12">
       <div class="field">

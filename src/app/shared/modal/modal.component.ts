@@ -1,6 +1,6 @@
 import { CompraService } from './../../services/compra.service';
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -9,9 +9,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Categoria } from 'src/app/model/categoria/categoria';
 import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
-import { debounceTime, Subject } from 'rxjs';
 import { ItemCarrinho } from 'src/app/model/carrinho/itemCarrinho';
-import { AutoCompleteModule } from 'primeng/autocomplete';
+import { AutoComplete, AutoCompleteModule } from 'primeng/autocomplete';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CarrinhoStoreService } from 'src/app/pages/carrinho-form/service/carrinho-store.service';
@@ -21,11 +20,23 @@ import { ProdutoPesquisaSignature } from 'src/app/model/Dto/signature/produtoPes
 import { ItemCarrinhoSignature } from 'src/app/model/Dto/signature/itemCarrinhoSignature';
 import { CarrinhoService } from 'src/app/pages/carrinho-form/service/carrinho.service';
 import { NotificacaoService } from '../notificacao.service';
+import { BarcodeScannerComponent } from '../barcode-scanner/barcode-scanner.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [CommonModule, DialogModule, InputTextModule, ButtonModule, ReactiveFormsModule, DropdownModule, CheckboxModule, InputMaskModule, InputNumberModule, AutoCompleteModule],
+  imports: [CommonModule,
+    DialogModule,
+    InputTextModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    CheckboxModule,
+    InputMaskModule,
+    InputNumberModule,
+    AutoCompleteModule,
+    BarcodeScannerComponent],
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })
@@ -38,10 +49,10 @@ export class ModalComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private carrinhoStoreService: CarrinhoStoreService,
-    private compraService : CompraService,
+    private compraService: CompraService,
     private produtoService: ProdutosService,
-    private notificacao : NotificacaoService,
-    private carrinhoServiceBehavior : CarrinhoService
+    private notificacao: NotificacaoService,
+    private carrinhoServiceBehavior: CarrinhoService
 
   ) {
   }
@@ -65,26 +76,48 @@ export class ModalComponent implements OnInit {
     });
   }
 
+  /*SETOR CAMERA */
+  showScanner = false;
+
+  openScanner() {
+    this.showScanner = true;
+  }
+
+  onBarcodeScanned(code: string) {
+
+    debugger;
+
+    const produtoLido = { codigo: code, nome: '' };
+    this.form.get('codigoDeBarras')?.setValue(produtoLido);   
+    this.search({ query: code });
+    this.showScanner = false;
+  }
+
+  closeScanner() {
+    this.showScanner = false;
+  }
+
   get isPromocao(): boolean {
-    return this.form.get('promocao')?.value;
+    return this.form.get('produtoSelecionado')?.value;
   }
 
   search(event: any) {
     let produtoPesquisaSignature = new ProdutoPesquisaSignature(event.query);
     this.produtoService.searchByCodigo(produtoPesquisaSignature).subscribe({
-      next: (data) => {       
+      next: (data) => {
+        if(data.length == 0)  this.notificacao.info('Mensagem', `Não foi possível encontrar seu produto`)
         this.produtosFiltrados = data
       },
-      error: (err) =>{
-        this.notificacao.error('Mensagem',`Não foi possível encontrar seu produto : ${err.error}`)
-      } 
+      error: (err) => {
+        this.notificacao.error('Mensagem', `Não foi possível encontrar seu produto : ${err.error}`)
+      }
     });
   }
 
   onProdutoSelecionado(produtoResponse: ProdutoResponse) {
     this.form.get("nome")?.setValue(produtoResponse.nome);
-    this.form.get('codigo')?.setValue(produtoResponse.codigo?.toString());     
-      this.form.get('produtoSelecionado')?.setValue(produtoResponse.id);     
+    this.form.get('codigo')?.setValue(produtoResponse.codigo?.toString());
+    this.form.get('produtoSelecionado')?.setValue(produtoResponse.id);
   }
 
   cancelar() {
@@ -97,22 +130,22 @@ export class ModalComponent implements OnInit {
       debugger;
       const itemCarrinho: ItemCarrinhoSignature = {
         guid: this.carrinhoStoreService.getCompraGuid(),
-        produtoId : this.form.get('produtoSelecionado')?.value,
+        produtoId: this.form.get('produtoSelecionado')?.value,
         nome: this.form.get('nome')?.value,
         preco: this.form.get('preco')?.value,
         quantidade: this.form.get('quantidade')?.value,
         promocao: this.form.get('promocao')?.value,
-        valorPromocional: this.form.get('valorPromocional')?.value 
-      };    
+        valorPromocional: this.form.get('valorPromocional')?.value
+      };
       this.compraService.AdicionarItemCarrinho(itemCarrinho).subscribe({
-        next : () =>{
+        next: () => {
           this.cancelar();
           this.carrinhoServiceBehavior.notificarAtualizacao(true);
-          this.notificacao.success("Mensagem","Item adicionado ao carrinho");
-        },error : (erro : any) =>{
-          this.notificacao.error("Mensagem",`Não foi possível adicionar o item no carrinho : ${erro.error}`)
+          this.notificacao.success("Mensagem", "Item adicionado ao carrinho");
+        }, error: (erro: any) => {
+          this.notificacao.error("Mensagem", `Não foi possível adicionar o item no carrinho : ${erro.error}`)
         }
-      })     
+      })
     } else {
       console.warn('Formulário inválido!');
     }
@@ -128,7 +161,7 @@ export class ModalComponent implements OnInit {
     const numericValue = parseFloat(value) / 100;
     this.form.get(formControlName)?.setValue(numericValue, { emitEvent: false });
     event.target.value = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
-    .format(numericValue);
+      .format(numericValue);
   }
 
 

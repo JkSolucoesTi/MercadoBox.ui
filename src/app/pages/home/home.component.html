@@ -33,23 +33,3 @@
     </ng-template>
   </p-table>
 </div>
-
-<div>
-<div *ngIf="scannedResult" class="result">
-  <p><strong>Resultado:</strong> {{ scannedResult }}</p>
-</div>
-
-   <div class="scanner-container">
-  <zxing-scanner
-    [formats]="allowedFormats"
-    (camerasFound)="onCamerasFound($event)"
-    (scanSuccess)="onScanSuccess($event)"
-
-    [autostart]="true"
-    [tryHarder]="true"
-    [videoConstraints]="{ width: { ideal: 1280 }, height: { ideal: 720 } }"
-
-    (permissionResponse)="onPermissionResponse($event)">
-  </zxing-scanner>
-</div>
-</div>

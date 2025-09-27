@@ -1,0 +1,12 @@
+<div *ngIf="scannerEnabled" class="scanner-container">
+    <zxing-scanner [formats]="allowedFormats" 
+    (camerasFound)="onCamerasFound($event)"
+    (scanSuccess)="onScanSuccess($event)" 
+    (permissionResponse)="onPermissionResponse($event)">
+    </zxing-scanner>
+    <div class="button-wrapper">
+        <button pButton type="button" icon="pi pi-times" label="Fechar" class="p-button-sm p-button-success"
+            (click)="onClose()">
+        </button>
+    </div>
+</div>

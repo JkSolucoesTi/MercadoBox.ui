@@ -16,11 +16,13 @@ import { CategoriaService } from 'src/app/services/categoria.service';
 import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { NotificacaoService } from 'src/app/shared/notificacao.service';
+import { BarcodeScannerComponent } from 'src/app/shared/barcode-scanner/barcode-scanner.component';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-produtos-form',
-    standalone:true,
-    imports: [
+  standalone: true,
+  imports: [
     CommonModule,
     FormsModule,
     HttpClientModule,
@@ -31,10 +33,12 @@ import { NotificacaoService } from 'src/app/shared/notificacao.service';
     DropdownModule,
     ReactiveFormsModule,
     ToastModule,
-    MessageModule, 
+    MessageModule,
     MessagesModule,
-    CardModule
-],
+    CardModule,
+    DialogModule,
+    BarcodeScannerComponent
+  ],
   templateUrl: './produtos-form.component.html',
   styleUrls: ['./produtos-form.component.scss']
 })
@@ -48,75 +52,93 @@ export class ProdutosFormComponent {
     private router: Router,
     private produtosService: ProdutosService,
     private categoriaService: CategoriaService,
-    private notificacao : NotificacaoService,
+    private notificacao: NotificacaoService,
     private fb: FormBuilder
-  ) {}
-  
-    ngOnInit(): void {
+  ) { }
 
-      this.form = this.fb.group({
-        id:[null],
-        codigo: [, [Validators.required, Validators.min(0)]],
-        nome: ['', Validators.required],
-        categoriaId: ["", Validators.required],
-        descricao: ["",Validators.required]
-      });  
+  ngOnInit(): void {
 
-      const id = this.route.snapshot.paramMap.get('id');
-      if (id) {
-        this.carregarProduto(Number(id));       
-      } 
+    this.form = this.fb.group({
+      id: [null],
+      codigo: [, [Validators.required, Validators.min(0)]],
+      nome: ['', Validators.required],
+      categoriaId: ["", Validators.required],
+      descricao: ["", Validators.required]
+    });
 
-      this.carregarCategorias();
-    }
-  
-    carregarCategorias(){
-      this.categoriaService.listar().subscribe({
-        next : (data) =>{
-         this.categorias = data;        
-        }
-        ,error : (erro) =>{
-          this.notificacao.error('Mensagem',`Não foi possível listar as categorias : ${erro.error}`);    
-        }
-      })
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.carregarProduto(Number(id));
     }
 
-    carregarProduto(id: number) {
-      this.produtosService.buscarPorId(id).subscribe( produto =>{
-        this.form.controls['id'].setValue(produto.id);
-        this.form.controls['nome'].setValue(produto.nome);
-        this.form.controls['codigoBarras'].setValue(produto.codigo);
-        this.form.controls['categoriaId'].setValue(String(produto.categoriaId));
-        this.form.controls['descricao'].setValue(produto.descricao);
-      })
-    }
-  
-    salvarProduto() {
-      
+    this.carregarCategorias();
+  }
 
-      let produto = this.form.value;
+  /*SETOR DA CAMERA*/
+  barcode: string = '';
+  showScanner = false;
 
-      if (produto.id) {
-        this.produtosService.atualizar(produto).subscribe({
-          next : () => {
-             this.router.navigate(['/produtos']);
-            this.notificacao.success('Mensagem','Produto cadastrado com sucesso')
-          },error : (error) =>{
-            this.notificacao.error('Mensagem',`Não foi possível cadastrar o produto :${error.erro}`)
-          }
+  openScanner() {
+    this.showScanner = true; 
+  }
 
-        })
-  
-      } else {
-        this.produtosService.criar(produto).subscribe({
-           next : () => {
-             this.router.navigate(['/produtos']);
-            this.notificacao.success('Mensagem','Produto atualizado com sucesso')
-          },error : (error) =>{
-            this.notificacao.error('Mensagem',`Não foi possível atualizar o produto :${error.erro}`)
-          }
-        });
-  
+  onBarcodeScanned(code: string) {
+    this.form.get('codigo')?.setValue(code);
+    this.barcode = code;
+    this.showScanner = false; 
+  }
+
+  closeScanner() {
+    this.showScanner = false; 
+  }
+
+  carregarCategorias() {
+    this.categoriaService.listar().subscribe({
+      next: (data) => {
+        this.categorias = data;
       }
-    }  
+      , error: (erro) => {
+        this.notificacao.error('Mensagem', `Não foi possível listar as categorias : ${erro.error}`);
+      }
+    })
+  }
+
+  carregarProduto(id: number) {
+    this.produtosService.buscarPorId(id).subscribe(produto => {
+      this.form.controls['id'].setValue(produto.id);
+      this.form.controls['nome'].setValue(produto.nome);
+      this.form.controls['codigoBarras'].setValue(produto.codigo);
+      this.form.controls['categoriaId'].setValue(String(produto.categoriaId));
+      this.form.controls['descricao'].setValue(produto.descricao);
+    })
+  }
+
+  salvarProduto() {
+
+
+    let produto = this.form.value;
+
+    if (produto.id) {
+      this.produtosService.atualizar(produto).subscribe({
+        next: () => {
+          this.router.navigate(['/produtos']);
+          this.notificacao.success('Mensagem', 'Produto cadastrado com sucesso')
+        }, error: (error) => {
+          this.notificacao.error('Mensagem', `Não foi possível cadastrar o produto :${error.erro}`)
+        }
+
+      })
+
+    } else {
+      this.produtosService.criar(produto).subscribe({
+        next: () => {
+          this.router.navigate(['/produtos']);
+          this.notificacao.success('Mensagem', 'Produto atualizado com sucesso')
+        }, error: (error) => {
+          this.notificacao.error('Mensagem', `Não foi possível atualizar o produto :${error.erro}`)
+        }
+      });
+
+    }
+  }
 }
