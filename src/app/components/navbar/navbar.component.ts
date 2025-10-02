@@ -37,6 +37,11 @@ export class NavbarComponent {
       label: 'Compras',
       icon: 'pi pi-wallet',
       routerLink: '/compras'
+    },
+    {
+      label: 'Carrinhos',
+      icon: 'pi pi-wallet',
+      routerLink: '/carrinho/CB458AAD-71C8-4DFF-A8F7-E1D47ADBDD8F'
     }
   ];
 
