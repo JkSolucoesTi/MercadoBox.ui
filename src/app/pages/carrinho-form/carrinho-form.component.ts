@@ -46,7 +46,7 @@ export interface Product {
   templateUrl: './carrinho-form.component.html',
   styleUrls: ['./carrinho-form.component.scss']
 })
-export class CarrinhoFormComponent implements OnInit , OnChanges{
+export class CarrinhoFormComponent implements OnInit, OnChanges {
 
   compraToken: CompraTokenSignature = new CompraTokenSignature();
   compraResponse: CompraReponse = new CompraReponse();
@@ -55,10 +55,10 @@ export class CarrinhoFormComponent implements OnInit , OnChanges{
   constructor(
     private compraService: CompraService,
     private activatedRoute: ActivatedRoute,
-    private router:Router,
-    private carrinhoService : CarrinhoStoreService ,
-    private carrinhoServiceBehavior : CarrinhoService,
-    private notificacao : NotificacaoService
+    private router: Router,
+    private carrinhoService: CarrinhoStoreService,
+    private carrinhoServiceBehavior: CarrinhoService,
+    private notificacao: NotificacaoService
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -68,9 +68,9 @@ export class CarrinhoFormComponent implements OnInit , OnChanges{
   ngOnInit(): void {
 
     this.subscription.add(
-      this.activatedRoute.paramMap.subscribe(params =>{
+      this.activatedRoute.paramMap.subscribe(params => {
         const guid = params.get('id');
-        if(guid){
+        if (guid) {
           this.carrinhoService.setCompraGuid(guid);
           this.compraToken.Guid = guid;
         }
@@ -91,35 +91,44 @@ export class CarrinhoFormComponent implements OnInit , OnChanges{
     this.obterItensCarrinho();
 
     this.carrinhoServiceBehavior.atualizarCarrinhoSource$
-    .pipe(
-      filter(param => param === true)
-    )
-    .subscribe(() =>{
-      this.obterItensCarrinho();
-    })
+      .pipe(
+        filter(param => param === true)
+      )
+      .subscribe(() => {
+        this.obterItensCarrinho();
+      })
   }
 
   FinalizarCompra() {
     debugger;
     this.compraService.atualizarStatusCompra(this.compraToken).subscribe(
       {
-        next : (value) =>{
-          this.router.navigate(['/home']);
-          this.notificacao.success('Mensagem','Mercados carregados');
-        },error : (erro) =>{
-           this.notificacao.error('Mensagem',`Não foi possível finalizar sua compra : ${erro.error}`);
+        next: (response) => {
+          if (response.success) {
+            this.router.navigate(['/home']);
+            this.notificacao.success('Compra', response.message);
+          } else {
+            this.notificacao.error('Compra', response.message);
+          }
+        }, error: (erro) => {
+          this.notificacao.error('Mensagem', `Não foi possível finalizar sua compra : ${erro.error}`);
         }
       }
     )
   }
 
-  obterItensCarrinho(){
-   this.compraService.buscarPorId(this.compraToken).subscribe({
-    next:(value) =>{
-      this.compraResponse = value;  
-    },error : (erro) =>{
-       this.notificacao.error('Mensagem',`Não foi obter os itens do seu carrinho : ${erro.error}`);
-    }         
+  obterItensCarrinho() {
+    this.compraService.buscarPorId(this.compraToken).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.compraResponse = response.data;        
+        }else{
+          this.notificacao.error('Compra',response.message);
+        }
+
+      }, error: (erro) => {
+        this.notificacao.error('Compra', "Não foi possível encontrar a sua compra");
+      }
     });
   }
 

@@ -1,3 +1,4 @@
+import { ApiResponse } from './../model/apiResponse/apiResponse';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -27,20 +28,20 @@ export class MercadoService {
 
   constructor(private http: HttpClient) { }
 
-  listar(): Observable<MercadoResponse[]> {
-    return this.http.get<MercadoResponse[]>(`${this.apiUrl}/GetAll`);
+  listar(): Observable<ApiResponse<MercadoResponse[]>> {
+    return this.http.get<ApiResponse<MercadoResponse[]>>(`${this.apiUrl}/GetAll`);
   }
 
   buscarPorId(id: number): Observable<Mercado> {
     return this.http.get<Mercado>(`${this.apiUrl}/${id}`);
   }
 
-  criar(mercado: MercadoSignature): Observable<MercadoResponse> {
-    return this.http.post<MercadoResponse>(this.apiUrl, mercado);
+  criar(mercado: MercadoSignature): Observable<ApiResponse<MercadoResponse>> {
+    return this.http.post<ApiResponse<MercadoResponse>>(this.apiUrl, mercado);
   }
 
-  atualizar(id: number, mercado: MercadoSignature): Observable<MercadoResponse> {
-    return this.http.put<MercadoSignature>(`${this.apiUrl}/${id}`, mercado);
+  atualizar(id: number, mercado: MercadoSignature): Observable<ApiResponse<MercadoResponse>> {
+    return this.http.put<ApiResponse<MercadoSignature>>(`${this.apiUrl}/${id}`, mercado);
   }
 
   deletar(id: number): Observable<void> {

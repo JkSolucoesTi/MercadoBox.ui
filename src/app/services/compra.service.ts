@@ -7,6 +7,7 @@ import { CompraReponse } from '../model/Dto/response/compraResponse';
 import { CompraTokenSignature } from '../model/Dto/signature/compraTokenSignature';
 import { ItemCarrinhoSignature } from '../model/Dto/signature/itemCarrinhoSignature';
 import { environment } from 'src/environments/environment';
+import { ApiResponse } from '../model/apiResponse/apiResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,8 @@ export class CompraService {
 
   constructor(private http: HttpClient) { }
 
-  criarCompra(compra: CompraSignature): Observable<CompraReponse> {
-    return this.http.post<CompraReponse>(`${environment.apiUrl}/${this.controller}/Create` , compra);
+  criarCompra(compra: CompraSignature): Observable<ApiResponse<CompraReponse>> {
+    return this.http.post<ApiResponse<CompraReponse>>(`${environment.apiUrl}/${this.controller}/Create` , compra);
   }
 
   AdicionarItemCarrinho(itemCarrinhoSignature: ItemCarrinhoSignature): Observable<Compra> {
@@ -33,15 +34,15 @@ export class CompraService {
     return this.http.patch<Compra>(`${environment.apiUrl}/${this.controller}/${compra.id}`, compra);
   }
 
-  buscarPorId(singnature:CompraTokenSignature): Observable<CompraReponse> {
-    return this.http.post<CompraReponse>(`${environment.apiUrl}/${this.controller}/GetCompraByToken`,singnature);
+  buscarPorId(singnature:CompraTokenSignature): Observable<ApiResponse<CompraReponse>> {
+    return this.http.post<ApiResponse<CompraReponse>>(`${environment.apiUrl}/${this.controller}/GetCompraByToken`,singnature);
   }
 
-  listarCompras(): Observable<Compra[]> {
-    return this.http.get<Compra[]>(`${environment.apiUrl}/${this.controller}/ListarCompras`);
+  listarCompras(): Observable<ApiResponse<Compra[]>> {
+    return this.http.get<ApiResponse<Compra[]>>(`${environment.apiUrl}/${this.controller}/ListarCompras`);
   }
 
-  atualizarStatusCompra(singnature:CompraTokenSignature) : Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/${this.controller}/AtualizarStatus`,singnature);
+  atualizarStatusCompra(singnature:CompraTokenSignature) : Observable<ApiResponse<boolean>> {
+    return this.http.post<ApiResponse<boolean>>(`${environment.apiUrl}/${this.controller}/AtualizarStatus`,singnature);
   }
 }

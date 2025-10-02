@@ -98,7 +98,8 @@ export class ModalComponent implements OnInit {
   }
 
   get isPromocao(): boolean {
-    return this.form.get('produtoSelecionado')?.value;
+    debugger;
+    return this.form.get('promocao')?.value;
   }
 
   search(event: any) {

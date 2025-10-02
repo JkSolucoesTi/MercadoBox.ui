@@ -28,10 +28,10 @@ export class CompraFormComponent implements OnInit {
   form!: FormGroup;
 
   constructor(
-    private mercadoService: MercadoService, 
-    private notificacao : NotificacaoService,
-    private compraService: CompraService, 
-    private fb: FormBuilder, 
+    private mercadoService: MercadoService,
+    private notificacao: NotificacaoService,
+    private compraService: CompraService,
+    private fb: FormBuilder,
     private router: Router) {
   }
 
@@ -46,11 +46,15 @@ export class CompraFormComponent implements OnInit {
   carregarMercados() {
     this.mercadoService.listar()
       .subscribe({
-        next: (dados) => {
-          this.mercadoResponse = dados;
+        next: (response) => {
+          if (response.success) {
+            this.mercadoResponse = response.data;
+          }else{
+            this.notificacao.error("Mercado",response.message);
+          }
         },
-        error: (erro) => {
-        console.error("Erro ao carregar mercados:", erro);
+        error: () => {
+          console.error("Erro ao carregar mercados:");
         }
       })
   }
@@ -63,18 +67,22 @@ export class CompraFormComponent implements OnInit {
         compra.itens = [],
 
         this.compraService.criarCompra(compra).subscribe(
-        { 
-          next : (data) =>{
-          this.router.navigate(['/carrinho/' + data.guid]);
-           this.notificacao.success('Mensagem','Compra iniciada com sucesso')
-        }
-        ,error : (erro) =>{
-          this.notificacao.error('Mensagem',`Não foi possível iniciar sua compra : ${erro.error}`);    
-        }
-        });
+          {
+            next: (response) => {
+              if (response.success) {
+                this.router.navigate(['/carrinho/' + response.data.guid]);
+                this.notificacao.success('Mensagem', response.message);
+              } else {
+                this.notificacao.error('Mensagem', response.message);
+              }
+            }
+            , error: () => {
+              this.notificacao.error('Mensagem', "Não foi possível iniciar sua compra");
+            }
+          });
 
     } else {
-      this.notificacao.warn('Mensagem','Preencher os campos obrigatórios');    
+      this.notificacao.warn('Mensagem', 'Preencher os campos obrigatórios');
     }
   }
 

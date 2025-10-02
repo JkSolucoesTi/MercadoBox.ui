@@ -1,63 +1,63 @@
-
 <form [formGroup]="form" class="p-fluid">
-  <div class="grid">
-    <div class="col-11">
-      <p-autoComplete formControlName="codigoDeBarras" [suggestions]="produtosFiltrados" field="codigo"
-        (completeMethod)="search($event)" [minLength]="3" placeholder="Digite o código de barras"
-        (onSelect)="onProdutoSelecionado($event)">
-        <ng-template let-produto pTemplate="item">
-          <div class="flex flex-column">
-            {{ produto.codigo }} - {{ produto.nome }} </div>
-        </ng-template>
-        <ng-template let-produto pTemplate="selectedItem">
-          {{ produto.codigo }}
-        </ng-template>
-      </p-autoComplete>       
-    </div>
-    <div class="col-1" style="text-align: right;">
-      <button pButton type="button" icon="pi pi-camera" (click)="openScanner()"></button>
-    </div>
-    <div class="col-12">
-      <div class="field">
-        <label for="nome">Nome</label>
-        <input id="nome" type="text" pInputText formControlName="nome" placeholder="Nome do Produto" required />
+  <div class="grid" style="margin-top: auto;">
+      <div class="col">
+        <p-autoComplete formControlName="codigoDeBarras" [suggestions]="produtosFiltrados" field="codigo"
+          (completeMethod)="search($event)" [minLength]="3" placeholder="Digite o código de barras"
+          (onSelect)="onProdutoSelecionado($event)">
+          <ng-template let-produto pTemplate="item">
+            <div class="flex flex-column">
+              {{ produto.codigo }} - {{ produto.nome }} </div>
+          </ng-template>
+          <ng-template let-produto pTemplate="selectedItem">
+            {{ produto.codigo }}
+          </ng-template>
+        </p-autoComplete>
+      </div>
+      <div class="col-auto flex align-items-center" >
+        <button pButton type="button" icon="pi pi-camera" (click)="openScanner()"></button>
+      </div>    
+      <div class="col-12">
+        <div class="field">
+          <label for="nome">Nome</label>
+          <input id="nome" type="text" pInputText formControlName="nome" placeholder="Nome do Produto" required />
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="preco">Preço</label>
+          <input type="text" pInputText formControlName="preco" (input)="onPrecoInput($event,'preco')"
+            placeholder="R$ 0,00">
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="field">
+          <label for="quantidade">Quantidade</label>
+          <input id="quantidade" type="number" pInputText formControlName="quantidade" placeholder="Quantidade"
+            required />
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6 flex items-center mt-4">
+        <p-checkbox inputId="promocao" formControlName="promocao" [binary]="true"
+          label="Item com promoção"></p-checkbox>
+      </div>
+
+      <div class="col-12 md:col-6" *ngIf="isPromocao">
+        <div class="field">
+          <label for="valorPromocional">Valor Promocional</label>
+          <input type="text" pInputText formControlName="valorPromocional"
+            (input)="onPrecoInput($event,'valorPromocional')" placeholder="R$ 0,00">
+        </div>
+      </div>
+
+      <div class="col-12 flex justify-content-end mt-3">
+        <button pButton type="submit" label="Adicionar Item" icon="pi pi-save" class="p-button-success"
+          (click)="salvar()"></button>
       </div>
     </div>
-
-    <div class="col-12 md:col-6">
-      <div class="field">
-        <label for="preco">Preço</label>
-        <input type="text" pInputText formControlName="preco" (input)="onPrecoInput($event,'preco')"
-          placeholder="R$ 0,00">
-      </div>
-    </div>
-
-    <div class="col-12 md:col-6">
-      <div class="field">
-        <label for="quantidade">Quantidade</label>
-        <input id="quantidade" type="number" pInputText formControlName="quantidade" placeholder="Quantidade"
-          required />
-      </div>
-    </div>
-
-    <div class="col-12 md:col-6 flex items-center mt-4">
-      <p-checkbox inputId="promocao" formControlName="promocao" [binary]="true" label="Item com promoção"></p-checkbox>
-    </div>
-
-    <div class="col-12 md:col-6" *ngIf="isPromocao">
-      <div class="field">
-        <label for="valorPromocional">Valor Promocional</label>
-        <input type="text" pInputText formControlName="valorPromocional"
-          (input)="onPrecoInput($event,'valorPromocional')" placeholder="R$ 0,00">
-      </div>
-    </div>
-
-    <div class="col-12 flex justify-content-end mt-3">
-      <button pButton type="submit" label="Adicionar Item" icon="pi pi-save" class="p-button-success"
-        (click)="salvar()"></button>
-    </div>
-  </div>
 </form>
 
 <app-barcode-scanner *ngIf="showScanner" (scanned)="onBarcodeScanned($event)" (close)="closeScanner()">
-</app-barcode-scanner> 
+</app-barcode-scanner>

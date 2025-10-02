@@ -14,37 +14,41 @@ import { NotificacaoService } from 'src/app/shared/notificacao.service';
 @Component({
   selector: 'app-mercado-list',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule,CardModule,PanelComponent,DividerModule],
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, CardModule, PanelComponent, DividerModule],
   templateUrl: './mercado-list.component.html',
   styleUrls: ['./mercado-list.component.scss']
 })
-export class MercadoListComponent implements OnInit{
+export class MercadoListComponent implements OnInit {
 
-  
-  constructor(private mercadoService: MercadoService, private notificacao : NotificacaoService) {}
+
+  constructor(private mercadoService: MercadoService, private notificacao: NotificacaoService) { }
 
   mercados: MercadoResponse[] = [];
-  
+
   ngOnInit(): void {
     this.carregarMercados();
   }
 
   carregarMercados() {
     this.mercadoService.listar()
-    .subscribe({
-      next : (dados) =>{
-        this.mercados = dados
-        this.notificacao.info('Mensagem','Mercados carregados')
+      .subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.mercados = response.data
+            this.notificacao.info('Mercado', response.message);
+          }else{
+            this.notificacao.error('Mercado', response.message);
+          }
         }
-        ,error : (erro) =>{
-          this.notificacao.error('Mensagem',`Não foi possível listar os mercados : ${erro.error}`);    
+        , error: (erro) => {
+          console.error('Mensagem', "Não foi possível carregar os mercados");
         }
-    });
+      });
   }
 
   deletarMercado(id: number) {
     this.mercadoService.deletar(id).subscribe(() => {
-      this.carregarMercados(); 
+      this.carregarMercados();
     });
   }
 }

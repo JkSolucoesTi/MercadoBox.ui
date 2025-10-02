@@ -18,6 +18,7 @@ import { MessagesModule } from 'primeng/messages';
 import { NotificacaoService } from 'src/app/shared/notificacao.service';
 import { BarcodeScannerComponent } from 'src/app/shared/barcode-scanner/barcode-scanner.component';
 import { DialogModule } from 'primeng/dialog';
+import { ApiResponse } from 'src/app/model/apiResponse/apiResponse';
 
 @Component({
   selector: 'app-produtos-form',
@@ -95,10 +96,14 @@ export class ProdutosFormComponent {
   carregarCategorias() {
     this.categoriaService.listar().subscribe({
       next: (data) => {
-        this.categorias = data;
+        if(data.success){
+        this.categorias = data.data;
+        }else{
+          this.notificacao.error('Mensagem', data.message);
+        }
       }
-      , error: (erro) => {
-        this.notificacao.error('Mensagem', `Não foi possível listar as categorias : ${erro.error}`);
+      , error: (erro : any) => {
+        this.notificacao.error('Mensagem', erro.name);
       }
     })
   }
@@ -121,10 +126,10 @@ export class ProdutosFormComponent {
     if (produto.id) {
       this.produtosService.atualizar(produto).subscribe({
         next: () => {
-          this.router.navigate(['/produtos']);
-          this.notificacao.success('Mensagem', 'Produto cadastrado com sucesso')
+           this.router.navigate(['/produtos']);
+          this.notificacao.success('Mensagem', 'Produto Atualizado com sucesso');
         }, error: (error) => {
-          this.notificacao.error('Mensagem', `Não foi possível cadastrar o produto :${error.erro}`)
+          this.notificacao.error('Mensagem', `Não foi possível atualizar o produto :${error.erro}`)
         }
 
       })
@@ -132,10 +137,11 @@ export class ProdutosFormComponent {
     } else {
       this.produtosService.criar(produto).subscribe({
         next: () => {
-          this.router.navigate(['/produtos']);
-          this.notificacao.success('Mensagem', 'Produto atualizado com sucesso')
+          // this.router.navigate(['/produtos']);
+          this.notificacao.success('Mensagem', 'Produto cadastrado com sucesso')
+          this.form.reset();
         }, error: (error) => {
-          this.notificacao.error('Mensagem', `Não foi possível atualizar o produto :${error.erro}`)
+          this.notificacao.error('Mensagem', `Não foi possível cadastrar o produto :${error.erro}`)
         }
       });
 

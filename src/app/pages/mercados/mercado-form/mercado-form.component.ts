@@ -12,9 +12,9 @@ import { NotificacaoService } from 'src/app/shared/notificacao.service';
 @Component({
   selector: 'app-mercado-form',
   standalone: true,
-  imports: [CommonModule, 
-    FormsModule, 
-    InputTextModule, 
+  imports: [CommonModule,
+    FormsModule,
+    InputTextModule,
     ButtonModule,
     RouterModule,
     CardModule,
@@ -24,28 +24,28 @@ import { NotificacaoService } from 'src/app/shared/notificacao.service';
 })
 export class MercadoFormComponent implements OnInit {
 
-  form!:FormGroup;
-  mercado!: MercadoSignature 
+  form!: FormGroup;
+  mercado!: MercadoSignature
   id?: number;
 
   constructor(
-    private fb : FormBuilder,
+    private fb: FormBuilder,
     private mercadoService: MercadoService,
-    private notificacao : NotificacaoService,
+    private notificacao: NotificacaoService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
     this.form = this.fb.group({
-      nome:['',Validators.required],
-      endereco:['',Validators.required],
-      cidade:['',Validators.required],
-      estado:['',Validators.required],
-      cnpj:['',Validators.required],
-      telefone:['',Validators.required],
-      descricao:['',Validators.required]
+      nome: ['', Validators.required],
+      endereco: ['', Validators.required],
+      cidade: ['', Validators.required],
+      estado: ['', Validators.required],
+      cnpj: ['', Validators.required],
+      telefone: ['', Validators.required],
+      descricao: ['', Validators.required]
     })
 
     this.id = this.route.snapshot.params['id'];
@@ -58,25 +58,32 @@ export class MercadoFormComponent implements OnInit {
     this.mercado = this.form.value;
     if (this.mercado.id) {
       this.mercadoService.atualizar(this.mercado.id, this.mercado).subscribe({
-        next : () =>{
-        this.router.navigate(['/mercados']);
-        this.notificacao.success('Mensagem','Mercado cadastrado com sucesso')
+        next: (response) => {
+          if (response.success) {
+            this.router.navigate(['/mercados']);
+            this.notificacao.success('Mercado', response.message)
+          }else{
+            this.notificacao.error('Mercado',response.message);
+          }
         }
-        ,error : (erro) =>{
-          this.notificacao.error('Mensagem',`Não foi possível cadasatrar o mercado ${erro.error}`);    
+        , error: (erro) => {
+          this.notificacao.error('Mensagem', `Não foi possível cadasatrar o mercado ${erro.error}`);
         }
       });
     } else {
       this.mercadoService.criar(this.mercado).subscribe({
-       next : () =>{
-        this.router.navigate(['/mercados']);
-        this.notificacao.success('Mensagem','Mercado editado com sucesso')
+        next: (response) => {
+          if (response.success) {
+            this.router.navigate(['/mercados']);
+            this.notificacao.success('Mercado', response.message);
+          } else {
+            this.notificacao.error('Mercado', response.message);
+          }
         }
-        ,error : (erro) =>{
-          this.notificacao.error('Mensagem',`Não foi possível editar o mercado ${erro.error}`);    
+        , error: (erro) => {
+          this.notificacao.error('Mensagem', `Não foi possível editar o mercado ${erro.error}`);
         }
       });
     }
   }
-
 }

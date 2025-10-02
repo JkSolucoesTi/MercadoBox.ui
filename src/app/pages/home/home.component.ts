@@ -36,12 +36,16 @@ export class HomeComponent implements OnInit {
 
   carregarComprasFinalizadas(): void {
     this.compraService.listarCompras().subscribe({
-      next: (lista) => {
-        this.compras = lista;
-        this.notificacao.success('Mensagem', 'Lista de Compras carregada');
+      next: (response) => {
+        if (response.success) {
+          this.compras = response.data;
+          this.notificacao.success('Compras', response.message);
+        }else{
+          this.notificacao.success('Compras', response.message);
+        }
       },
       error: (err: any) => {
-        this.notificacao.error('Mensagem', 'Não foi possível carregar a Lista de Compras : ' + err.error);
+        this.notificacao.error('Mensagem', "Não foi possível carregar a Lista de Compras");
       }
     });
   }
