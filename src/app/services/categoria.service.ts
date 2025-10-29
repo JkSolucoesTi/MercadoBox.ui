@@ -5,6 +5,7 @@ import { API_CONFIG } from "../core/config/api.config";
 import { CategoriaResponse } from "../model/Dto/response/categoriaResponse";
 import { Observable } from "rxjs";
 import { ApiResponse } from "../model/apiResponse/apiResponse";
+import { environment } from "src/environments/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -12,11 +13,11 @@ import { ApiResponse } from "../model/apiResponse/apiResponse";
 
 export class CategoriaService {
 
-    private apiUrl = ApiUrlHelper.getUrl(API_CONFIG.endpoints.categorias)
+    private controller : string = "Categorias";
 
     constructor(private http: HttpClient) { }
 
     listar(): Observable<ApiResponse<CategoriaResponse[]>> {
-        return this.http.get<ApiResponse<CategoriaResponse[]>>(`${this.apiUrl}/GetAll`);
+        return this.http.get<ApiResponse<CategoriaResponse[]>>(`${environment.apiUrl}/${this.controller}/GetAll`);
     }
 }

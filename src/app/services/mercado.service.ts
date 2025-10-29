@@ -6,6 +6,7 @@ import { MercadoResponse } from '../model/Dto/response/mercadoResponse';
 import { API_CONFIG } from '../core/config/api.config';
 import { ApiUrlHelper } from '../core/helpers/api-url.helper';
 import { MercadoSignature } from '../model/Dto/signature/mercadoSignature';
+import { environment } from 'src/environments/environment';
 
 export interface Mercado {
   id?: number;
@@ -24,27 +25,28 @@ export interface Mercado {
 })
 export class MercadoService {
 
-  private apiUrl = ApiUrlHelper.getUrl(API_CONFIG.endpoints.mercados)
+
+  private controller : string = "Mercados";
 
   constructor(private http: HttpClient) { }
 
   listar(): Observable<ApiResponse<MercadoResponse[]>> {
-    return this.http.get<ApiResponse<MercadoResponse[]>>(`${this.apiUrl}/GetAll`);
+    return this.http.get<ApiResponse<MercadoResponse[]>>(`${environment.apiUrl}/${this.controller}/GetAll`);
   }
 
   buscarPorId(id: number): Observable<Mercado> {
-    return this.http.get<Mercado>(`${this.apiUrl}/${id}`);
+    return this.http.get<Mercado>(`${environment.apiUrl}/${this.controller}/${id}`);
   }
 
   criar(mercado: MercadoSignature): Observable<ApiResponse<MercadoResponse>> {
-    return this.http.post<ApiResponse<MercadoResponse>>(this.apiUrl, mercado);
+    return this.http.post<ApiResponse<MercadoResponse>>(`${environment.apiUrl}/${this.controller}/GetAll`, mercado);
   }
 
   atualizar(id: number, mercado: MercadoSignature): Observable<ApiResponse<MercadoResponse>> {
-    return this.http.put<ApiResponse<MercadoSignature>>(`${this.apiUrl}/${id}`, mercado);
+    return this.http.put<ApiResponse<MercadoSignature>>(`${environment.apiUrl}/${this.controller}/${id}`, mercado);
   }
 
   deletar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${environment.apiUrl}/${this.controller}/${id}`);
   }
 }

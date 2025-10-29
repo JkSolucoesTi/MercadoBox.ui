@@ -8,38 +8,39 @@ import { ProdutoResponse } from '../model/Dto/response/produtoResponse';
 import { ApiUrlHelper } from '../core/helpers/api-url.helper';
 import { API_CONFIG } from '../core/config/api.config';
 import { ProdutoPesquisaSignature } from '../model/Dto/signature/produtoPesquisaSignature';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProdutosService {
 
-  private apiUrl = ApiUrlHelper.getUrl(API_CONFIG.endpoints.produtos)
+  private controller : string = "Produtos"
 
   constructor(private http: HttpClient) { }
 
   listar(): Observable<ProdutoResponse[]> {
-    return this.http.get<ProdutoResponse[]>(`${this.apiUrl}/GetAll`);
+    return this.http.get<ProdutoResponse[]>(`${environment.apiUrl}/${this.controller}/GetAll`);
   }
 
   buscarPorId(id: number): Observable<ProdutoResponse> {
-    return this.http.get<ProdutoResponse>(`${this.apiUrl}/${id}`);
+    return this.http.get<ProdutoResponse>(`${environment.apiUrl}/${this.controller}/${id}`);
   }
 
   searchByCodigo(signature: ProdutoPesquisaSignature): Observable<ProdutoResponse[]> {
-    return this.http.post<ProdutoResponse[]>(`${this.apiUrl}/searchByCodigo`, signature);
+    return this.http.post<ProdutoResponse[]>(`${environment.apiUrl}/${this.controller}/searchByCodigo`, signature);
   }
 
   criar(produto: ProdutoSignature): Observable<ProdutoResponse> {
-    return this.http.post<ProdutoSignature>(`${this.apiUrl}/Create` , produto);
+    return this.http.post<ProdutoSignature>(`${environment.apiUrl}/${this.controller}/Create` , produto);
   }
 
   atualizar(produto: ProdutoCompleto): Observable<ProdutoCompleto> {
-    return this.http.put<ProdutoCompleto>(`${this.apiUrl}/${produto.id}`, produto);
+    return this.http.put<ProdutoCompleto>(`${environment.apiUrl}/${this.controller}/${produto.id}`, produto);
   }
 
   deletar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${environment.apiUrl}/${this.controller}/${id}`);
   }
 
 }
