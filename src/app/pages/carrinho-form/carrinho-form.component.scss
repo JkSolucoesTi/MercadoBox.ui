@@ -32,50 +32,82 @@ label {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 70px;
   background-color: #f8f8f8;
-  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-  display: flex;
-//  justify-content: flex-end; 
-//  align-items: center;
-  padding: 0 20px;
+  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
-
 button{
   margin-bottom: 1.5rem;
 }
 .footer-content {
-  height: 100%;
-  width: 100%;
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
-  margin-bottom: 0px; /* ERA: margin-bottom: 20px; */
+  padding: 6px 20px;
+  min-height: 55px;
+  gap: 10px;
 }
 
-.footer-total { 
-    font-size: 1.5rem;        /* maior */
-  font-weight: bold;        /* negrito */
-  color: #2e7d32;           /* verde chamativo (mesma ideia do botão success) */
-  display: flex;            /* ícone + texto alinhados */
+.footer-content button.p-button {
+  padding: 0.5rem 1.2rem;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.footer-totais {
+  display: flex;
   align-items: center;
-  gap: 8px;                 /* espaço entre ícone e texto */
+  gap: 18px;
+}
+
+.footer-total {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2e7d32;
   margin: 0;
+  line-height: 1.1;
 }
 
-@media (max-width: 480px) {
+.footer-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.footer-info.desconto {
+  color: #1b5e20;
+}
+
+.footer-info i {
+  color: #388e3c;
+  font-size: 1.2rem;
+}
+/* ====== Mobile ====== */
+@media (max-width: 768px) {
   .footer-content {
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
-    height: auto;
-    padding: 10px 12px;
+    text-align: center;
+    padding: 4px 8px;
+    gap: 4px;
+    min-height: auto;
   }
+
+  .footer-totais {
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    margin-left: 0;
+  }
+
   .footer-content button.p-button {
-    width: 100%;
-    margin-top: 0;
+    width: 70%;
+    margin: 3px auto;
+    padding: 0.25rem 0.6rem;
   }
 }
 

@@ -48,10 +48,24 @@
 </div>
 <footer class="footer-fixed">
   <div class="footer-content">
-    <h3 class="footer-total">Total : {{compraResponse.totalSemDesconto | currency:'BRL' }}</h3>
-    <h3 class="footer-total">Total Com Desconto : {{compraResponse.totalComDesconto | currency:'BRL' }}</h3>
-    <button pButton type="button" label="Finalizar Compra" icon="pi pi-save" class="p-button-success"
-      (click)="FinalizarCompra()">
-    </button>
+    <div class="footer-totais">
+      <div class="footer-info">
+        <i class="pi pi-wallet"></i>
+        <span>Total: {{ compraResponse.totalSemDesconto | currency:'BRL' }}</span>
+      </div>
+      <div class="footer-info desconto">
+        <i class="pi pi-tags"></i>
+        <span>Com Desconto: {{ compraResponse.totalComDesconto | currency:'BRL' }}</span>
+      </div>
+    </div>
+
+    <button
+      pButton
+      type="button"
+      label="Finalizar Compra"
+      icon="pi pi-check"
+      class="p-button-success"
+      (click)="FinalizarCompra()"
+    ></button>
   </div>
 </footer>
