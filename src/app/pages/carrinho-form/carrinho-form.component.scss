@@ -122,3 +122,60 @@ button{
   color: #999;                  /* cinza */
   margin-right: 8px;
 }
+
+/* Padrão (desktop) → mostra nome completo */
+.produto-nome {
+  display: inline-block;
+  color: #333;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  cursor: default;
+}
+
+/* Mobile: truncar texto e permitir clique */
+@media (max-width: 768px) {
+  .produto-nome {
+    max-width: 130px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+  }
+
+  /* Quando o usuário clica no nome */
+  .produto-nome.expandido {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    word-break: break-word;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    padding: 2px 4px;
+  }
+}
+
+.scroll-hint {
+  display: none;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+  padding: 4px 0;
+  margin-bottom: 6px;
+  background-color: #f8f8f8;
+  border-radius: 6px;
+}
+
+.scroll-icon {
+  color: #2e7d32; /* verde chamativo */
+  margin-right: 6px;
+  font-size: 1rem;
+  vertical-align: middle;
+}
+
+/* Mostra só no mobile */
+@media (max-width: 768px) {
+  .scroll-hint {
+    display: block;
+  }
+}

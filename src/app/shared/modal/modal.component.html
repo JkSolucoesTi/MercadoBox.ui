@@ -6,7 +6,7 @@
           (onSelect)="onProdutoSelecionado($event)">
           <ng-template let-produto pTemplate="item">
             <div class="flex flex-column">
-              {{ produto.codigo }} - {{ produto.nome }} </div>
+              {{ produto.nome }}</div>
           </ng-template>
           <ng-template let-produto pTemplate="selectedItem">
             {{ produto.codigo }}

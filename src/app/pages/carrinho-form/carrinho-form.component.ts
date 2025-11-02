@@ -19,6 +19,7 @@ import { CompraTokenSignature } from 'src/app/model/Dto/signature/compraTokenSig
 import { CarrinhoStoreService } from 'src/app/pages/carrinho-form/service/carrinho-store.service';
 import { CarrinhoService } from './service/carrinho.service';
 import { NotificacaoService } from 'src/app/shared/notificacao.service';
+import { TooltipModule } from 'primeng/tooltip';
 
 export interface Product {
   id: number;
@@ -41,8 +42,9 @@ export interface Product {
     TableModule,
     CardModule,
     DividerModule,
-    PanelComponent
-  ],
+    PanelComponent,
+    TooltipModule
+],
   templateUrl: './carrinho-form.component.html',
   styleUrls: ['./carrinho-form.component.scss']
 })
@@ -139,6 +141,13 @@ export class CarrinhoFormComponent implements OnInit, OnChanges {
       0
     ) ?? 0;
   }
+
+  toggleNome(item: any) {
+  if (window.innerWidth <= 768) {
+    item.expandido = !item.expandido;
+  }
+}
+
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
