@@ -22,3 +22,17 @@
   color: #555;
   font-size: 1rem;
 }
+
+.barcode-section {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.barcode-section button {
+  width: 100%;
+  max-width: 220px;
+  margin-bottom: 0.5rem;
+}

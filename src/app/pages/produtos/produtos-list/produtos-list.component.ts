@@ -16,11 +16,12 @@ import { PanelComponent } from 'src/app/shared/panel/panel.component';
 import { ProdutoResponse } from 'src/app/model/Dto/response/produtoResponse';
 import { NotificacaoService } from 'src/app/shared/notificacao.service';
 import { ToastModule } from 'primeng/toast';
+import { BarcodeEan13Component } from 'src/app/shared/barcode-ean13/barcode-ean13.component';
 
 @Component({
   selector: 'app-produtos-list',
  standalone: true,
-  imports: [    
+  imports: [
     CommonModule,
     FormsModule,
     HttpClientModule,
@@ -33,8 +34,9 @@ import { ToastModule } from 'primeng/toast';
     PanelModule,
     DividerModule,
     PanelComponent,
-    ToastModule
-  ],
+    ToastModule,
+    BarcodeEan13Component 
+],
   templateUrl: './produtos-list.component.html',
   styleUrls: ['./produtos-list.component.scss']
 })

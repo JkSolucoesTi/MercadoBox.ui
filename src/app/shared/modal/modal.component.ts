@@ -85,8 +85,6 @@ export class ModalComponent implements OnInit {
 
   onBarcodeScanned(code: string) {
 
-    debugger;
-
     const produtoLido = { codigo: code, nome: '' };
     this.form.get('codigoDeBarras')?.setValue(produtoLido);   
     this.search({ query: code });
@@ -98,7 +96,6 @@ export class ModalComponent implements OnInit {
   }
 
   get isPromocao(): boolean {
-    debugger;
     return this.form.get('promocao')?.value;
   }
 
@@ -128,7 +125,6 @@ export class ModalComponent implements OnInit {
 
   salvar() {
     if (this.form.valid) {
-      debugger;
       const itemCarrinho: ItemCarrinhoSignature = {
         guid: this.carrinhoStoreService.getCompraGuid(),
         produtoId: this.form.get('produtoSelecionado')?.value,

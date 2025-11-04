@@ -102,7 +102,6 @@ export class CarrinhoFormComponent implements OnInit, OnChanges {
   }
 
   FinalizarCompra() {
-    debugger;
     this.compraService.atualizarStatusCompra(this.compraToken).subscribe(
       {
         next: (response) => {

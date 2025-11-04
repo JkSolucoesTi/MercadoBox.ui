@@ -1,0 +1,13 @@
+<div class="barcode-wrapper">
+  <button pButton
+          type="button"
+          label="Código de Barras"
+          icon="pi pi-barcode"
+          class="p-button-info"
+          (click)="gerarCodigo()">
+  </button>
+
+  <div *ngIf="mostrar" class="codigo-container">
+    <canvas #barcodeCanvas></canvas>
+  </div>
+</div>
