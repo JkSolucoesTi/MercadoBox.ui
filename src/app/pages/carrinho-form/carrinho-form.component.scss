@@ -111,16 +111,24 @@ button{
   }
 }
 
-.preco-promocional {
-  font-weight: bold;
-  font-size: 1.1rem;
-  color: #2e7d32;  /* verde destaque */
+.preco-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* ou center se quiser centralizar */
+  line-height: 1.2;
 }
 
 .preco-antigo {
-  text-decoration: line-through; /* riscado */
-  color: #999;                  /* cinza */
-  margin-right: 8px;
+  font-size: 0.85rem;
+  color: #888;
+  text-decoration: line-through;
+  margin-bottom: 2px;
+}
+
+.preco-promocional {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #28a745; /* verde */
 }
 
 /* Padrão (desktop) → mostra nome completo */
@@ -173,7 +181,7 @@ button{
   vertical-align: middle;
 }
 
-/* Mostra só no mobile */
+
 @media (max-width: 768px) {
   .scroll-hint {
     display: block;

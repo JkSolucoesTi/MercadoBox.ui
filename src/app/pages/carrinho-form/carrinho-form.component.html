@@ -5,16 +5,15 @@
     <p-divider />
 
     <div class="scroll-hint">
-    <i class="pi pi-arrows-h scroll-icon"></i>
-Deslize para o lado para ver mais
-</div>
+      <i class="pi pi-arrows-h scroll-icon"></i>
+      Deslize para o lado para ver mais
+    </div>
     <p-table [value]="compraResponse.itens" responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
           <th>Produto</th>
-          <th>Preço</th>
           <th>Qtd</th>
-          <th>Vlr Promo</th>
+          <th>Preço</th>
           <th>Total</th>
         </tr>
       </ng-template>
@@ -25,16 +24,16 @@ Deslize para o lado para ver mais
               {{ item.nome }}
             </span>
           </td>
-          <td>{{ item.valor | currency: 'BRL' }}</td>
           <td>{{ item.quantidade }}</td>
           <td>
             <ng-container *ngIf="item.promocao; else precoNormal">
-              <span class="preco-antigo">{{ item.valor * item.quantidade | currency:'BRL' }}</span>
-              <span class="preco-promocional">{{ item.valorPromocional | currency:'BRL' }}</span>
+              <div class="preco-vertical">
+                <span class="preco-antigo">De: {{ item.valor * item.quantidade | currency:'BRL' }}</span>
+                <span class="preco-promocional">Por: {{ item.valorPromocional | currency:'BRL' }}</span>
+              </div>
             </ng-container>
-
             <ng-template #precoNormal>
-              <span>{{0 | currency:'BRL' }}</span>
+              <span>{{item.valor | currency:'BRL' }}</span>
             </ng-template>
           </td>
           <td>
