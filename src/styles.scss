@@ -37,3 +37,28 @@ html, body {
     width: 100%;
     max-width: 500px;
   }
+
+  /* Ajusta o toast no mobile */
+@media (max-width: 768px) {
+  .p-toast {
+    bottom: 1.5rem !important;
+    top: auto !important;
+    width: 90vw !important;
+    left: 50% !important;
+    transform: translateX(-50%);
+  }
+
+  .p-toast-message {
+    border-radius: 0.75rem;
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .p-toast-summary {
+    font-weight: 600;
+  }
+
+  .p-toast-detail {
+    font-size: 0.85rem;
+  }
+}
