@@ -36,7 +36,10 @@ export class NavbarComponent {
     {
       label: 'Compras',
       icon: 'pi pi-wallet',
-      routerLink: '/compras'
+      items:[
+         { label: 'Lista de Compras', icon: 'pi pi-list', routerLink: '/compras' },
+        { label: 'Iniciar Compra', icon: 'pi pi-plus', routerLink: '/compras/novo' }
+      ]
     }
   ];
 

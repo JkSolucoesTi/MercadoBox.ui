@@ -31,29 +31,6 @@ export class HomeComponent implements OnInit {
 
   constructor(private compraService: CompraService, private notificacao: NotificacaoService, private router: Router) {
   }
-
   ngOnInit(): void {
-    this.carregarComprasFinalizadas();
   }
-
-  carregarComprasFinalizadas(): void {
-    this.compraService.listarCompras().subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.compras = response.data;
-          this.notificacao.success('Compras', response.message);
-        }else{
-          this.notificacao.success('Compras', response.message);
-        }
-      },
-      error: (err: any) => {
-        this.notificacao.error('Mensagem', "Não foi possível carregar a Lista de Compras");
-      }
-    });
-  }
-
-  verDetalhes(guid: string | undefined): void {
-    this.router.navigate(['/carrinho/' + guid]);
-  }
-
 }

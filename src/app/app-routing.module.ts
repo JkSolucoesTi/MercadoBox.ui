@@ -7,6 +7,7 @@ import { CarrinhoFormComponent } from './pages/carrinho-form/carrinho-form.compo
 import { ProdutosFormComponent } from './pages/produtos/produtos-form/produtos-form.component';
 import { ProdutosListComponent } from './pages/produtos/produtos-list/produtos-list.component';
 import { HomeComponent } from './pages/home/home.component';
+import { CompraListComponent } from './pages/compra/compra-list/compra-list.component';
 
 export const routes: Routes = [
    { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -18,7 +19,8 @@ export const routes: Routes = [
   { path: 'mercados/novo', component: MercadoFormComponent },
   { path: 'mercados/editar/:id', component: MercadoFormComponent },
   { path :'carrinho/:id',component:CarrinhoFormComponent},
-  {path:'compras',component:CompraFormComponent},
+  {path:'compras/novo',component:CompraFormComponent},
+  {path:'compras',component:CompraListComponent},
   { path: '**', redirectTo: 'home' }
 ];
 
