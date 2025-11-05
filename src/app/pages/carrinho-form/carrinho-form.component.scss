@@ -187,3 +187,65 @@ button{
     display: block;
   }
 }
+
+/* Ajusta tabela do carrinho para caber sem scroll no mobile */
+.tabela-carrinho {
+  width: 100%;
+  table-layout: fixed; /* força as colunas a se ajustar */
+  word-wrap: break-word;
+}
+
+/* Cabeçalhos e células: texto menor e quebra automática */
+.tabela-carrinho th,
+.tabela-carrinho td {
+  white-space: normal; /* permite quebra de linha */
+  word-break: break-word;
+  text-align: center;
+  padding: 6px 4px;
+  font-size: 0.9rem;
+}
+
+/* Reduz espaçamento do nome do produto */
+.tabela-carrinho .produto-nome {
+  display: inline-block;
+  max-width: 100%;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 768px) {
+  .tabela-carrinho th,
+  .tabela-carrinho td {
+    font-size: 0.85rem;
+    padding: 4px 2px;
+  }
+
+  /* Reduz altura da linha e bordas */
+  .tabela-carrinho tr {
+    height: auto;
+  }
+
+  /* Evita scroll horizontal */
+  .p-datatable-wrapper {
+    overflow-x: hidden !important;
+  }
+
+  /* Diminui margens e paddings */
+  .container {
+    padding: 8px;
+  }
+
+  /* Remove o aviso de scroll no mobile */
+  .scroll-hint {
+    display: none !important;
+  }
+
+  /* Ajusta o comportamento do nome clicável */
+  .produto-nome {
+    font-size: 0.85rem;
+    white-space: normal;
+    word-break: break-word;
+  }
+}
