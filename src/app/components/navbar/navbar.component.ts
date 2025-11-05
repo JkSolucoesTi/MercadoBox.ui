@@ -19,7 +19,7 @@ export class NavbarComponent {
     },
     {
       label: 'Produtos',
-      icon: 'pi pi-shopping-cart',
+      icon: 'pi pi-box',
       items: [
         { label: 'Lista de Produtos', icon: 'pi pi-list', routerLink: '/produtos' },
         { label: 'Cadastrar Produto', icon: 'pi pi-plus', routerLink: '/produtos/novo' }
@@ -27,7 +27,7 @@ export class NavbarComponent {
     },
     {
       label: 'Mercados',
-      icon: 'pi pi-store',
+      icon: 'pi pi-shopping-cart',
       items: [
         { label: 'Lista de Mercados', icon: 'pi pi-list', routerLink: '/mercados' },
         { label: 'Cadastrar Mercado', icon: 'pi pi-plus', routerLink: '/mercados/novo' }
