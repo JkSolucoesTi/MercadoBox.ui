@@ -8,6 +8,7 @@ import { CompraService } from 'src/app/services/compra.service';
 import { CompraReponse } from 'src/app/model/Dto/response/compraResponse';
 import { NotificacaoService } from 'src/app/shared/notificacao.service';
 import { Router } from '@angular/router';
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,7 @@ import { Router } from '@angular/router';
     CommonModule,
     TableModule,
     BadgeModule,
+    CardModule,
     ButtonModule,
     DividerModule,
 
@@ -50,7 +52,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  verDetalhes(guid: string): void {
+  verDetalhes(guid: string | undefined): void {
     this.router.navigate(['/carrinho/' + guid]);
   }
 

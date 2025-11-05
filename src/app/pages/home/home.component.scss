@@ -43,4 +43,25 @@ zxing-scanner::ng-deep video {
   text-align: center;
 }
 
+:host ::ng-deep .p-card {
+  background-color: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  transition: all 0.2s ease-in-out;
+  padding: 1rem !important;
+}
+
+:host ::ng-deep .hover-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+}
+
+:host ::ng-deep .p-card-content {
+  padding: 0 !important;
+}
+
+:host ::ng-deep .p-card-body {
+  padding: 0 !important;
+}
+
+
 

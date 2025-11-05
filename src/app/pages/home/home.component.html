@@ -1,35 +1,46 @@
 <div class="home-container p-4">
   <h2 class="mb-3 text-green-700">Minhas Compras</h2>
 
-  <p-table [value]="compras" responsiveLayout="scroll" class="custom-table">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Data</th>
-        <th>Itens</th>
-        <th>Valor</th> 
-        <th>
-          Com Desconto
-        </th>     
-        <th>Ações</th>
-      </tr>
-    </ng-template>
+  <div class="grid">
+    <div *ngFor="let compra of compras" class="col-12 sm:col-6 lg:col-4">
+      <p-card class="border-round-md p-3 clean-card">
+        <div class="flex justify-content-between align-items-center mb-2">
+          <div>
+            <div class="text-sm text-500">Data</div>
+            <div class="font-semibold text-900 text-sm">
+              {{ compra.data | date:'dd/MM/yyyy' }}
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-sm text-500">Itens</div>
+            <div class="font-semibold text-900 text-sm">{{ compra.itens.length }}</div>
+          </div>
+        </div>
 
-    <ng-template pTemplate="body" let-compra>
-      <tr>       
-        <td>{{ compra.data | date:'dd/MM/yyyy' }}</td>
-        <td>{{compra.itens.length }}</td>
-        <td>{{ compra.totalSemDesconto | currency:'BRL' }}</td>      
-        <td>{{compra.totalComDesconto | currency:'BRL'}}</td>  
-        <td>
-          <button pButton 
-                  icon="pi pi-search" 
-                  label="Detalhes" 
-                  class="p-button-rounded p-button-sm p-button-success"                  
-                  (click)="verDetalhes(compra.guid)"
-                  >
+        <div class="border-top-1 surface-border my-2"></div>
+
+        <div class="flex justify-content-between mb-1">
+          <span class="text-500 text-sm">Valor:</span>
+          <span class="font-medium">{{ compra.totalSemDesconto | currency:'BRL' }}</span>
+        </div>
+
+        <div class="flex justify-content-between mb-3">
+          <span class="text-500 text-sm">Com desconto:</span>
+          <span class="text-green-600 font-bold">
+            {{ compra.totalComDesconto | currency:'BRL' }}
+          </span>
+        </div>
+
+        <div class="text-right">
+          <button 
+            pButton 
+            icon="pi pi-search"
+            label="Detalhes"
+            class="p-button-rounded p-button-success p-button-sm"
+            (click)="verDetalhes(compra.guid)">
           </button>
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
+        </div>
+      </p-card>
+    </div>
+  </div>
 </div>
