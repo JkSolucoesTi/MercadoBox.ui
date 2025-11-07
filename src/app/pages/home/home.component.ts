@@ -27,10 +27,19 @@ import { CardModule } from 'primeng/card';
 })
 export class HomeComponent implements OnInit {
 
-  compras: CompraReponse[] = [];
+  constructor(private router: Router) {}
 
-  constructor(private compraService: CompraService, private notificacao: NotificacaoService, private router: Router) {
-  }
   ngOnInit(): void {
   }
+
+    menus = [
+    { nome: 'Compras', rota: '/compras', icone: 'pi pi-wallet' },
+    { nome: 'Produtos', rota: '/produtos', icone: 'pi pi-box' },
+    { nome: 'Mercados', rota: '/mercados', icone: 'pi pi-shopping-cart' }
+  ];
+
+  navegar(rota: string) {
+    this.router.navigate([rota]);
+  }
+
 }

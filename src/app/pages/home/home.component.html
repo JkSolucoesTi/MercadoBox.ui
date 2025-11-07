@@ -1,3 +1,20 @@
-<div class="flex justify-content-center align-items-center" style="height: 70vh;">
-  <img src="assets/logo.png" alt="Logo" height="350" class="mb-3" />
+<div class="hero-section">
+  <img src="assets/logo.png" alt="Logo" class="logo" />
+
+  <div class="overlay">
+    <h2 class="titulo">Menu Principal</h2>
+
+    <div class="menu-cards">
+      <p-card
+        *ngFor="let menu of menus"
+        class="menu-card"
+        (click)="navegar(menu.rota)"
+      >
+        <div class="menu-content">
+          <i [class]="menu.icone"></i>
+          <span>{{ menu.nome }}</span>
+        </div>
+      </p-card>
+    </div>
+  </div>
 </div>

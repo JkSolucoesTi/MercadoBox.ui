@@ -2,7 +2,7 @@
   <div class="grid" style="margin-top: auto;">
       <div class="col">
         <p-autoComplete formControlName="codigoDeBarras" [suggestions]="produtosFiltrados" field="codigo"
-          (completeMethod)="search($event)" [minLength]="3" placeholder="Digite o código de barras"
+          (completeMethod)="search($event,'')" [minLength]="3" placeholder="Digite o código de barras"
           (onSelect)="onProdutoSelecionado($event)">
           <ng-template let-produto pTemplate="item">
             <div class="flex flex-column">
@@ -17,11 +17,28 @@
         <button pButton type="button" icon="pi pi-camera" (click)="openScanner()"></button>
       </div>    
       <div class="col-12">
-        <div class="field">
-          <label for="nome">Nome</label>
-          <input id="nome" type="text" pInputText formControlName="nome" placeholder="Nome do Produto" required />
+  <div class="field">
+    <label for="nome">Nome</label>
+    <p-autoComplete 
+      id="nome"
+      formControlName="nome"
+      [suggestions]="produtosFiltrados"
+      field="nome"
+      (completeMethod)="search('',$event)"
+      [minLength]="2"
+      placeholder="Digite o nome do produto"
+      (onSelect)="onProdutoSelecionado($event)">
+      <ng-template let-produto pTemplate="item">
+        <div class="flex flex-column">
+          {{ produto.nome }} <small class="text-color-secondary">{{ produto.codigo }}</small>
         </div>
-      </div>
+      </ng-template>
+      <ng-template let-produto pTemplate="selectedItem">
+        {{ produto.nome }}
+      </ng-template>
+    </p-autoComplete>
+  </div>
+</div>
 
       <div class="col-12 md:col-6">
         <div class="field">

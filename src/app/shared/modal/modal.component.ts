@@ -87,7 +87,7 @@ export class ModalComponent implements OnInit {
 
     const produtoLido = { codigo: code, nome: '' };
     this.form.get('codigoDeBarras')?.setValue(produtoLido);   
-    this.search({ query: code });
+    this.search(code,'' ); 
     this.showScanner = false;
   }
 
@@ -99,8 +99,11 @@ export class ModalComponent implements OnInit {
     return this.form.get('promocao')?.value;
   }
 
-  search(event: any) {
-    let produtoPesquisaSignature = new ProdutoPesquisaSignature(event.query);
+  search(eventCodigo: any,eventNome: any) {
+    debugger;
+    let produtoPesquisaSignature = new ProdutoPesquisaSignature();
+    produtoPesquisaSignature.codigo = eventCodigo.query;
+    produtoPesquisaSignature.nome = eventNome.query;
     this.produtoService.searchByCodigo(produtoPesquisaSignature).subscribe({
       next: (data) => {
         if(data.length == 0)  this.notificacao.info('Mensagem', `Não foi possível encontrar seu produto`)
@@ -113,9 +116,13 @@ export class ModalComponent implements OnInit {
   }
 
   onProdutoSelecionado(produtoResponse: ProdutoResponse) {
-    this.form.get("nome")?.setValue(produtoResponse.nome);
-    this.form.get('codigo')?.setValue(produtoResponse.codigo?.toString());
-    this.form.get('produtoSelecionado')?.setValue(produtoResponse.id);
+    debugger;
+  this.form.patchValue({
+    codigoDeBarras: { codigo: produtoResponse.codigo, nome: produtoResponse.nome },
+    nome: { nome : produtoResponse.nome},
+    preco: produtoResponse.preco ?? 0,
+    produtoSelecionado: produtoResponse.id
+  });
   }
 
   cancelar() {
@@ -125,10 +132,14 @@ export class ModalComponent implements OnInit {
 
   salvar() {
     if (this.form.valid) {
+
+      let nomeProduto = this.form.get('nome')?.value;
+
+
       const itemCarrinho: ItemCarrinhoSignature = {
         guid: this.carrinhoStoreService.getCompraGuid(),
         produtoId: this.form.get('produtoSelecionado')?.value,
-        nome: this.form.get('nome')?.value,
+        nome: nomeProduto.nome,
         preco: this.form.get('preco')?.value,
         quantidade: this.form.get('quantidade')?.value,
         promocao: this.form.get('promocao')?.value,

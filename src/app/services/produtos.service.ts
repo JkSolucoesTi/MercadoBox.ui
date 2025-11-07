@@ -31,6 +31,10 @@ export class ProdutosService {
     return this.http.post<ProdutoResponse[]>(`${environment.apiUrl}/${this.controller}/searchByCodigo`, signature);
   }
 
+  searchByName(signature: ProdutoPesquisaSignature): Observable<ProdutoResponse[]> {
+    return this.http.post<ProdutoResponse[]>(`${environment.apiUrl}/${this.controller}/searchByCodigo`, signature);
+  }
+
   criar(produto: ProdutoSignature): Observable<ProdutoResponse> {
     return this.http.post<ProdutoSignature>(`${environment.apiUrl}/${this.controller}/Create` , produto);
   }
