@@ -38,6 +38,8 @@ html, body {
     max-width: 500px;
   }
 
+
+
   /* Ajusta o toast no mobile */
 @media (max-width: 768px) {
   .p-toast {
@@ -61,4 +63,8 @@ html, body {
   .p-toast-detail {
     font-size: 0.85rem;
   }
+}
+
+.p-progress-spinner-circle {
+  stroke: #00b359 !important;
 }

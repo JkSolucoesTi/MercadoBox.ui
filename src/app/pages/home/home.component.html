@@ -1,13 +1,8 @@
 <div class="hero-section">
   <div class="overlay">
     <img src="assets/logo.png" alt="Logo" class="logo" />
-
     <div class="menu-cards">
-      <p-card
-        *ngFor="let menu of menus"
-        class="menu-card"
-        (click)="navegar(menu.rota)"
-      >
+      <p-card *ngFor="let menu of menus" class="menu-card" (click)="navegar(menu.rota)">
         <div class="menu-content">
           <i [class]="menu.icone"></i>
           <span>{{ menu.nome }}</span>

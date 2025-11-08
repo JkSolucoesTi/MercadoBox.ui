@@ -1,3 +1,10 @@
+:host ::ng-deep .p-progress-spinner {
+  --p-progressspinner-color-one: #00a65a;
+  --p-progressspinner-color-two: #00c851;
+  --p-progressspinner-color-three: #33d9b2;
+  --p-progressspinner-color-four: #a8e6cf;
+}
+
 .hero-section {
   position: relative;
   min-height: 100vh;
@@ -88,3 +95,5 @@
     width: 100%;
   }
 }
+
+

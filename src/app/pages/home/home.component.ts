@@ -4,11 +4,9 @@ import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
 import { TableModule } from 'primeng/table';
 import { BadgeModule } from 'primeng/badge';
-import { CompraService } from 'src/app/services/compra.service';
-import { CompraReponse } from 'src/app/model/Dto/response/compraResponse';
-import { NotificacaoService } from 'src/app/shared/notificacao.service';
 import { Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
+
 
 @Component({
   selector: 'app-home',
@@ -19,8 +17,7 @@ import { CardModule } from 'primeng/card';
     BadgeModule,
     CardModule,
     ButtonModule,
-    DividerModule,
-
+    DividerModule
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
