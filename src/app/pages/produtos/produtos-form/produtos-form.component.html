@@ -5,7 +5,7 @@
     <form [formGroup]="form" (ngSubmit)="salvarProduto()" class="p-fluid">
 
       <div class="field">
-        <label for="nome">Codigo de Barras</label>
+        <label for="nome">Codigo de Barras - EAN13</label>
         <div class="p-inputgroup">
         <input id="nome" type="text" pInputText formControlName="codigo" required
           placeholder="Codigo de Barras do Produto" />
@@ -35,7 +35,8 @@
       </div>
 
 
-      <button pButton type="submit" label="Salvar" icon="pi pi-save" class="p-button-success"></button>
+      <button pButton type="submit" label="Salvar" icon="pi pi-save" class="p-button-success" 
+      [disabled]="form.invalid"></button>
 
     </form>
     <div>

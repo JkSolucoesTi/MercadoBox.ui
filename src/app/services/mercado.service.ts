@@ -39,7 +39,7 @@ export class MercadoService {
   }
 
   criar(mercado: MercadoSignature): Observable<ApiResponse<MercadoResponse>> {
-    return this.http.post<ApiResponse<MercadoResponse>>(`${environment.apiUrl}/${this.controller}/GetAll`, mercado);
+    return this.http.post<ApiResponse<MercadoResponse>>(`${environment.apiUrl}/${this.controller}/Create`, mercado);
   }
 
   atualizar(id: number, mercado: MercadoSignature): Observable<ApiResponse<MercadoResponse>> {

@@ -5,40 +5,42 @@
 
       <div class="field">
         <label>Nome</label>
-        <input type="text" formControlName="nome" pInputText name="nome" required />
+        <input type="text" formControlName="nome" pInputText name="nome" required placeholder="Nome do Mercado"/>
       </div>
   
       <div class="field">
         <label>Endereço</label>
-        <input type="text" formControlName="endereco" pInputText name="endereco" required />
+        <input type="text" formControlName="endereco" pInputText name="endereco" required placeholder="Endereço"/>
       </div>
   
       <div class="field">
         <label>Cidade</label>
-        <input type="text" formControlName="cidade" pInputText name="cidade" required />
+        <input type="text" formControlName="cidade" pInputText name="cidade" required placeholder="Cidade"/>
       </div>
   
       <div class="field">
         <label>Estado</label>
-        <input type="text" formControlName="estado" pInputText  name="estado" required />
+        <input type="text" formControlName="estado" pInputText  name="estado" required placeholder="Estado"/>
       </div>
   
       <div class="field">
-        <label>CNPJ</label>
-        <input type="text" formControlName="cnpj" pInputText  name="cnpj" required />
+        <label>CNPJ</label> 
+        <input type="text" formControlName="cnpj" pInputText  name="cnpj" required mask="00.000.000/0000-00" placeholder="CNPJ" />
       </div>
   
       <div class="field">
         <label>Telefone</label>
-        <input type="text" formControlName="telefone" pInputText name="telefone" required />
+        <input type="text" formControlName="telefone" pInputText name="telefone" required  mask="(00) 0000-00000" placeholder="Telefone"/>
       </div>
 
       <div class="field">
         <label>Descrição</label>
-        <input type="text" formControlName="descricao" pInputText  name="telefone" required />
+        <input type="text" formControlName="descricao" pInputText  name="descricao" required  placeholder="Descrição"/>
       </div>
     
-      <button pButton type="submit" label="Salvar" icon="pi pi-save" class="p-button-success"></button>
+      <button pButton type="submit" label="Salvar" icon="pi pi-save" class="p-button-success" 
+      [disabled]="form.invalid"
+      ></button>
     </form>
    </p-card>
   </div>

@@ -61,7 +61,7 @@ export class ProdutosFormComponent {
 
     this.form = this.fb.group({
       id: [null],
-      codigo: [, [Validators.required, Validators.min(0)]],
+      codigo: [, [Validators.required, Validators.minLength(13),Validators.maxLength(13)]],
       nome: ['', Validators.required],
       categoriaId: ["", Validators.required],
       descricao: ["", Validators.required]
@@ -137,7 +137,6 @@ export class ProdutosFormComponent {
     } else {
       this.produtosService.criar(produto).subscribe({
         next: () => {
-          // this.router.navigate(['/produtos']);
           this.notificacao.success('Mensagem', 'Produto cadastrado com sucesso')
           this.form.reset();
         }, error: (error) => {

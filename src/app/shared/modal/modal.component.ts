@@ -155,7 +155,7 @@ export class ModalComponent implements OnInit {
         }
       })
     } else {
-      console.warn('Formulário inválido!');
+      this.notificacao.info("Mensagem","Codigo de barras / Nome do Produto são campos obrigatórios")
     }
   }
 

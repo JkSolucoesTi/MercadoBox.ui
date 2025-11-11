@@ -4,10 +4,11 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Mercado, MercadoService } from '../../../services/mercado.service';
+import { MercadoService } from '../../../services/mercado.service';
 import { CardModule } from 'primeng/card';
 import { MercadoSignature } from 'src/app/model/Dto/signature/mercadoSignature';
 import { NotificacaoService } from 'src/app/shared/notificacao.service';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-mercado-form',
@@ -18,7 +19,8 @@ import { NotificacaoService } from 'src/app/shared/notificacao.service';
     ButtonModule,
     RouterModule,
     CardModule,
-    ReactiveFormsModule],
+    ReactiveFormsModule ,
+   NgxMaskDirective, NgxMaskPipe],
   templateUrl: './mercado-form.component.html',
   styleUrls: ['./mercado-form.component.scss']
 })
@@ -43,7 +45,7 @@ export class MercadoFormComponent implements OnInit {
       endereco: ['', Validators.required],
       cidade: ['', Validators.required],
       estado: ['', Validators.required],
-      cnpj: ['', Validators.required],
+      cnpj: ['', [Validators.required , Validators.maxLength(18) ]],
       telefone: ['', Validators.required],
       descricao: ['', Validators.required]
     })
@@ -55,6 +57,7 @@ export class MercadoFormComponent implements OnInit {
   }
 
   salvarMercado() {
+    
     this.mercado = this.form.value;
     if (this.mercado.id) {
       this.mercadoService.atualizar(this.mercado.id, this.mercado).subscribe({
@@ -67,7 +70,7 @@ export class MercadoFormComponent implements OnInit {
           }
         }
         , error: (erro) => {
-          this.notificacao.error('Mensagem', `Não foi possível cadasatrar o mercado ${erro.error}`);
+          this.notificacao.error('Mensagem', `Não foi possível editar o mercado ${erro.error}`);
         }
       });
     } else {
@@ -81,7 +84,7 @@ export class MercadoFormComponent implements OnInit {
           }
         }
         , error: (erro) => {
-          this.notificacao.error('Mensagem', `Não foi possível editar o mercado ${erro.error}`);
+          this.notificacao.error('Mensagem', `Não foi possível cadastrar o mercado ${erro.error}`);
         }
       });
     }

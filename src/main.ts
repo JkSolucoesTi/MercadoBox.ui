@@ -10,6 +10,7 @@ import localePt from '@angular/common/locales/pt';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { loaderInterceptor } from './app/core/interceptors/loader.interceptor';
+import { provideNgxMask } from 'ngx-mask';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -20,8 +21,11 @@ bootstrapApplication(AppComponent, {
     },    
     provideRouter(routes),
     provideHttpClient(
-      withInterceptors([loaderInterceptor]) // registra o interceptor funcional
+      withInterceptors([loaderInterceptor]) 
     ),
+    provideNgxMask({
+    dropSpecialCharacters: true // remove pontos, traços e barras
+  }),
     provideAnimations(),
     importProvidersFrom(DynamicDialogModule,BrowserAnimationsModule),
     DialogService,
