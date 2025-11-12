@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Categoria } from 'src/app/model/categoria/categoria';
@@ -9,6 +9,7 @@ import { ApiUrlHelper } from '../core/helpers/api-url.helper';
 import { API_CONFIG } from '../core/config/api.config';
 import { ProdutoPesquisaSignature } from '../model/Dto/signature/produtoPesquisaSignature';
 import { environment } from 'src/environments/environment';
+import { PaginatedResult } from '../model/Dto/response/paginacoResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,15 @@ export class ProdutosService {
   listar(): Observable<ProdutoResponse[]> {
     return this.http.get<ProdutoResponse[]>(`${environment.apiUrl}/${this.controller}/GetAll`);
   }
+
+  listarProdutosPaginado(pagina: number, tamanhoPagina: number , filtro: string = "") : Observable<PaginatedResult<ProdutoResponse>> {
+
+    const params = new HttpParams()
+      .set('page', pagina)
+      .set('pageSize', tamanhoPagina)      
+  
+      return this.http.get<PaginatedResult<ProdutoResponse>>(`${environment.apiUrl}/Produtos/GetProdutos`, { params });
+}
 
   buscarPorId(id: number): Observable<ProdutoResponse> {
     return this.http.get<ProdutoResponse>(`${environment.apiUrl}/${this.controller}/${id}`);

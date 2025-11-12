@@ -36,3 +36,98 @@
   max-width: 220px;
   margin-bottom: 0.5rem;
 }
+
+.flex-grow-1 {
+  flex-grow: 1; /* Faz o autocomplete ocupar toda a largura disponível */
+}
+
+.w-full {
+  width: 100% !important;
+}
+.mt-3 {
+  margin-top: 1.5rem;
+}
+
+.search-bar {
+  position: sticky;
+  top: 70px; 
+  z-index: 100;
+  background-color: transparent;
+  padding: 0.5rem 0;
+  backdrop-filter: blur(4px); 
+}
+
+.search-bar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.1), transparent);
+  pointer-events: none;
+}
+
+.search-bar .p-autocomplete {
+  width: 100%;
+}
+
+.paginator-fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.3rem 0; // mais fino
+  z-index: 1000;
+
+  // torna o paginator mais compacto
+  ::ng-deep .p-paginator {
+    margin: 0;
+    padding: 0;
+    font-size: 0.85rem; // texto menor
+    min-height: 36px; // altura mais baixa
+  }
+
+  // botões menores
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #21f333; 
+}
+  ::ng-deep .p-paginator .p-paginator-first,
+  ::ng-deep .p-paginator .p-paginator-last,
+  ::ng-deep .p-paginator .p-paginator-next,
+  ::ng-deep .p-paginator .p-paginator-prev {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    font-size: 0.85rem;
+    margin: 0 2px;
+  }
+
+  // seletor de quantidade (dropdown)
+  ::ng-deep .p-paginator .p-dropdown {
+    height: 28px;
+    font-size: 0.8rem;
+  }
+}
+
+::ng-deep .p-paginator .p-dropdown {
+  height: 30px; /* o mesmo tamanho que você já tinha */
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .p-dropdown-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2px; /* 🔥 ajusta verticalmente o número */
+  }
+}

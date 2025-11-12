@@ -41,7 +41,7 @@ export class MercadoListComponent implements OnInit {
           }
         }
         , error: (erro) => {
-          console.error('Mensagem', "Não foi possível carregar os mercados");
+          this.notificacao.error('Mensagem', "Não foi possível carregar os mercados");
         }
       });
   }

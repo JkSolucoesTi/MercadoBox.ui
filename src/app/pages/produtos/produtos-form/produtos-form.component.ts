@@ -103,7 +103,7 @@ export class ProdutosFormComponent {
         }
       }
       , error: (erro : any) => {
-        this.notificacao.error('Mensagem', erro.name);
+        this.notificacao.error('Mensagem', "Não foi possível carregar os produtos");
       }
     })
   }

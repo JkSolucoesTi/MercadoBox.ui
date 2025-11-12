@@ -1,12 +1,27 @@
 <div class="container p-4">
-  <app-panel 
-  [titulo]="'Produtos'" 
-  [descricao]="'Gerencie seus produtos'" 
-  [rota]="'/produtos/novo'" 
-  [btnDescricao]="'Produto'"
-  [modal]="false"
-  >=
+  <app-panel [titulo]="'Produtos'" [descricao]="'Gerencie seus produtos'" [rota]="'/produtos/novo'"
+    [btnDescricao]="'Produto'" [modal]="false">
   </app-panel>
+
+  <!-- <div class="search-bar flex align-items-center gap-2 mb-3 mt-3">
+    <div class="flex-grow-1">
+      <p-autoComplete [suggestions]="produtosFiltrados" field="codigo" (completeMethod)="search($event)" [minLength]="3"
+        placeholder="Pesquise aqui o seu produto" (onSelect)="onProdutoSelecionado($event)" [style]="{ width: '100%' }"
+        inputStyleClass="w-full">
+        <ng-template let-produto pTemplate="item">
+          <div class="flex flex-column">{{ produto.nome }}</div>
+        </ng-template>
+        <ng-template let-produto pTemplate="selectedItem">
+          {{ produto.codigo }}
+        </ng-template>
+      </p-autoComplete>
+    </div>
+
+    <div class="flex align-items-center">
+      <button [disabled]="true" pButton type="button" icon="pi pi-search" (click)="openScanner()"
+        class="p-button-outlined" pTooltip="Pesquisar" tooltipPosition="top"></button>
+    </div>
+  </div> -->
 
   <p-divider />
 
@@ -22,13 +37,17 @@
         </div>
         <div class="mb-2 flex align-items-center gap-2 text-gray-700">
           <i class="pi pi-barcode"></i>
-          <span>{{produto.codigo}}</span>
+          <span>{{ produto.codigo }}</span>
         </div>
-        <div class="text-gray-600 text-sm mb-1">{{produto.descricao}}</div>
+        <div class="text-gray-600 text-sm mb-1">{{ produto.descricao }}</div>
         <div class="barcode-section">
           <app-barcode-ean13 [codigo]="produto.codigo"></app-barcode-ean13>
         </div>
       </p-card>
     </div>
   </div>
+</div>
+<div class="paginator-fixed">
+  <p-paginator [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5, 10, 15]"
+    [showFirstLastIcon]="false" (onPageChange)="onPageChange($event)"></p-paginator>
 </div>

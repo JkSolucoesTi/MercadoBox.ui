@@ -17,10 +17,13 @@ import { ProdutoResponse } from 'src/app/model/Dto/response/produtoResponse';
 import { NotificacaoService } from 'src/app/shared/notificacao.service';
 import { ToastModule } from 'primeng/toast';
 import { BarcodeEan13Component } from 'src/app/shared/barcode-ean13/barcode-ean13.component';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { PaginatorModule } from 'primeng/paginator';
+import { PaginatedResult } from 'src/app/model/Dto/response/paginacoResponse';
 
 @Component({
   selector: 'app-produtos-list',
- standalone: true,
+  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
@@ -35,37 +38,78 @@ import { BarcodeEan13Component } from 'src/app/shared/barcode-ean13/barcode-ean1
     DividerModule,
     PanelComponent,
     ToastModule,
-    BarcodeEan13Component 
-],
+    BarcodeEan13Component,
+    AutoCompleteModule,
+    PaginatorModule
+  ],
   templateUrl: './produtos-list.component.html',
   styleUrls: ['./produtos-list.component.scss']
 })
 export class ProdutosListComponent implements OnInit {
 
-    items: any[] = [];
-  
-    produtos: ProdutoResponse[] = [];
-   
-    constructor(private produtosService: ProdutosService , private notificacao : NotificacaoService) {}
-  
-    ngOnInit() {
-      this.listarProdutos();  
+  items: any[] = [];
+
+  produtos: ProdutoResponse[] = [];
+
+  constructor(private produtosService: ProdutosService, private notificacao: NotificacaoService) { }
+
+  ngOnInit() {
+    this.carregarProdutos(1,10);
   }
-  
-    listarProdutos() {
-      this.produtosService.listar().subscribe({
-        next : (data) =>{
-          this.produtos = data;
-          this.notificacao.info('Mensagem','Produtos carregados')
-        }
-        ,error : (erro) =>{
-          this.notificacao.error('Mensagem',`Não foi possível listar os produtos :  ${erro.error}`);    
-        }
+
+  listarProdutos() {
+    this.produtosService.listar().subscribe({
+      next: (data) => {
+        this.produtos = data;
+        this.notificacao.info('Mensagem', 'Produtos carregados')
       }
-    )}
-   
+      , error: (erro) => {
+        this.notificacao.error('Mensagem', `Não foi possível listar os produtos :  ${erro.error}`);
+      }
+    }
+    )
+  }
+
   deletarProduto(id: number) {
     this.produtosService.deletar(id).subscribe(() => this.listarProdutos());
   }
-  
+
+  produtosFiltrados: any[] = [];
+  produtoSelecionado: any;
+
+  public openScanner() {
+
+  }
+
+  public onProdutoSelecionado(event: any) {
+
+  }
+
+  public search(event: any) {
+
+  }
+
+  /* paginação*/
+  first: number = 0;
+  rows: number = 10;
+  totalRecords: number = 0;
+  paginaAtual: number = 1;
+
+  onPageChange(event: any) {
+  this.first = event.first;
+  this.rows = event.rows;
+  this.paginaAtual = event.page + 1;
+  this.carregarProdutos(this.paginaAtual, this.rows);
+}
+
+carregarProdutos(pagina: number, tamanhoPagina: number) {
+  this.produtosService.listarProdutosPaginado(pagina,tamanhoPagina)
+    .subscribe({
+      next: (response: PaginatedResult<ProdutoResponse>) => {
+        this.produtos = response.itens;
+        this.totalRecords = response.totalRegistros;       
+      },
+      error: (err) => console.error(err)
+    });
+}
 }

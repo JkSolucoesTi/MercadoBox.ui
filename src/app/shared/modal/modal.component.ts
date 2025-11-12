@@ -100,7 +100,6 @@ export class ModalComponent implements OnInit {
   }
 
   search(eventCodigo: any,eventNome: any) {
-    debugger;
     let produtoPesquisaSignature = new ProdutoPesquisaSignature();
     produtoPesquisaSignature.codigo = eventCodigo.query;
     produtoPesquisaSignature.nome = eventNome.query;
