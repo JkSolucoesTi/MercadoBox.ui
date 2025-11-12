@@ -109,7 +109,9 @@ carregarProdutos(pagina: number, tamanhoPagina: number) {
         this.produtos = response.itens;
         this.totalRecords = response.totalRegistros;       
       },
-      error: (err) => console.error(err)
+      error: () =>{
+         this.notificacao.error('Mensagem', `Não foi possível listar os produtos`);
+      }
     });
 }
 }

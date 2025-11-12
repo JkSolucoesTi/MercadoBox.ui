@@ -110,16 +110,11 @@
     margin: 0 2px;
   }
 
-  // seletor de quantidade (dropdown)
-  ::ng-deep .p-paginator .p-dropdown {
-    height: 28px;
-    font-size: 0.8rem;
-  }
 }
 
 ::ng-deep .p-paginator .p-dropdown {
   height: 30px; /* o mesmo tamanho que você já tinha */
-  font-size: 0.8rem;
+  font-size: 0.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -128,6 +123,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 2px; /* 🔥 ajusta verticalmente o número */
+    padding-top: 6px; /* 🔥 ajusta verticalmente o número */
   }
 }
