@@ -19,8 +19,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     ButtonModule,
     RouterModule,
     CardModule,
-    ReactiveFormsModule ,
-   NgxMaskDirective, NgxMaskPipe],
+    ReactiveFormsModule],
   templateUrl: './mercado-form.component.html',
   styleUrls: ['./mercado-form.component.scss']
 })

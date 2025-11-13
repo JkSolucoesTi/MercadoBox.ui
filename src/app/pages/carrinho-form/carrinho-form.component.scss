@@ -1,5 +1,5 @@
 .container{
-  padding-bottom: 80px;
+  padding-bottom: 120px;
 }
 
 label {
@@ -188,24 +188,21 @@ button{
   }
 }
 
-/* Ajusta tabela do carrinho para caber sem scroll no mobile */
 .tabela-carrinho {
   width: 100%;
   table-layout: fixed; /* força as colunas a se ajustar */
   word-wrap: break-word;
 }
 
-/* Cabeçalhos e células: texto menor e quebra automática */
 .tabela-carrinho th,
 .tabela-carrinho td {
-  white-space: normal; /* permite quebra de linha */
+  white-space: normal; 
   word-break: break-word;
   text-align: center;
   padding: 6px 4px;
   font-size: 0.9rem;
 }
 
-/* Reduz espaçamento do nome do produto */
 .tabela-carrinho .produto-nome {
   display: inline-block;
   max-width: 100%;
@@ -248,4 +245,10 @@ button{
     white-space: normal;
     word-break: break-word;
   }
+
+    .container {
+    padding-bottom: 160px !important;
+  }
 }
+
+
