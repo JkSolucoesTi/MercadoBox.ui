@@ -28,7 +28,7 @@
           <td>
             <ng-container *ngIf="item.promocao; else precoNormal">
               <div class="preco-vertical">
-                <span class="preco-antigo">De: {{ item.valor * item.quantidade | currency:'BRL' }}</span>
+                <span class="preco-antigo">De: {{ item.valor  | currency:'BRL' }}</span>
                 <span class="preco-promocional">Por: {{ item.valorPromocional | currency:'BRL' }}</span>
               </div>
             </ng-container>

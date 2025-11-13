@@ -10,4 +10,5 @@ export class CompraReponse{
     itens: ItemCarrinho[]=[]
     totalSemDesconto?: number;
     totalComDesconto?: number;
+    totalItens?:number;
 }
