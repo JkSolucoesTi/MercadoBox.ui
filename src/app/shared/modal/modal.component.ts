@@ -83,8 +83,8 @@ export class ModalComponent implements OnInit {
     this.showScanner = true;
   }
 
-  onBarcodeScanned(code: string) {
-
+  onBarcodeScanned(code: any) {
+    debugger;
     const produtoLido = { codigo: code, nome: '' };
     this.form.get('codigoDeBarras')?.setValue(produtoLido);   
     this.search(code,'' ); 
@@ -100,9 +100,14 @@ export class ModalComponent implements OnInit {
   }
 
   search(eventCodigo: any,eventNome: any) {
+    debugger;
+    const codigo = eventCodigo?.query ?? eventCodigo;
+    const nome = eventCodigo?.query ?? eventCodigo;
+   
+
     let produtoPesquisaSignature = new ProdutoPesquisaSignature();
-    produtoPesquisaSignature.codigo = eventCodigo.query;
-    produtoPesquisaSignature.nome = eventNome.query;
+    produtoPesquisaSignature.codigo = codigo;
+    produtoPesquisaSignature.nome = nome;
     this.produtoService.searchByCodigo(produtoPesquisaSignature).subscribe({
       next: (data) => {
         if(data.length == 0)  this.notificacao.info('Mensagem', `Não foi possível encontrar seu produto`)
