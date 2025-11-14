@@ -72,57 +72,82 @@
   width: 100%;
 }
 
+/* ===== Estilização Paginator ===== */
 .paginator-fixed {
-  position: fixed;
+  background: #f8f8f8;
+  padding: 8px 0;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+  position: sticky; /* ou fixed se quiser colado na tela */
   bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #ffffff;
-  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
+  z-index: 999;
+}
+
+/* Área interna */
+.p-paginator {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.3rem 0; // mais fino
-  z-index: 1000;
-
-  // torna o paginator mais compacto
-  ::ng-deep .p-paginator {
-    margin: 0;
-    padding: 0;
-    font-size: 0.85rem; // texto menor
-    min-height: 36px; // altura mais baixa
-  }
-
-  // botões menores
-::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #21f333; 
-}
-  ::ng-deep .p-paginator .p-paginator-first,
-  ::ng-deep .p-paginator .p-paginator-last,
-  ::ng-deep .p-paginator .p-paginator-next,
-  ::ng-deep .p-paginator .p-paginator-prev {
-    width: 30px;
-    height: 30px;
-    min-width: 30px;
-    font-size: 0.85rem;
-    margin: 0 2px;
-  }
-
+  gap: 6px;
 }
 
-::ng-deep .p-paginator .p-dropdown {
-  height: 30px; /* o mesmo tamanho que você já tinha */
-  font-size: 0.2rem;
+/* Botões padrão */
+.p-paginator .p-paginator-element {
+  border-radius: 8px !important;
+  border: 1px solid #dcdcdc !important;
+  background: white !important;
+  color: #444 !important;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: 0.25s ease;
+  cursor: pointer;
+}
 
-  .p-dropdown-label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: 6px; /* 🔥 ajusta verticalmente o número */
+/* Hover */
+.p-paginator .p-paginator-element:not(.p-disabled):hover {
+  border-color: #2e7d32 !important;
+  color: #2e7d32 !important;
+  box-shadow: 0 0 4px rgba(46, 125, 50, 0.4) !important;
+}
+
+/* Página ativa */
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: #2e7d32 !important;
+  color: white !important;
+  border-color: #2e7d32 !important;
+  font-weight: bold;
+  box-shadow: 0 0 5px rgba(0, 100, 0, 0.4);
+}
+
+/* Botões de navegação (setas) */
+.p-paginator .p-paginator-prev,
+.p-paginator .p-paginator-next {
+  border-radius: 8px !important;
+  background: #f0f0f0 !important;
+}
+
+/* Hover seta */
+.p-paginator .p-paginator-prev:hover,
+.p-paginator .p-paginator-next:hover {
+  background: #e6e6e6 !important;
+  border-color: #2e7d32 !important;
+  color: #2e7d32 !important;
+}
+
+/* Desabilitado */
+.p-paginator .p-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .p-paginator .p-paginator-element {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
   }
 }
+
