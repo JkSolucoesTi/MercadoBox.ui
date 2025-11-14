@@ -21,7 +21,7 @@ import { ItemCarrinhoSignature } from 'src/app/model/Dto/signature/itemCarrinhoS
 import { CarrinhoService } from 'src/app/pages/carrinho-form/service/carrinho.service';
 import { NotificacaoService } from '../notificacao.service';
 import { BarcodeScannerComponent } from '../barcode-scanner/barcode-scanner.component';
-import { Subject } from 'rxjs';
+import { min, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-modal',
@@ -67,7 +67,7 @@ export class ModalComponent implements OnInit {
 
     this.form = this.fb.group({
       produtoSelecionado: [null],
-      codigoDeBarras: ['', [Validators.required]],
+      codigoDeBarras: ['', [Validators.required , Validators.minLength(13), Validators.maxLength(13)]],
       nome: ['', Validators.required],
       preco: [0, Validators.required],
       quantidade: [1, Validators.required],
@@ -87,7 +87,7 @@ export class ModalComponent implements OnInit {
     debugger;
     const produtoLido = { codigo: code, nome: '' };
     this.form.get('codigoDeBarras')?.setValue(produtoLido);   
-    this.search(code,'' ); 
+    this.search(code,"" ); 
     this.showScanner = false;
   }
 
@@ -99,17 +99,21 @@ export class ModalComponent implements OnInit {
     return this.form.get('promocao')?.value;
   }
 
-  search(eventCodigo: any,eventNome: any) {
-    debugger;
-    const codigo = eventCodigo?.query ?? eventCodigo;
-   
+  search(eventCodigo: any,eventNome: any) {  
+    
+    const query = eventCodigo?.query ?? eventCodigo;
+
     let produtoPesquisaSignature = new ProdutoPesquisaSignature();
-    produtoPesquisaSignature.codigo = codigo;
+    produtoPesquisaSignature.codigo = query;
     produtoPesquisaSignature.nome = eventNome.query;
     this.produtoService.searchByCodigo(produtoPesquisaSignature).subscribe({
       next: (data) => {
         if(data.length == 0)  this.notificacao.info('Mensagem', `Não foi possível encontrar seu produto`)
         this.produtosFiltrados = data
+
+        if (data.length === 1) {
+        this.onProdutoSelecionado(data[0]);
+      }
       },
       error: (err) => {
         this.notificacao.error('Mensagem', `Não foi possível encontrar seu produto : ${err.error}`)

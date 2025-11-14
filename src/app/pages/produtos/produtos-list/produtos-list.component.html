@@ -8,7 +8,7 @@
       <form [formGroup]="form">
         <p-autoComplete formControlName="produto" [suggestions]="produtosFiltrados"
           (completeMethod)="search($event)" [minLength]="3" placeholder="Pesquise aqui o seu produto"
-          (onSelect)="onProdutoSelecionado($event)" [style]="{ width: '100%' }" inputStyleClass="w-full">
+          (onSelect)="onProdutoSelecionado($event)" [style]="{ width: '100%' }" inputStyleClass="w-full" [maxlength]="13">
           <ng-template let-produto pTemplate="item">
             <div class="flex flex-column">{{ produto.nome }}</div>
           </ng-template>
