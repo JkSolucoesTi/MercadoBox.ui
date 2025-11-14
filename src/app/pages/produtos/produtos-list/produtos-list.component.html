@@ -5,20 +5,22 @@
 
   <div class="search-bar flex align-items-center gap-2 mb-3 mt-3">
     <div class="flex-grow-1">
-      <p-autoComplete [suggestions]="produtosFiltrados" field="codigo" (completeMethod)="search($event)" [minLength]="3"
-        placeholder="Pesquise aqui o seu produto" (onSelect)="onProdutoSelecionado($event)" [style]="{ width: '100%' }"
-        inputStyleClass="w-full">
-        <ng-template let-produto pTemplate="item">
-          <div class="flex flex-column">{{ produto.nome }}</div>
-        </ng-template>
-        <ng-template let-produto pTemplate="selectedItem">
-          {{ produto.codigo }}
-        </ng-template>
-      </p-autoComplete>
+      <form [formGroup]="form">
+        <p-autoComplete formControlName="produto" [suggestions]="produtosFiltrados"
+          (completeMethod)="search($event)" [minLength]="3" placeholder="Pesquise aqui o seu produto"
+          (onSelect)="onProdutoSelecionado($event)" [style]="{ width: '100%' }" inputStyleClass="w-full">
+          <ng-template let-produto pTemplate="item">
+            <div class="flex flex-column">{{ produto.nome }}</div>
+          </ng-template>
+           <ng-template let-produto pTemplate="selectedItem">
+              {{ produto.codigo }} - {{ produto.nome }}
+           </ng-template>
+        </p-autoComplete>
+      </form>
     </div>
 
-    <div class="flex align-items-center">
-      <button [disabled]="true" pButton type="button" icon="pi pi-search" (click)="openScanner()"
+    <div class="flex align-items-center">      
+      <button pButton type="button" icon="pi pi-search" (click)="consultar()"
         class="p-button-outlined" pTooltip="Pesquisar" tooltipPosition="top"></button>
     </div>
   </div>
@@ -27,20 +29,16 @@
 
   <div class="grid">
     <div class="col-12 md:col-6 lg:col-4" *ngFor="let produto of produtos">
-        <app-produtos-card [produto]="produto" (abrirCodigo)="abrirModalCodigo($event)"></app-produtos-card>
+      <app-produtos-card [produto]="produto" (abrirCodigo)="abrirModalCodigo($event)"></app-produtos-card>
     </div>
   </div>
 
-<p-dialog [(visible)]="modalCodigo" header="Codigo de Barras">
+  <p-dialog [(visible)]="modalCodigo" header="Codigo de Barras">
     <app-barcode-ean13 [codigo]="codigoSelecionado"></app-barcode-ean13>
-</p-dialog>
+  </p-dialog>
 
 </div>
 <div class="paginator-fixed">
-  <p-paginator [first]="first"
-   [rows]="rows" 
-   [totalRecords]="totalRecords" 
-   [pageLinkSize]="2"
-   [rowsPerPageOptions]="[5, 10, 15]"
-    [showFirstLastIcon]="false" (onPageChange)="onPageChange($event)"></p-paginator>
+  <p-paginator [first]="first" [rows]="rows" [totalRecords]="totalRecords" [pageLinkSize]="2"
+    [rowsPerPageOptions]="[5, 10, 15]" [showFirstLastIcon]="false" (onPageChange)="onPageChange($event)"></p-paginator>
 </div>

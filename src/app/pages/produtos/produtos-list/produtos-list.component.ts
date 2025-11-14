@@ -8,7 +8,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { PanelModule } from 'primeng/panel';
@@ -22,6 +22,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { PaginatedResult } from 'src/app/model/Dto/response/paginacoResponse';
 import { ProdutosCardComponent } from '../produtos-card/produtos-card.component';
 import { DialogModule } from 'primeng/dialog';
+import { ProdutoPesquisaSignature } from 'src/app/model/Dto/signature/produtoPesquisaSignature';
 
 @Component({
   selector: 'app-produtos-list',
@@ -42,23 +43,33 @@ import { DialogModule } from 'primeng/dialog';
     ProdutosCardComponent,
     ToastModule,
     BarcodeEan13Component,
-    AutoCompleteModule,    
+    AutoCompleteModule,
     PaginatorModule,
-    DialogModule
+    DialogModule,
+    ReactiveFormsModule
   ],
   templateUrl: './produtos-list.component.html',
   styleUrls: ['./produtos-list.component.scss']
 })
 export class ProdutosListComponent implements OnInit {
 
+  constructor(private fb: FormBuilder, private produtosService: ProdutosService, private notificacao: NotificacaoService) { }
+
+  form!: FormGroup;
   items: any[] = [];
-  header : string = "";
+  header: string = "";
   produtos: ProdutoResponse[] = [];
 
-  constructor(private produtosService: ProdutosService, private notificacao: NotificacaoService) { }
 
   ngOnInit() {
-    this.carregarProdutos(1,10);
+    this.carregarProdutos(1, 10, '');
+
+
+    this.form = this.fb.group({
+      produtoSelecionado: [null],
+      produto: []
+    });
+
   }
 
   listarProdutos() {
@@ -81,50 +92,71 @@ export class ProdutosListComponent implements OnInit {
   produtosFiltrados: any[] = [];
   produtoSelecionado: any;
 
-  public openScanner() {
+  public consultar() {
+    this.carregarProdutos(1, 10, '');
+    this.form.get('produto')?.setValue(null);
 
   }
 
-  public onProdutoSelecionado(event: any) {
-
+  public limparBusca() {
+  this.form.reset();
+  this.produtosFiltrados = [];
+  this.carregarProdutos(1, 10,'');
+  this.notificacao.info('Mensagem', 'Consulta limpa');
   }
 
-  public search(event: any) {
-
+  onProdutoSelecionado(produto: any) {
+    var descricao = `${produto.codigo} - ${produto.nome}`;
+    this.form.get('produto')?.setValue(descricao);
+    this.carregarProdutos(1, 10, produto.codigo);
   }
 
-  /* paginação*/
+  search(eventCodigo: any) {
+    let produtoPesquisaSignature = new ProdutoPesquisaSignature();
+    produtoPesquisaSignature.codigo = eventCodigo.query;
+    produtoPesquisaSignature.nome = eventCodigo.query;
+    this.produtosService.searchByCodigo(produtoPesquisaSignature).subscribe({
+      next: (data) => {
+        if (data.length == 0) this.notificacao.info('Mensagem', `Não foi possível encontrar seu produto`)
+        this.produtosFiltrados = data
+      },
+      error: (err) => {
+        this.notificacao.error('Mensagem', `Não foi possível encontrar seu produto : ${err.error}`)
+      }
+    });
+  }
+
   first: number = 0;
   rows: number = 10;
   totalRecords: number = 0;
   paginaAtual: number = 1;
 
   onPageChange(event: any) {
-  this.first = event.first;
-  this.rows = event.rows;
-  this.paginaAtual = event.page + 1;
-  this.carregarProdutos(this.paginaAtual, this.rows);
-}
+    this.first = event.first;
+    this.rows = event.rows;
+    this.paginaAtual = event.page + 1;
+    this.carregarProdutos(this.paginaAtual, this.rows, '');
+  }
 
-carregarProdutos(pagina: number, tamanhoPagina: number) {
-  this.produtosService.listarProdutosPaginado(pagina,tamanhoPagina)
-    .subscribe({
-      next: (response: PaginatedResult<ProdutoResponse>) => {
-        this.produtos = response.itens;
-        this.totalRecords = response.totalRegistros;       
-      },
-      error: () =>{
-         this.notificacao.error('Mensagem', `Não foi possível listar os produtos`);
-      }
-    });
-}
+  carregarProdutos(pagina: number, tamanhoPagina: number, filtro: string) {
+    this.produtosService.listarProdutosPaginado(pagina, tamanhoPagina, filtro)
+      .subscribe({
+        next: (response: PaginatedResult<ProdutoResponse>) => {
+          this.produtos = response.itens;
+          this.totalRecords = response.totalRegistros;
+        },
+        error: () => {
+          this.notificacao.error('Mensagem', `Não foi possível listar os produtos`);
+        }
+      });
+  }
 
-modalCodigo = false;
-codigoSelecionado = '';
+  modalCodigo = false;
+  codigoSelecionado = '';
 
-abrirModalCodigo(codigo: string) {
-  this.codigoSelecionado = codigo;
-  this.modalCodigo = true;
-  setTimeout(() => {}, 50);
-}
+  abrirModalCodigo(codigo: string) {
+    this.codigoSelecionado = codigo;
+    this.modalCodigo = true;
+    setTimeout(() => { }, 50);
+  }
 }

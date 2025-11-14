@@ -3,11 +3,6 @@
     <app-panel [titulo]="'Meu Carrinho'" [descricao]="'Adicione aqui os itens de sua compra'" [rota]="''"
       [btnDescricao]="'Itens'" [modal]="true"></app-panel>
     <p-divider />
-
-    <div class="scroll-hint">
-      <i class="pi pi-arrows-h scroll-icon"></i>
-      Deslize para o lado para ver mais
-    </div>
     <p-table [value]="compraResponse.itens" responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>

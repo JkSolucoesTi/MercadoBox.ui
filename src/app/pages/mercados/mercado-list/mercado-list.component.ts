@@ -9,12 +9,13 @@ import { DividerModule } from 'primeng/divider';
 import { PanelComponent } from 'src/app/shared/panel/panel.component';
 import { MercadoResponse } from 'src/app/model/Dto/response/mercadoResponse';
 import { NotificacaoService } from 'src/app/shared/notificacao.service';
+import { MercadoCardComponent } from '../mercado-card/mercado-card.component';
 
 
 @Component({
   selector: 'app-mercado-list',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, RouterModule, CardModule, PanelComponent, DividerModule],
+  imports: [CommonModule, TableModule, ButtonModule, RouterModule, CardModule, PanelComponent, DividerModule,MercadoCardComponent],
   templateUrl: './mercado-list.component.html',
   styleUrls: ['./mercado-list.component.scss']
 })

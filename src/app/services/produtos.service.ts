@@ -28,7 +28,8 @@ export class ProdutosService {
 
     const params = new HttpParams()
       .set('page', pagina)
-      .set('pageSize', tamanhoPagina)      
+      .set('pageSize', tamanhoPagina)     
+      .set('filtro',filtro) 
   
       return this.http.get<PaginatedResult<ProdutoResponse>>(`${environment.apiUrl}/Produtos/GetProdutos`, { params });
 }
