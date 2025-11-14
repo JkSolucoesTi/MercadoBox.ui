@@ -102,12 +102,10 @@ export class ModalComponent implements OnInit {
   search(eventCodigo: any,eventNome: any) {
     debugger;
     const codigo = eventCodigo?.query ?? eventCodigo;
-    const nome = eventCodigo?.query ?? eventCodigo;
    
-
     let produtoPesquisaSignature = new ProdutoPesquisaSignature();
     produtoPesquisaSignature.codigo = codigo;
-    produtoPesquisaSignature.nome = nome;
+    produtoPesquisaSignature.nome = eventNome.query;
     this.produtoService.searchByCodigo(produtoPesquisaSignature).subscribe({
       next: (data) => {
         if(data.length == 0)  this.notificacao.info('Mensagem', `Não foi possível encontrar seu produto`)
