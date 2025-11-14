@@ -132,22 +132,27 @@
 /* Mobile */
 @media (max-width: 768px) {
 
-  /* ↓↓↓ NOVO: esconder páginas intermediárias ↓↓↓ */
   .p-paginator .p-paginator-pages .p-paginator-page {
     display: none !important;
   }
 
-  /* Exibir só a página atual */
   .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
     display: flex !important;
     width: 34px;
     height: 34px;
   }
 
-  /* Ajuste nas setas */
   .p-paginator .p-paginator-prev,
   .p-paginator .p-paginator-next {
     width: 32px !important;
     height: 32px !important;
   }
+
+   .p-paginator .p-paginator-element {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+    padding: 0;
+  }
+
 }
