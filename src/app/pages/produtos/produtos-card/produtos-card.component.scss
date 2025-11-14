@@ -1,0 +1,11 @@
+.icon-scan {
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #777;
+  transition: 0.2s ease;
+}
+
+.icon-scan:hover {
+  color: #000;
+  transform: scale(1.1);
+}

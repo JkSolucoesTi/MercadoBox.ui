@@ -20,6 +20,8 @@ import { BarcodeEan13Component } from 'src/app/shared/barcode-ean13/barcode-ean1
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { PaginatorModule } from 'primeng/paginator';
 import { PaginatedResult } from 'src/app/model/Dto/response/paginacoResponse';
+import { ProdutosCardComponent } from '../produtos-card/produtos-card.component';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-produtos-list',
@@ -37,10 +39,12 @@ import { PaginatedResult } from 'src/app/model/Dto/response/paginacoResponse';
     PanelModule,
     DividerModule,
     PanelComponent,
+    ProdutosCardComponent,
     ToastModule,
     BarcodeEan13Component,
-    AutoCompleteModule,
-    PaginatorModule
+    AutoCompleteModule,    
+    PaginatorModule,
+    DialogModule
   ],
   templateUrl: './produtos-list.component.html',
   styleUrls: ['./produtos-list.component.scss']
@@ -48,7 +52,7 @@ import { PaginatedResult } from 'src/app/model/Dto/response/paginacoResponse';
 export class ProdutosListComponent implements OnInit {
 
   items: any[] = [];
-
+  header : string = "";
   produtos: ProdutoResponse[] = [];
 
   constructor(private produtosService: ProdutosService, private notificacao: NotificacaoService) { }
@@ -113,5 +117,14 @@ carregarProdutos(pagina: number, tamanhoPagina: number) {
          this.notificacao.error('Mensagem', `Não foi possível listar os produtos`);
       }
     });
+}
+
+modalCodigo = false;
+codigoSelecionado = '';
+
+abrirModalCodigo(codigo: string) {
+  this.codigoSelecionado = codigo;
+  this.modalCodigo = true;
+  setTimeout(() => {}, 50);
 }
 }

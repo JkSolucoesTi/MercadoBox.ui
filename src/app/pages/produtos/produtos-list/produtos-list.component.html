@@ -27,25 +27,14 @@
 
   <div class="grid">
     <div class="col-12 md:col-6 lg:col-4" *ngFor="let produto of produtos">
-      <p-card styleClass="mercado-card">
-        <div class="flex align-items-center gap-3 mb-3">
-          <i class="pi pi-circle-on" style="font-size: 2rem; color: #4caf50;"></i>
-          <div>
-            <div class="font-semibold text-lg">{{ produto.nome }}</div>
-            <span class="badge-compra">{{ produto.categoria }}</span>
-          </div>
-        </div>
-        <div class="mb-2 flex align-items-center gap-2 text-gray-700">
-          <i class="pi pi-barcode"></i>
-          <span>{{ produto.codigo }}</span>
-        </div>
-        <div class="text-gray-600 text-sm mb-1">{{ produto.descricao }}</div>
-        <div class="barcode-section">
-          <app-barcode-ean13 [codigo]="produto.codigo"></app-barcode-ean13>
-        </div>
-      </p-card>
+        <app-produtos-card [produto]="produto" (abrirCodigo)="abrirModalCodigo($event)"></app-produtos-card>
     </div>
   </div>
+
+<p-dialog [(visible)]="modalCodigo" header="Codigo de Barras">
+    <app-barcode-ean13 [codigo]="codigoSelecionado"></app-barcode-ean13>
+</p-dialog>
+
 </div>
 <div class="paginator-fixed">
   <p-paginator [first]="first"

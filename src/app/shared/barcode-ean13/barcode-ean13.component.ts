@@ -6,12 +6,12 @@ import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-barcode-ean13',
   standalone: true,
-  imports: [CommonModule,ButtonModule],
+  imports: [CommonModule, ButtonModule],
   templateUrl: './barcode-ean13.component.html',
   styleUrls: ['./barcode-ean13.component.scss']
 })
 export class BarcodeEan13Component implements AfterViewInit {
- @Input() codigo?: string;
+  @Input() codigo?: string;
   @ViewChild('barcodeCanvas', { static: false }) barcodeCanvas!: ElementRef<HTMLCanvasElement>;
   mostrar = false;
 
@@ -19,17 +19,18 @@ export class BarcodeEan13Component implements AfterViewInit {
     // Só gera o código automaticamente se quiser, aqui deixamos no botão
   }
 
-   gerarCodigo() {
+  ngOnChanges() {
+    debugger;
+    if (this.codigo) {
+      this.gerarCodigo();
+    }
+  }
+
+  gerarCodigo() {
     if (!this.codigo) return;
 
-    if (this.mostrar) {
-      this.mostrar = false;
-      return;
-    }
-    
     this.mostrar = true;
 
-    // Aguarda o Angular renderizar o canvas antes de gerar o código
     setTimeout(() => {
       if (this.barcodeCanvas?.nativeElement) {
         JsBarcode(this.barcodeCanvas.nativeElement, this.codigo!, {
