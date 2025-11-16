@@ -14,4 +14,9 @@ import { MercadoResponse } from 'src/app/model/Dto/response/mercadoResponse';
 export class MercadoCardComponent {
 
   @Input() mercado!: MercadoResponse
+
+    get googleMapsUrl(): string {
+    const endereco = `${this.mercado.nome} ${this.mercado.endereco}`;
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(endereco)}`;
+  }
 }
