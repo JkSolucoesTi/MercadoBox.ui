@@ -20,7 +20,6 @@ export class BarcodeEan13Component implements AfterViewInit {
   }
 
   ngOnChanges() {
-    debugger;
     if (this.codigo) {
       this.gerarCodigo();
     }

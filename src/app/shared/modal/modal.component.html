@@ -3,7 +3,7 @@
       <div class="col">
         <p-autoComplete formControlName="codigoDeBarras" [suggestions]="produtosFiltrados" field="codigo"
           (completeMethod)="search($event,'')" [minLength]="3" placeholder="Digite o código de barras"
-          (onSelect)="onProdutoSelecionado($event)" [maxlength]="13">
+          (onSelect)="onProdutoSelecionado($event)" [maxlength]="13" [delay]="1000">
           <ng-template let-produto pTemplate="item">
             <div class="flex flex-column">
               {{ produto.nome }}</div>
@@ -27,7 +27,8 @@
       (completeMethod)="search('',$event)"
       [minLength]="2"
       placeholder="Digite o nome do produto"
-      (onSelect)="onProdutoSelecionado($event)">
+      (onSelect)="onProdutoSelecionado($event)"
+      [delay]="1000">
       <ng-template let-produto pTemplate="item">
         <div class="flex flex-column">
           {{ produto.nome }} <small class="text-color-secondary">{{ produto.codigo }}</small>

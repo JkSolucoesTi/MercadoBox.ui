@@ -8,7 +8,7 @@
       <form [formGroup]="form">
         <p-autoComplete formControlName="produto" [suggestions]="produtosFiltrados"
           (completeMethod)="search($event)" [minLength]="3" placeholder="Pesquise aqui o seu produto"
-          (onSelect)="onProdutoSelecionado($event)" [style]="{ width: '100%' }" inputStyleClass="w-full" [maxlength]="13">
+          (onSelect)="onProdutoSelecionado($event)" [style]="{ width: '100%' }" inputStyleClass="w-full" [maxlength]="13"  [delay]="1000">
           <ng-template let-produto pTemplate="item">
             <div class="flex flex-column">{{ produto.nome }}</div>
           </ng-template>
@@ -19,9 +19,14 @@
       </form>
     </div>
 
-    <div class="flex align-items-center">      
+    <div class="flex align-items-center gap-2">      
       <button pButton type="button" icon="pi pi-search" (click)="consultar()"
         class="p-button-outlined" pTooltip="Pesquisar" tooltipPosition="top"></button>
+
+         <div class="col-auto flex align-items-center" >
+        <button pButton type="button" icon="pi pi-camera" (click)="openScanner()"></button>
+      </div>  
+
     </div>
   </div>
 
@@ -42,3 +47,7 @@
   <p-paginator [first]="first" [rows]="rows" [totalRecords]="totalRecords" [pageLinkSize]="2"
     [rowsPerPageOptions]="[5, 10, 15]" [showFirstLastIcon]="false" (onPageChange)="onPageChange($event)"></p-paginator>
 </div>
+
+
+<app-barcode-scanner *ngIf="showScanner" (scanned)="onBarcodeScanned($event)" (close)="closeScanner()">
+</app-barcode-scanner>

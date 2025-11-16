@@ -23,6 +23,8 @@ import { PaginatedResult } from 'src/app/model/Dto/response/paginacoResponse';
 import { ProdutosCardComponent } from '../produtos-card/produtos-card.component';
 import { DialogModule } from 'primeng/dialog';
 import { ProdutoPesquisaSignature } from 'src/app/model/Dto/signature/produtoPesquisaSignature';
+import { debounceTime } from 'rxjs';
+import { BarcodeScannerComponent } from 'src/app/shared/barcode-scanner/barcode-scanner.component';
 
 @Component({
   selector: 'app-produtos-list',
@@ -46,7 +48,8 @@ import { ProdutoPesquisaSignature } from 'src/app/model/Dto/signature/produtoPes
     AutoCompleteModule,
     PaginatorModule,
     DialogModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BarcodeScannerComponent
   ],
   templateUrl: './produtos-list.component.html',
   styleUrls: ['./produtos-list.component.scss']
@@ -115,7 +118,8 @@ export class ProdutosListComponent implements OnInit {
     let produtoPesquisaSignature = new ProdutoPesquisaSignature();
     produtoPesquisaSignature.codigo = eventCodigo.query;
     produtoPesquisaSignature.nome = eventCodigo.query;
-    this.produtosService.searchByCodigo(produtoPesquisaSignature).subscribe({
+    this.produtosService.searchByCodigo(produtoPesquisaSignature)
+    .subscribe({
       next: (data) => {
         if (data.length == 0) this.notificacao.info('Mensagem', `Não foi possível encontrar seu produto`)
         this.produtosFiltrados = data
@@ -159,4 +163,23 @@ export class ProdutosListComponent implements OnInit {
     this.modalCodigo = true;
     setTimeout(() => { }, 50);
   }
+
+    /*SETOR CAMERA */
+  showScanner = false;
+
+    openScanner() {
+    this.showScanner = true;
+  }
+
+  onBarcodeScanned(code: any) {
+    this.form.get('produto')?.setValue(code);   
+    this.search(code ); 
+    this.showScanner = false;
+  }
+
+  closeScanner() {
+    this.showScanner = false;
+  }
+
+
 }

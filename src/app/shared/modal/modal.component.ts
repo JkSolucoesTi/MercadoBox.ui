@@ -84,7 +84,6 @@ export class ModalComponent implements OnInit {
   }
 
   onBarcodeScanned(code: any) {
-    debugger;
     const produtoLido = { codigo: code, nome: '' };
     this.form.get('codigoDeBarras')?.setValue(produtoLido);   
     this.search(code,"" ); 
@@ -122,7 +121,6 @@ export class ModalComponent implements OnInit {
   }
 
   onProdutoSelecionado(produtoResponse: ProdutoResponse) {
-    debugger;
   this.form.patchValue({
     codigoDeBarras: { codigo: produtoResponse.codigo, nome: produtoResponse.nome },
     nome: { nome : produtoResponse.nome},
