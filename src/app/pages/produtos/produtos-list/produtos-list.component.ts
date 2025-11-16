@@ -115,8 +115,11 @@ export class ProdutosListComponent implements OnInit {
   }
 
   search(eventCodigo: any) {
+
+    const query = eventCodigo?.query ?? eventCodigo;
+
     let produtoPesquisaSignature = new ProdutoPesquisaSignature();
-    produtoPesquisaSignature.codigo = eventCodigo.query;
+    produtoPesquisaSignature.codigo = query;
     produtoPesquisaSignature.nome = eventCodigo.query;
     this.produtosService.searchByCodigo(produtoPesquisaSignature)
     .subscribe({
@@ -172,8 +175,9 @@ export class ProdutosListComponent implements OnInit {
   }
 
   onBarcodeScanned(code: any) {
+    debugger
     this.form.get('produto')?.setValue(code);   
-    this.search(code ); 
+    this.search(code); 
     this.showScanner = false;
   }
 
