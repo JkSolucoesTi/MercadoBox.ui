@@ -126,6 +126,10 @@ export class ProdutosListComponent implements OnInit {
       next: (data) => {
         if (data.length == 0) this.notificacao.info('Mensagem', `Não foi possível encontrar seu produto`)
         this.produtosFiltrados = data
+
+         if (data.length === 1) {
+        this.onProdutoSelecionado(data[0])
+         }
       },
       error: (err) => {
         this.notificacao.error('Mensagem', `Não foi possível encontrar seu produto : ${err.error}`)
