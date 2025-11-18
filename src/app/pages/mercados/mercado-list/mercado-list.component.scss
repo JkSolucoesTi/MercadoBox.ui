@@ -147,3 +147,71 @@
   margin-left: 4px;
 }
 
+/* ===== Container geral da página ===== */
+.mercado-page {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 70px); /* Ajuste para o header da sua aplicação */
+  overflow: hidden;
+}
+
+/* ===== Área que fica fixa no topo ===== */
+/* ===== Remover as faixas brancas laterais do input (faz o input "encaixar" nas bordas) ===== */
+
+/* Garante que o bloco sticky ocupe 100% da largura visual */
+.sticky-search {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: transparent; /* deixa transparente para herdar fundo do container */
+  padding: 0;              /* remove padding lateral que criava "faixas" brancas */
+  margin: 0;               /* remove margens que deslocavam o conteúdo */
+  display: block;
+}
+
+/* Faz a linha de busca ocupar toda a largura visível, compensando paddings do container pai */
+.sticky-search .search-row {
+  margin: 0;               /* remove margin-bottom extra */
+  padding: 0.75rem 0;      /* mantém espaçamento vertical, sem lateral */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Faz o form ocupar toda a largura restante */
+.search-form {
+  padding-left: 1rem;      /* espaço interno entre borda e input (ajuste fino) */
+  padding-right: 1rem;
+  box-sizing: border-box;
+}
+
+/* Input agora ocupa 100% do espaço disponível sem criar "faixas" nas laterais */
+.search-input {
+  width: calc(100% + 2rem) !important; /* estica para compensar os paddings que o container possa ter */
+  margin-left: -1rem;                  /* centraliza visualmente */
+  margin-right: -1rem;
+  border-radius: 6px;
+  box-sizing: border-box;
+  background: #fff;                     /* mantém o fundo branco do input em si */
+}
+
+/* Ajuste para os botões de ação (para não saírem da tela) */
+.search-btn,
+.clear-btn {
+  margin-left: 0.5rem;
+  margin-right: 1rem;
+}
+
+/* Em telas muito pequenas, evita overflow horizontal forçado */
+@media (max-width: 480px) {
+  .search-input {
+    width: 100% !important;
+    margin: 0;
+  }
+
+  .search-form {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+
