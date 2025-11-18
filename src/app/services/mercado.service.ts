@@ -1,5 +1,5 @@
 import { ApiResponse } from './../model/apiResponse/apiResponse';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MercadoResponse } from '../model/Dto/response/mercadoResponse';
@@ -7,6 +7,7 @@ import { API_CONFIG } from '../core/config/api.config';
 import { ApiUrlHelper } from '../core/helpers/api-url.helper';
 import { MercadoSignature } from '../model/Dto/signature/mercadoSignature';
 import { environment } from 'src/environments/environment';
+import { PaginatedResult } from '../model/Dto/response/paginacoResponse';
 
 export interface Mercado {
   id?: number;
@@ -32,6 +33,16 @@ export class MercadoService {
 
   listar(): Observable<ApiResponse<MercadoResponse[]>> {
     return this.http.get<ApiResponse<MercadoResponse[]>>(`${environment.apiUrl}/${this.controller}/GetAll`);
+  }
+
+    listarMercadoPaginado(pagina: number, tamanhoPagina: number , filtro: string = "") : Observable<PaginatedResult<MercadoResponse>> {
+  
+      const params = new HttpParams()
+        .set('page', pagina)
+        .set('pageSize', tamanhoPagina)     
+        .set('filtro',filtro) 
+    
+        return this.http.get<PaginatedResult<MercadoResponse>>(`${environment.apiUrl}/${this.controller}/GetMercados`, { params });
   }
 
   buscarPorId(id: number): Observable<Mercado> {

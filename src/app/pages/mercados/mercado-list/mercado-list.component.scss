@@ -14,3 +14,136 @@
     border-radius: 12px;
     font-weight: 600;
   }
+
+  /* ===== Estilização Paginator ===== */
+.paginator-fixed {
+  background: #f8f8f8;
+  padding: 8px 0;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  bottom: 0;
+  z-index: 999;
+}
+
+/* Área interna */
+.p-paginator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;          /* ✅ Impede quebra */
+  overflow-x: auto;           /* ✅ Caso lote, vira scroll horizontal */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Oculta scroll bar no mobile */
+.p-paginator::-webkit-scrollbar {
+  display: none;
+}
+
+/* Botões padrão */
+.p-paginator .p-paginator-element {
+  border-radius: 8px !important;
+  border: 1px solid #dcdcdc !important;
+  background: white !important;
+  color: #444 !important;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.25s ease;
+  cursor: pointer;
+}
+
+/* Hover */
+.p-paginator .p-paginator-element:not(.p-disabled):hover {
+  border-color: #2e7d32 !important;
+  color: #2e7d32 !important;
+  box-shadow: 0 0 4px rgba(46, 125, 50, 0.4) !important;
+}
+
+/* Página ativa */
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: #2e7d32 !important;
+  color: white !important;
+  border-color: #2e7d32 !important;
+  font-weight: bold;
+  box-shadow: 0 0 5px rgba(0, 100, 0, 0.4);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .p-paginator .p-paginator-pages .p-paginator-page {
+    display: none !important;
+  }
+
+  .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    display: flex !important;
+    width: 34px;
+    height: 34px;
+  }
+
+  .p-paginator .p-paginator-prev,
+  .p-paginator .p-paginator-next {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+   .p-paginator .p-paginator-element {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+    padding: 0;
+  }
+}
+
+/* ===== Área da busca ===== */
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;           /* espaço entre input e botões */
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.search-form {
+  flex: 1;
+}
+
+.search-input {
+  width: 100% !important;
+  height: 45px;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ced4da !important; /* estilo bootstrap */
+  border-radius: 6px;
+  font-size: 1rem;
+  box-shadow: none !important;
+}
+
+/* 🔥 Remove borda preta do PrimeNG no clique/foco */
+.search-input:focus,
+.search-input:active,
+.search-input:focus-visible {
+  border-color: #80bdff !important; /* cor leve estilo bootstrap-focus */
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* ————— Botões ————— */
+.search-btn,
+.clear-btn {
+  height: 45px;
+  width: 45px;
+  border-radius: 6px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* espaço levemente maior entre os botões */
+.clear-btn {
+  margin-left: 4px;
+}
+

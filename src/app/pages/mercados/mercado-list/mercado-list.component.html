@@ -1,20 +1,32 @@
 <div class="container p-4">
-  <app-panel
-  [titulo]="'Mercado'"
-  [descricao]="'Gerencie os mercados onde você faz compra'"
-  [rota]="'/mercados/novo'"
-  [btnDescricao]="'Mercado'"
-  [modal]="false"
-
-  >
+  <app-panel [titulo]="'Mercado'" [descricao]="'Gerencie os mercados onde você faz compra'" [rota]="'/mercados/novo'"
+    [btnDescricao]="'Mercado'" [modal]="false">
   </app-panel>
 
   <p-divider />
+  <div class="search-row">
+
+    <form [formGroup]="form" class="search-form">
+      <input type="text" pInputText placeholder="Pesquisar mercado..." class="search-input"
+        formControlName="pesquisa" />
+    </form>
+
+    <!-- Botão Buscar -->
+    <button pButton icon="pi pi-search" class="p-button-outlined search-btn" (click)="pesquisar()"></button>
+
+    <!-- Botão Limpar -->
+    <button pButton icon="pi pi-times" class="p-button-outlined clear-btn" (click)="limparPesquisa()"></button>
+
+  </div>
 
   <!-- Cards dos mercados -->
   <div class="grid">
     <div class="col-12 md:col-6 lg:col-4" *ngFor="let mercado of mercados">
-      <app-mercado-card [mercado]="mercado" ></app-mercado-card>
+      <app-mercado-card [mercado]="mercado"></app-mercado-card>
     </div>
   </div>
+</div>
+<div class="paginator-fixed">
+  <p-paginator [first]="first" [rows]="rows" [totalRecords]="totalRecords" [pageLinkSize]="2"
+    [rowsPerPageOptions]="[5, 10, 15]" [showFirstLastIcon]="false" (onPageChange)="onPageChange($event)"></p-paginator>
 </div>
