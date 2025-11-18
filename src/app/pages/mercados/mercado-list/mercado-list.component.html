@@ -1,35 +1,32 @@
-<div class="mercado-page">
+<div class="container p-4">
+  <app-panel [titulo]="'Mercado'" [descricao]="'Gerencie os mercados onde você faz compra'" [rota]="'/mercados/novo'"
+    [btnDescricao]="'Mercado'" [modal]="false">
+  </app-panel>
 
-  <div class="sticky-search">
-    <app-panel [titulo]="'Mercado'" [descricao]="'Gerencie os mercados onde você faz compra'" [rota]="'/mercados/novo'"
-      [btnDescricao]="'Mercado'" [modal]="false">
-    </app-panel>
+  <div class="search-row  gap-2 mb-3 mt-3">
+    <form [formGroup]="form" class="search-form">
+      <input type="text" pInputText placeholder="Pesquisar mercado..." class="search-input"
+        formControlName="pesquisa" />
+    </form>
 
-    <p-divider />
+    <button pButton icon="pi pi-search" class="p-button-outlined search-btn" (click)="pesquisar()">
+    </button>
 
-    <div class="search-row">
-      <form [formGroup]="form" class="search-form">
-        <input type="text" pInputText placeholder="Pesquisar mercado..." class="search-input"
-          formControlName="pesquisa" />
-      </form>
-
-      <button pButton icon="pi pi-search" class="p-button-outlined search-btn" (click)="pesquisar()"></button>
-      <button pButton icon="pi pi-times" class="p-button-outlined clear-btn" (click)="limparPesquisa()"></button>
-    </div>
+    <button pButton icon="pi pi-times" class="p-button-outlined clear-btn" (click)="limparPesquisa()">
+    </button>
   </div>
 
-  <!-- Conteúdo scrollável -->
-  <div class="conteudo-scroll">
-    <div class="grid">
-      <div class="col-12 md:col-6 lg:col-4" *ngFor="let mercado of mercados">
-        <app-mercado-card [mercado]="mercado"></app-mercado-card>
-      </div>
+  <p-divider />
+
+  <!-- Cards dos mercados -->
+  <div class="grid">
+    <div class="col-12 md:col-6 lg:col-4" *ngFor="let mercado of mercados">
+      <app-mercado-card [mercado]="mercado"></app-mercado-card>
     </div>
   </div>
-
 </div>
 
-<!-- Paginator fixo igual você já usa -->
+<!-- Paginator fixo (seu original, INALTERADO) -->
 <div class="paginator-fixed">
   <p-paginator [first]="first" [rows]="rows" [totalRecords]="totalRecords" [pageLinkSize]="2"
     [rowsPerPageOptions]="[5, 10, 15]" [showFirstLastIcon]="false" (onPageChange)="onPageChange($event)">

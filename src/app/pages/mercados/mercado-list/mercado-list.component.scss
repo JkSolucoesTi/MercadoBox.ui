@@ -1,21 +1,21 @@
 .mercado-card {
-    border: 1px solid #e0e6f1;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgb(161 177 212 / 12%);
-    padding: 1rem;
-    background-color: #fff;
-  }
-  
-  .badge-compra {
-    background-color: #e0f2f1;
-    color: #00796b;
-    font-size: 0.75rem;
-    padding: 0.15rem 0.5rem;
-    border-radius: 12px;
-    font-weight: 600;
-  }
+  border: 1px solid #e0e6f1;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgb(161 177 212 / 12%);
+  padding: 1rem;
+  background-color: #fff;
+}
 
-  /* ===== Estilização Paginator ===== */
+.badge-compra {
+  background-color: #e0f2f1;
+  color: #00796b;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+/* ===== Estilização Paginator ===== */
 .paginator-fixed {
   background: #f8f8f8;
   padding: 8px 0;
@@ -31,8 +31,10 @@
   justify-content: center;
   align-items: center;
   gap: 6px;
-  flex-wrap: nowrap;          /* ✅ Impede quebra */
-  overflow-x: auto;           /* ✅ Caso lote, vira scroll horizontal */
+  flex-wrap: nowrap;
+  /* ✅ Impede quebra */
+  overflow-x: auto;
+  /* ✅ Caso lote, vira scroll horizontal */
   -webkit-overflow-scrolling: touch;
 }
 
@@ -91,7 +93,7 @@
     height: 32px !important;
   }
 
-   .p-paginator .p-paginator-element {
+  .p-paginator .p-paginator-element {
     width: 28px;
     height: 28px;
     font-size: 0.8rem;
@@ -100,12 +102,20 @@
 }
 
 /* ===== Área da busca ===== */
+/* ===== Fixar a barra de pesquisa no topo durante o scroll ===== */
+
 .search-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;           /* espaço entre input e botões */
-  width: 100%;
-  margin-bottom: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  /* fica acima da lista de cards */
+  background: #ffffff;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+
+  /* Mantém o layout atual sem criar faixas laterais */
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .search-form {
@@ -116,7 +126,8 @@
   width: 100% !important;
   height: 45px;
   padding: 0.75rem 1rem;
-  border: 1px solid #ced4da !important; /* estilo bootstrap */
+  border: 1px solid #ced4da !important;
+  /* estilo bootstrap */
   border-radius: 6px;
   font-size: 1rem;
   box-shadow: none !important;
@@ -126,7 +137,8 @@
 .search-input:focus,
 .search-input:active,
 .search-input:focus-visible {
-  border-color: #80bdff !important; /* cor leve estilo bootstrap-focus */
+  border-color: #80bdff !important;
+  /* cor leve estilo bootstrap-focus */
   box-shadow: none !important;
   outline: none !important;
 }
@@ -147,71 +159,13 @@
   margin-left: 4px;
 }
 
-/* ===== Container geral da página ===== */
-.mercado-page {
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 70px); /* Ajuste para o header da sua aplicação */
-  overflow: hidden;
-}
-
-/* ===== Área que fica fixa no topo ===== */
-/* ===== Remover as faixas brancas laterais do input (faz o input "encaixar" nas bordas) ===== */
-
-/* Garante que o bloco sticky ocupe 100% da largura visual */
-.sticky-search {
+.search-row {
   position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: transparent; /* deixa transparente para herdar fundo do container */
-  padding: 0;              /* remove padding lateral que criava "faixas" brancas */
-  margin: 0;               /* remove margens que deslocavam o conteúdo */
-  display: block;
+  top: 70px;
+  /* ⬅️ altura da sua navbar (ajuste se for diferente) */
+  z-index: 100;
+  background: transparent;
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
 }
-
-/* Faz a linha de busca ocupar toda a largura visível, compensando paddings do container pai */
-.sticky-search .search-row {
-  margin: 0;               /* remove margin-bottom extra */
-  padding: 0.75rem 0;      /* mantém espaçamento vertical, sem lateral */
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* Faz o form ocupar toda a largura restante */
-.search-form {
-  padding-left: 1rem;      /* espaço interno entre borda e input (ajuste fino) */
-  padding-right: 1rem;
-  box-sizing: border-box;
-}
-
-/* Input agora ocupa 100% do espaço disponível sem criar "faixas" nas laterais */
-.search-input {
-  width: calc(100% + 2rem) !important; /* estica para compensar os paddings que o container possa ter */
-  margin-left: -1rem;                  /* centraliza visualmente */
-  margin-right: -1rem;
-  border-radius: 6px;
-  box-sizing: border-box;
-  background: #fff;                     /* mantém o fundo branco do input em si */
-}
-
-/* Ajuste para os botões de ação (para não saírem da tela) */
-.search-btn,
-.clear-btn {
-  margin-left: 0.5rem;
-  margin-right: 1rem;
-}
-
-/* Em telas muito pequenas, evita overflow horizontal forçado */
-@media (max-width: 480px) {
-  .search-input {
-    width: 100% !important;
-    margin: 0;
-  }
-
-  .search-form {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-}
-
-
