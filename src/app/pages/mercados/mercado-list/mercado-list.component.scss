@@ -15,7 +15,6 @@
   font-weight: 600;
 }
 
-/* ===== Estilização Paginator ===== */
 .paginator-fixed {
   background: #f8f8f8;
   padding: 8px 0;
@@ -25,25 +24,20 @@
   z-index: 999;
 }
 
-/* Área interna */
 .p-paginator {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 6px;
   flex-wrap: nowrap;
-  /* ✅ Impede quebra */
   overflow-x: auto;
-  /* ✅ Caso lote, vira scroll horizontal */
   -webkit-overflow-scrolling: touch;
 }
 
-/* Oculta scroll bar no mobile */
 .p-paginator::-webkit-scrollbar {
   display: none;
 }
 
-/* Botões padrão */
 .p-paginator .p-paginator-element {
   border-radius: 8px !important;
   border: 1px solid #dcdcdc !important;
@@ -58,14 +52,12 @@
   cursor: pointer;
 }
 
-/* Hover */
 .p-paginator .p-paginator-element:not(.p-disabled):hover {
   border-color: #2e7d32 !important;
   color: #2e7d32 !important;
   box-shadow: 0 0 4px rgba(46, 125, 50, 0.4) !important;
 }
 
-/* Página ativa */
 .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
   background: #2e7d32 !important;
   color: white !important;
@@ -100,20 +92,15 @@
     padding: 0;
   }
 }
-
-/* ===== Área da busca ===== */
-/* ===== Fixar a barra de pesquisa no topo durante o scroll ===== */
-
 .search-row {
   position: sticky;
   top: 0;
   z-index: 999;
-  /* fica acima da lista de cards */
+
   background: #ffffff;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
 
-  /* Mantém o layout atual sem criar faixas laterais */
   margin-left: 0;
   margin-right: 0;
 }
@@ -143,7 +130,6 @@
   outline: none !important;
 }
 
-/* ————— Botões ————— */
 .search-btn,
 .clear-btn {
   height: 45px;
@@ -154,7 +140,6 @@
   justify-content: center;
 }
 
-/* espaço levemente maior entre os botões */
 .clear-btn {
   margin-left: 4px;
 }
@@ -162,7 +147,6 @@
 .search-row {
   position: sticky;
   top: 70px;
-  /* ⬅️ altura da sua navbar (ajuste se for diferente) */
   z-index: 100;
   background: transparent;
   padding: 0.5rem 0;

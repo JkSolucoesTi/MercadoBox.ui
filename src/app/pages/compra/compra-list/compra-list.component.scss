@@ -1,0 +1,86 @@
+.filtro-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 🔥 divide em 4 partes */
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+/* 🔥 Label + input na MESMA LINHA */
+.filtro-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  label {
+    white-space: nowrap;
+    font-weight: 600;
+    color: #000;
+  }
+}
+
+/* 🔥 INPUTS sempre ocupam toda a área disponível */
+.filtro-item p-dropdown,
+.filtro-item p-calendar {
+  flex: 1;
+  width: 100%;
+}
+
+/* ⚡ Agora sim: força o input do calendar expandir corretamente */
+::ng-deep .p-calendar, 
+::ng-deep .p-inputtext,
+::ng-deep .p-dropdown {
+  width: 100% !important;
+  height: 2.5rem; 
+}
+
+/* 🔥 Botões na mesma linha */
+.botao {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+
+  button {
+    flex: 1;
+    height: 2.5rem;
+  }
+}
+
+/* 📱 RESPONSIVO */
+@media (max-width: 900px) {
+  .filtro-container {
+    grid-template-columns: 1fr; /* tudo em coluna */
+  }
+
+  .botao {
+    justify-content: flex-start;
+  }
+}
+
+/* Forçar o dropdown a ocupar 100% da largura */
+.filtros {
+  margin-top: 0.5rem; /* ajuste o valor como quiser */
+}
+
+.filtro-item p-dropdown {
+  width: 100% !important;
+  display: block !important;
+}
+
+.filtro-item p-dropdown .p-dropdown {
+  width: 100% !important;
+}
+
+.filtro-item p-dropdown .p-dropdown .p-inputtext {
+  width: 100% !important;
+}
+
+.botoes {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.botoes button {
+  flex: 1;     /* Cada botão ocupa metade */
+  height: 2.5rem;
+}

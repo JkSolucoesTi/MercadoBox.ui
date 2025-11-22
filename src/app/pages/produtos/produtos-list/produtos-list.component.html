@@ -3,31 +3,17 @@
     [btnDescricao]="'Produto'" [modal]="false">
   </app-panel>
 
-  <div class="search-bar flex align-items-center gap-2 mb-3 mt-3">
-    <div class="flex-grow-1">
-      <form [formGroup]="form">
-        <p-autoComplete formControlName="produto" [suggestions]="produtosFiltrados"
-          (completeMethod)="search($event)" [minLength]="3" placeholder="Pesquise aqui o seu produto"
-          (onSelect)="onProdutoSelecionado($event)" [style]="{ width: '100%' }" inputStyleClass="w-full" [maxlength]="13"  [delay]="1000">
-          <ng-template let-produto pTemplate="item">
-            <div class="flex flex-column">{{ produto.nome }}</div>
-          </ng-template>
-           <ng-template let-produto pTemplate="selectedItem">
-              {{ produto.codigo }} - {{ produto.nome }}
-           </ng-template>
-        </p-autoComplete>
-      </form>
-    </div>
+  <div class="search-row  gap-2 mb-3 mt-3">
+    <form [formGroup]="form" class="search-form">
+      <input type="text" pInputText placeholder="Pesquisar produtos..." class="search-input"
+        formControlName="pesquisa" />
+    </form>
+    <button pButton type="button" icon="pi pi-search" (click)="consultar()" class="p-button-success"
+      pTooltip="Pesquisar" tooltipPosition="top"></button>
+    <button pButton type="button" icon="pi pi-camera" (click)="openScanner()"></button>
+    <button pButton icon="pi pi-times"class="p-button-danger" (click)="limparPesquisa()">
+    </button>
 
-    <div class="flex align-items-center gap-2">      
-      <button pButton type="button" icon="pi pi-search" (click)="consultar()"
-        class="p-button-outlined" pTooltip="Pesquisar" tooltipPosition="top"></button>
-
-         <div class="col-auto flex align-items-center" >
-        <button pButton type="button" icon="pi pi-camera" (click)="openScanner()"></button>
-      </div>  
-
-    </div>
   </div>
 
   <p-divider />

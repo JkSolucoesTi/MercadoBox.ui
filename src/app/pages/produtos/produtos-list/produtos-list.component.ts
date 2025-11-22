@@ -66,11 +66,8 @@ export class ProdutosListComponent implements OnInit {
 
   ngOnInit() {
     this.carregarProdutos(1, 10, '');
-
-
     this.form = this.fb.group({
-      produtoSelecionado: [null],
-      produto: []
+      pesquisa: ['']
     });
 
   }
@@ -96,9 +93,8 @@ export class ProdutosListComponent implements OnInit {
   produtoSelecionado: any;
 
   public consultar() {
-    this.carregarProdutos(1, 10, '');
-    this.form.get('produto')?.setValue(null);
-
+    let consultar = this.form.get('pesquisa')?.value;
+    this.carregarProdutos(1, 10, consultar);
   }
 
   public limparBusca() {
@@ -187,6 +183,10 @@ export class ProdutosListComponent implements OnInit {
 
   closeScanner() {
     this.showScanner = false;
+  }
+
+  limparPesquisa(){
+    this.form.get('pesquisa')?.setValue('');
   }
 
 

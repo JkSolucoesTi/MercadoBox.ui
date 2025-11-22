@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
-import { Mercado, MercadoService } from '../../../services/mercado.service';
+import { MercadoService } from '../../../services/mercado.service';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { PanelComponent } from 'src/app/shared/panel/panel.component';

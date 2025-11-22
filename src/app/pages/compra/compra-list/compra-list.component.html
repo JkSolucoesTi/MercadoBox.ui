@@ -1,14 +1,42 @@
 <div class="container p-4">
-<app-panel 
-  [titulo]="'Compras'" 
-  [descricao]="'Gerencie suas compras'" 
-  [rota]="'/compras/novo'" 
-  [btnDescricao]="'Compra'"
-  [modal]="false"
-  >=
+  <app-panel [titulo]="'Compras'" [descricao]="'Gerencie suas compras'" [rota]="'/compras/novo'"
+    [btnDescricao]="'Compra'" [modal]="false">=
   </app-panel>
 
-<p-divider />
+  <form [formGroup]="form">
+
+    <div class="filtros grid">
+
+      <div class="col-12 md:col-3 filtro-item">
+        <i class="pi pi-shopping-cart mr-2 text-primary"></i>
+        <label>Mercado</label>
+        <p-dropdown [options]="mercados" optionLabel="nome" optionValue="id" formControlName="mercadoId"
+          optionLabel="nome" optionValue="id" placeholder="Selecione" inputClass="input-padrao"
+          [showClear]="true"></p-dropdown>
+      </div>
+
+      <div class="col-12 md:col-3 filtro-item">
+        <i class="pi pi-calendar mr-2 text-primary"></i>
+        <label>De :</label>
+        <p-calendar formControlName="dataDe" dateFormat="dd/mm/yy" inputClass="input-padrao"></p-calendar>
+      </div>
+
+      <div class="col-12 md:col-3 filtro-item">
+        <i class="pi pi-calendar mr-2 text-primary"></i>
+        <label>Até :</label>
+        <p-calendar formControlName="dataDe" dateFormat="dd/mm/yy" inputClass="input-padrao"></p-calendar>
+      </div>
+
+      <div class="col-12 md:col-3 botoes">
+        <button pButton icon="pi pi-search" class="p-button-success" (click)="buscar()"></button>
+        <button pButton icon="pi pi-times" class="p-button-danger" (click)="limpar()"></button>
+      </div>
+
+    </div>
+  </form>
+
+
+  <p-divider />
 
   <div class="grid">
     <div *ngFor="let compra of compras" class="col-12 sm:col-6 lg:col-4">
@@ -41,11 +69,7 @@
         </div>
 
         <div class="text-right">
-          <button 
-            pButton 
-            icon="pi pi-search"
-            label="Detalhes"
-            class="p-button-rounded p-button-success p-button-sm"
+          <button pButton icon="pi pi-search" label="Detalhes" class="p-button-rounded p-button-success p-button-sm"
             (click)="verDetalhes(compra.guid)">
           </button>
         </div>

@@ -156,3 +156,51 @@
   }
 
 }
+
+.search-row {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+
+  background: #ffffff;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.search-form {
+  flex: 1;
+}
+
+.search-input {
+  width: 100% !important;
+  height: 45px;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ced4da !important;
+  /* estilo bootstrap */
+  border-radius: 6px;
+  font-size: 1rem;
+  box-shadow: none !important;
+}
+
+/* 🔥 Remove borda preta do PrimeNG no clique/foco */
+.search-input:focus,
+.search-input:active,
+.search-input:focus-visible {
+  border-color: #80bdff !important;
+  /* cor leve estilo bootstrap-focus */
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.search-row {
+  position: sticky;
+  top: 70px;
+  z-index: 100;
+  background: transparent;
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+}
