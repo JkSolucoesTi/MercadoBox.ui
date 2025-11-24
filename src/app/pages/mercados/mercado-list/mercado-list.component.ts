@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
-import { MercadoService } from '../../../services/mercado.service';
+import { MercadoService } from '../mercado.service';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { PanelComponent } from 'src/app/shared/panel/panel.component';
@@ -28,7 +28,11 @@ export class MercadoListComponent implements OnInit {
   constructor(private fb: FormBuilder,private mercadoService: MercadoService, private notificacao: NotificacaoService) { }
 
   form!: FormGroup;
-  mercados: MercadoResponse[] = [];
+  mercados: MercadoResponse[] = [];  
+  first: number = 0;
+  rows: number = 10;
+  totalRecords: number = 0;
+  paginaAtual: number = 1;
 
   ngOnInit(): void {
     this.carregarMercados(1,10,'');
@@ -67,12 +71,6 @@ export class MercadoListComponent implements OnInit {
   limparPesquisa() {
   this.form.get('pesquisa')?.setValue('');
   }
-/*Paginação*/
-
-  first: number = 0;
-  rows: number = 10;
-  totalRecords: number = 0;
-  paginaAtual: number = 1;
 
   onPageChange(event : any)
   {     

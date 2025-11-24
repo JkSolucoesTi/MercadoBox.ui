@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MercadoService } from '../../../services/mercado.service';
+import { MercadoService } from '../mercado.service';
 import { CardModule } from 'primeng/card';
 import { MercadoSignature } from 'src/app/model/Dto/signature/mercadoSignature';
 import { NotificacaoService } from 'src/app/shared/notificacao.service';

@@ -10,7 +10,7 @@ import { TableModule } from 'primeng/table';
 import { PanelComponent } from "src/app/shared/panel/panel.component";
 import { DividerModule } from 'primeng/divider';
 import { DialogModule } from 'primeng/dialog';
-import { CompraService } from 'src/app/services/compra.service';
+import { CompraService } from 'src/app/pages/compra/compra.service';
 import { Compra } from 'src/app/model/compra/compra';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';

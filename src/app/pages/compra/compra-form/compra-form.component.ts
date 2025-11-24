@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
-import { Mercado, MercadoService } from '../../../services/mercado.service';
-import { CompraService } from 'src/app/services/compra.service';
+import { Mercado, MercadoService } from '../../mercados/mercado.service';
+import { CompraService } from 'src/app/pages/compra/compra.service';
 import { Compra } from 'src/app/model/compra/compra';
 import { CardModule } from 'primeng/card';
 

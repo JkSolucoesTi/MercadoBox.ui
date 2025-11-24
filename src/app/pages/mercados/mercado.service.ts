@@ -1,13 +1,13 @@
-import { ApiResponse } from './../model/apiResponse/apiResponse';
+import { ApiResponse } from '../../model/apiResponse/apiResponse';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MercadoResponse } from '../model/Dto/response/mercadoResponse';
-import { API_CONFIG } from '../core/config/api.config';
-import { ApiUrlHelper } from '../core/helpers/api-url.helper';
-import { MercadoSignature } from '../model/Dto/signature/mercadoSignature';
+import { MercadoResponse } from '../../model/Dto/response/mercadoResponse';
+import { API_CONFIG } from '../../core/config/api.config';
+import { ApiUrlHelper } from '../../core/helpers/api-url.helper';
+import { MercadoSignature } from '../../model/Dto/signature/mercadoSignature';
 import { environment } from 'src/environments/environment';
-import { PaginatedResult } from '../model/Dto/response/paginacoResponse';
+import { PaginatedResult } from '../../model/Dto/response/paginacoResponse';
 
 export interface Mercado {
   id?: number;

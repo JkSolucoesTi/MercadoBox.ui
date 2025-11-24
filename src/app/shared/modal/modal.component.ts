@@ -1,4 +1,4 @@
-import { CompraService } from './../../services/compra.service';
+import { CompraService } from '../../pages/compra/compra.service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
@@ -15,7 +15,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CarrinhoStoreService } from 'src/app/pages/carrinho-form/service/carrinho-store.service';
 import { ProdutoResponse } from 'src/app/model/Dto/response/produtoResponse';
-import { ProdutosService } from 'src/app/services/produtos.service';
+import { ProdutosService } from 'src/app/pages/produtos/produtos.service';
 import { ProdutoPesquisaSignature } from 'src/app/model/Dto/signature/produtoPesquisaSignature';
 import { ItemCarrinhoSignature } from 'src/app/model/Dto/signature/itemCarrinhoSignature';
 import { CarrinhoService } from 'src/app/pages/carrinho-form/service/carrinho.service';

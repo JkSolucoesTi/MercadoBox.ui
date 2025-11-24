@@ -7,16 +7,17 @@ import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { TableModule } from 'primeng/table';
 import { CompraReponse } from 'src/app/model/Dto/response/compraResponse';
-import { CompraService } from 'src/app/services/compra.service';
+import { CompraService } from 'src/app/pages/compra/compra.service';
 import { NotificacaoService } from 'src/app/shared/notificacao.service';
 import { PanelComponent } from 'src/app/shared/panel/panel.component';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MercadoService } from 'src/app/services/mercado.service';
+import { MercadoService } from 'src/app/pages/mercados/mercado.service';
 import { PaginatedResult } from 'src/app/model/Dto/response/paginacoResponse';
 import { MercadoResponse } from 'src/app/model/Dto/response/mercadoResponse';
 import { ApiResponse } from 'src/app/model/apiResponse/apiResponse';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
   selector: 'app-compra-list',
@@ -31,6 +32,7 @@ import { ApiResponse } from 'src/app/model/apiResponse/apiResponse';
     CalendarModule,
     DropdownModule,
     ReactiveFormsModule,
+    PaginatorModule,
     PanelComponent
   ],
   templateUrl: './compra-list.component.html',
@@ -41,6 +43,12 @@ export class CompraListComponent {
   compras: CompraReponse[] = [];
   form: any;
 
+  first: number = 0;
+  rows: number = 10;
+  totalRecords: number = 0;
+  paginaAtual: number = 1;
+
+
 
   constructor(private fb: FormBuilder, private compraService: CompraService, private notificacao: NotificacaoService, private router: Router, private mercadoService: MercadoService) {
   }
@@ -49,22 +57,22 @@ export class CompraListComponent {
 
     this.form = this.fb.group({
       mercadoId: [null, Validators.required],
-      dataDe: [new Date(), Validators.required],
-      dataAte: [new Date(), Validators.required]
+      dataDe: [null, Validators.required],
+      dataAte: [null, Validators.required]
     });
-    this.obterMercados();
-    this.carregarComprasFinalizadas();
-
+    this.obterMercados();   
   }
 
-  carregarComprasFinalizadas(): void {
-    this.compraService.listarCompras().subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.compras = response.data;
-          this.notificacao.success('Compras', response.message);
+  obterCompras(): void {
+
+    const f = this.form.value;
+    this.compraService.listarCompraPaginado(this.paginaAtual,this.rows,f.mercadoId,f.dataDe,f.dataAte).subscribe({
+      next: (response :PaginatedResult<CompraReponse>) => {
+        if (response.itens.length > 0) {
+          this.compras = response.itens;
+          this.totalRecords = response.totalRegistros;
         } else {
-          this.notificacao.success('Compras', response.message);
+          this.notificacao.info('Compras', 'Não existem compras neste periodo');
         }
       },
       error: (err: any) => {
@@ -85,15 +93,18 @@ export class CompraListComponent {
       });
   }
 
-  buscar() {
-    console.log(this.form);
-  }
-
   limpar() {
     this.form.reset();
   }
 
   verDetalhes(guid: string | undefined): void {
     this.router.navigate(['/carrinho/' + guid]);
+  }
+
+  onPageChange(event: any) {
+    this.first = event.first;
+    this.rows = event.rows;
+    this.paginaAtual = event.page + 1;
+    this.obterCompras();
   }
 }

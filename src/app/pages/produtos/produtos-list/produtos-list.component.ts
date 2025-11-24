@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProdutosService } from 'src/app/services/produtos.service';
+import { ProdutosService } from 'src/app/pages/produtos/produtos.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 import { MenubarModule } from 'primeng/menubar';

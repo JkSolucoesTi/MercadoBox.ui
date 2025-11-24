@@ -9,7 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
-import { ProdutosService } from 'src/app/services/produtos.service';
+import { ProdutosService } from 'src/app/pages/produtos/produtos.service';
 import { CardModule } from "primeng/card";
 import { CategoriaResponse } from 'src/app/model/Dto/response/categoriaResponse';
 import { CategoriaService } from 'src/app/services/categoria.service';
