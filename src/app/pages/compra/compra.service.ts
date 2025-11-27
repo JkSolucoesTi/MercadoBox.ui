@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { ApiResponse } from '../../model/apiResponse/apiResponse';
 import { PaginatedResult } from '../../model/Dto/response/paginacoResponse';
 import { Utils } from 'src/app/util/utils';
+import { ItemCarrinho } from 'src/app/model/carrinho/itemCarrinho';
 
 @Injectable({
   providedIn: 'root'
@@ -58,5 +59,9 @@ export class CompraService {
       .set('data_fim', Utils.toDateString(data_fim));
 
     return this.http.get<PaginatedResult<CompraReponse>>(`${environment.apiUrl}/${this.controller}/GetCompras`, { params });
+  }
+
+  removerItemCarrinho(compraId: number, itemId: number): Observable<ApiResponse<ItemCarrinho>>{
+    return this.http.delete<ApiResponse<ItemCarrinho>>(`${environment.apiUrl}/${this.controller}/compra/${compraId}/item/${itemId}`);
   }
 }

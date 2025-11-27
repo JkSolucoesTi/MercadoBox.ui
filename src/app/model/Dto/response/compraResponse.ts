@@ -5,6 +5,7 @@ export class CompraReponse{
     constructor() {
         this.itens = []        
     }
+    nomeMercado?: string;
     guid?: string;
     data?: string;
     itens: ItemCarrinho[]=[]

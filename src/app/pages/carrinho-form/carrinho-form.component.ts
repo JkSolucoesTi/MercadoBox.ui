@@ -1,3 +1,4 @@
+import { ApiResponse } from './../../model/apiResponse/apiResponse';
 import { ItemCarrinho } from './../../model/carrinho/itemCarrinho';
 import { CommonModule } from '@angular/common';
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
@@ -44,7 +45,7 @@ export interface Product {
     DividerModule,
     PanelComponent,
     TooltipModule
-],
+  ],
   templateUrl: './carrinho-form.component.html',
   styleUrls: ['./carrinho-form.component.scss']
 })
@@ -122,12 +123,11 @@ export class CarrinhoFormComponent implements OnInit, OnChanges {
     this.compraService.buscarPorId(this.compraToken).subscribe({
       next: (response) => {
         if (response.success) {
-          this.compraResponse = response.data;        
-        }else{
-          this.notificacao.error('Compra',response.message);
+          this.compraResponse = response.data;
+        } else {
+          this.notificacao.error('Compra', response.message);
         }
-
-      }, error: (erro) => {
+      }, error: () => {
         this.notificacao.error('Compra', "Não foi possível encontrar a sua compra");
       }
     });
@@ -142,11 +142,29 @@ export class CarrinhoFormComponent implements OnInit, OnChanges {
   }
 
   toggleNome(item: any) {
-  if (window.innerWidth <= 768) {
-    item.expandido = !item.expandido;
+    if (window.innerWidth <= 768) {
+      item.expandido = !item.expandido;
+    }
   }
-}
 
+  removerItem(item: ItemCarrinho) {
+    debugger;
+    this.compraService.removerItemCarrinho(item.compraId!, item.id!)
+      .subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.notificacao.error('Compra', response.message);
+            this.obterItensCarrinho();
+          }
+          else {
+            this.notificacao.error('Compra', response.message);
+          }
+        },
+        error: () =>{
+          this.notificacao.error('Compra', "Não foi possível remover o item de seu carrinho");
+        } 
+      });
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

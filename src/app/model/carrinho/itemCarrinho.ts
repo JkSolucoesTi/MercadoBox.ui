@@ -6,6 +6,7 @@ export class ItemCarrinho extends ProdutoBase {
     super()
   }
   guid?: string | null;
+  compraId?: number;
   produtoId?: number;
   quantidade?: number;
   promocao?: boolean;

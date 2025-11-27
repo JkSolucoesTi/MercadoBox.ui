@@ -15,7 +15,7 @@
       <ng-template pTemplate="body" let-item>
         <tr>
           <td>
-            <span class="produto-nome" [class.expandido]="item.expandido" (click)="toggleNome(item)">
+            <span class="produto-nome" [class.expandido]="item.expandido" (click)="item.expandido = !item.expandido">
               {{ item.nome }}
             </span>
           </td>
@@ -23,7 +23,7 @@
           <td>
             <ng-container *ngIf="item.promocao; else precoNormal">
               <div class="preco-vertical">
-                <span class="preco-antigo">De: {{ item.valor  | currency:'BRL' }}</span>
+                <span class="preco-antigo">De: {{ item.valor | currency:'BRL' }}</span>
                 <span class="preco-promocional">Por: {{ item.valorPromocional | currency:'BRL' }}</span>
               </div>
             </ng-container>
@@ -39,6 +39,14 @@
             <ng-template #totalSemDescontoNormal>
               <span>{{ item.valor * item.quantidade| currency:'BRL' }}</span>
             </ng-template>
+          </td>
+        </tr>
+        <tr *ngIf="item.expandido" class="submenu-row">
+          <td colspan="4" class="submenu-cell">
+            <button pButton icon="pi pi-trash" label="Excluir" class="p-button-danger p-button-sm"
+             (click)="removerItem(item)"
+            >
+            </button>
           </td>
         </tr>
       </ng-template>

@@ -1,0 +1,94 @@
+/* Fundo geral */
+.login-container {
+  height: 100vh;
+  width: 100%;
+  background: #e8f5e9; // verde claro bonito
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Imagem temática no fundo */
+.background-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/bg-mercado.jpg'); 
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;    // bem discreto
+  z-index: 1;
+}
+
+/* Card */
+.login-card {
+  width: 95%;
+  max-width: 380px;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  z-index: 2;
+  text-align: center;
+}
+
+/* Logo e título */
+.logo-area {
+  .logo {
+    width: 80px;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    margin: 0;
+    font-weight: 700;
+    color: #2e7d32;  // verde escuro agradável
+  }
+
+  .subtitle {
+    margin-top: 4px;
+    color: #4caf50;
+    font-size: 0.9rem;
+  }
+}
+
+/* Formulário */
+.form-area {
+  margin-top: 1.5rem;
+
+  .input {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.9rem;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
+
+  .btn-login {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1.1rem;
+    background: #2e7d32 !important;
+    border: none;
+  }
+
+  .btn-login:hover {
+    background: #1b5e20 !important;
+  }
+
+  .forgot-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #2e7d32;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.5rem;
+  }
+}
