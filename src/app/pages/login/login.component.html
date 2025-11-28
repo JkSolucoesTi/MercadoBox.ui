@@ -11,17 +11,17 @@
         </div>
 
         <form [formGroup]="form">
-        <div class="form-area">
+            <div class="form-area">
 
-            <input type="email" formControlName="email" pInputText class="input" placeholder="Digite seu e-mail" />
+                <input type="email" formControlName="email" pInputText class="input" placeholder="Digite seu e-mail" />
 
-            <input type="password" formControlName="password" pInputText class="input" placeholder="Digite sua senha" />
+                <input type="password" formControlName="password" pInputText class="input"
+                    placeholder="Digite sua senha" />
 
-            <button pButton label="Entrar" class="btn-login" (click)="logar()" [disabled]="form.invalid">
-            </button>
-
-            <a class="forgot-link">Esqueci minha senha</a>
-        </div>
+               <button pButton icon="pi pi-search" label="Entrar" class="btn-login">
+               </button>
+                <a class="forgot-link">Esqueci minha senha</a>
+            </div>
         </form>
     </div>
 </div>

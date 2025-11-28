@@ -11,7 +11,7 @@ import { CompraListComponent } from './pages/compra/compra-list/compra-list.comp
 import { LoginComponent } from './pages/login/login.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   {path:'login' ,component:LoginComponent},
   { path:'home',component:HomeComponent},
   { path: 'produtos', component: ProdutosListComponent },
