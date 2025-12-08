@@ -86,9 +86,15 @@
   }
 }
 
-/* Responsivo */
 @media (max-width: 480px) {
+  .login-container {
+    padding: 0 1.5rem;
+  }
+
   .login-card {
-    padding: 1.5rem;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
   }
 }
+
