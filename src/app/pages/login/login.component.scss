@@ -1,26 +1,31 @@
-/* Fundo geral */
-.login-container {
+:host {
+  display: block;
   height: 100vh;
+  overflow: hidden;
+}
+
+.login-container {
+  min-height: 100vh;  // usa no mínimo a altura da tela
   width: 100%;
-  background: #e8f5e9; // verde claro bonito
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;   // só exibe scroll se realmente necessário
+  overflow-x: hidden; // evita scroll horizontal indesejado
+  box-sizing: border-box;
+  padding: 2rem 0;    // evita que o card estoure a tela em celulares
 }
 
-/* Imagem temática no fundo */
 .background-overlay {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
-  opacity: 0.15;    // bem discreto
+  opacity: 0.15;
   z-index: 1;
 }
 
-/* Card */
 .login-card {
   width: 95%;
   max-width: 380px;
@@ -32,7 +37,6 @@
   text-align: center;
 }
 
-/* Logo e título */
 .logo-area {
   .logo {
     width: 80px;
@@ -42,7 +46,7 @@
   h2 {
     margin: 0;
     font-weight: 700;
-    color: #2e7d32;  // verde escuro agradável
+    color: #2e7d32; 
   }
 
   .subtitle {
@@ -52,7 +56,6 @@
   }
 }
 
-/* Formulário */
 .form-area {
   margin-top: 1.5rem;
 

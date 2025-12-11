@@ -1,11 +1,24 @@
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
+:host {
+  display: block;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background: #2E7D32; // seu verde
+  height: 64px;        // altura padrão (desktop)
+}
+
+/* Tablets */
+@media (max-width: 1024px) {
+  :host {
+    height: 60px;
   }
-  
-  body, .p-component {
-    padding-top: 4rem; // ajuste conforme altura do navbar
+}
+
+/* Celulares */
+@media (max-width: 600px) {
+  :host {
+    height: 56px;
   }
+}

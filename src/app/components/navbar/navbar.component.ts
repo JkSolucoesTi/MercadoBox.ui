@@ -1,16 +1,21 @@
 import { Component } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthServiceService } from 'src/app/pages/login/auth-service.service';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-navbar',
   standalone:true,
   templateUrl: './navbar.component.html',
-  imports: [MenubarModule, RouterModule,CommonModule],
+  imports: [MenubarModule, RouterModule,CommonModule,ButtonModule],
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
+
+  constructor(public auth: AuthServiceService,  private router: Router){}
+
   items = [
     {
       label: 'Home',
@@ -42,5 +47,10 @@ export class NavbarComponent {
       ]
     }
   ];
+
+    sair() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
 
 }

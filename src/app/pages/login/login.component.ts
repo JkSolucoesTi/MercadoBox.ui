@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -33,7 +33,7 @@ import { AuthServiceService } from './auth-service.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   form!: FormGroup;
   login = new LoginSignature();
@@ -42,13 +42,17 @@ export class LoginComponent {
     private fb: FormBuilder,
     private loginService: LoginService,
     private notificacao: NotificacaoService,
-    private authService:AuthServiceService
+    private authService:AuthServiceService,
+     private router: Router
   ) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
 
+  }
+  ngOnInit(): void {
+    this.authService.logout();
   }
 
   logar() {
@@ -64,7 +68,8 @@ export class LoginComponent {
           this.notificacao.error('Mensagem', response.message);        
         return;
       }
-      this.authService.salvarLogin(response.data);
+      this.authService.salvarToken(response.data.token);
+       this.router.navigate(['/home']);
     },
     error: () => {
       this.notificacao.error('Mensagem', `Não foi possível realizar o login`);

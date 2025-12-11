@@ -9,20 +9,28 @@ import { ProdutosListComponent } from './pages/produtos/produtos-list/produtos-l
 import { HomeComponent } from './pages/home/home.component';
 import { CompraListComponent } from './pages/compra/compra-list/compra-list.component';
 import { LoginComponent } from './pages/login/login.component';
+import { AuthGuard } from '../app/core/guards/auth.guard';
 
 export const routes: Routes = [
+
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  {path:'login' ,component:LoginComponent},
-  { path:'home',component:HomeComponent},
-  { path: 'produtos', component: ProdutosListComponent },
-  { path: 'produtos/novo', component: ProdutosFormComponent },
-  { path: 'produtos/editar/:id', component: ProdutosFormComponent },
-  { path: 'mercados', component: MercadoListComponent },
-  { path: 'mercados/novo', component: MercadoFormComponent },
-  { path: 'mercados/editar/:id', component: MercadoFormComponent },
-  { path :'carrinho/:id',component:CarrinhoFormComponent},
-  {path:'compras/novo',component:CompraFormComponent},
-  {path:'compras',component:CompraListComponent},
+  { path: 'login', component: LoginComponent },
+
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+
+  { path: 'produtos', component: ProdutosListComponent, canActivate: [AuthGuard] },
+  { path: 'produtos/novo', component: ProdutosFormComponent, canActivate: [AuthGuard] },
+  { path: 'produtos/editar/:id', component: ProdutosFormComponent, canActivate: [AuthGuard] },
+
+  { path: 'mercados', component: MercadoListComponent, canActivate: [AuthGuard] },
+  { path: 'mercados/novo', component: MercadoFormComponent, canActivate: [AuthGuard] },
+  { path: 'mercados/editar/:id', component: MercadoFormComponent, canActivate: [AuthGuard] },
+
+  { path: 'carrinho/:id', component: CarrinhoFormComponent, canActivate: [AuthGuard] },
+
+  { path: 'compras', component: CompraListComponent, canActivate: [AuthGuard] },
+  { path: 'compras/novo', component: CompraFormComponent, canActivate: [AuthGuard] },
+
   { path: '**', redirectTo: 'login' }
 ];
 

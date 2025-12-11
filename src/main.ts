@@ -11,6 +11,7 @@ import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { loaderInterceptor } from './app/core/interceptors/loader.interceptor';
 import { provideNgxMask } from 'ngx-mask';
+import { authInterceptor } from './app/core/interceptors/authInterceptor';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -21,7 +22,7 @@ bootstrapApplication(AppComponent, {
     },    
     provideRouter(routes),
     provideHttpClient(
-      withInterceptors([loaderInterceptor]) 
+      withInterceptors([loaderInterceptor,authInterceptor]) 
     ),
     provideNgxMask({
     dropSpecialCharacters: true // remove pontos, traços e barras
