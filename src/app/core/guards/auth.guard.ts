@@ -2,22 +2,18 @@ import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { Observable } from 'rxjs';
-import { AuthServiceService } from 'src/app/pages/login/auth-service.service';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard {
 
-constructor(private auth:AuthServiceService,private router:Router){
-
-}
+constructor(private auth:AuthServiceService,private router:Router){}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
-      debugger;
     const token = this.auth.obterToken();
 
   if (!token || tokenExpirado(token)) {
@@ -39,6 +35,19 @@ constructor(private auth:AuthServiceService,private router:Router){
       this.auth.logout();
       this.router.navigate(['/login']);
       return false;
+    }
+
+    const permissoesNecessarias = route.data['permissoes'] as string[];
+    if (permissoesNecessarias && permissoesNecessarias.length > 0) {
+
+      const usuarioPossuiTodas = permissoesNecessarias.every(p =>
+        this.auth.possuiPermissao(p)
+      );
+
+      if (!usuarioPossuiTodas) {
+        this.router.navigate(['/home']);
+        return false;
+      }
     }
 
     return true;

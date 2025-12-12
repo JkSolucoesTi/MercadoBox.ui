@@ -10,6 +10,13 @@
             <p class="subtitle">Seu carrinho inteligente</p>
         </div>
 
+                <p-message 
+            *ngIf="erroLogin"
+            severity="error" 
+            [text]="erroLogin"
+            style="margin-bottom: 1rem;">
+        </p-message>
+
        <form [formGroup]="form">
 
             <div class="form-area">

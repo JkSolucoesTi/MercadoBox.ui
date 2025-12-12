@@ -7,7 +7,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ToastModule } from 'primeng/toast';
 import { AsyncPipe } from '@angular/common';
 import { LoaderComponent } from './shared/loader/loader.component';
-import { AuthServiceService } from './pages/login/auth-service.service';
+import { AuthServiceService } from './services/auth-service.service';
 
 
 @Component({

@@ -1,3 +1,4 @@
+import { Permissao } from './model/login/permissao';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MercadoListComponent } from './pages/mercados/mercado-list/mercado-list.component';
@@ -10,6 +11,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { CompraListComponent } from './pages/compra/compra-list/compra-list.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from '../app/core/guards/auth.guard';
+import { Role } from './model/enums/role.enum';
 
 export const routes: Routes = [
 
@@ -19,12 +21,13 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
 
   { path: 'produtos', component: ProdutosListComponent, canActivate: [AuthGuard] },
-  { path: 'produtos/novo', component: ProdutosFormComponent, canActivate: [AuthGuard] },
-  { path: 'produtos/editar/:id', component: ProdutosFormComponent, canActivate: [AuthGuard] },
+  {
+    path: 'produtos/novo', component: ProdutosFormComponent, canActivate: [AuthGuard], data: { permissoes: [Role.ADMIN] }},
+  { path: 'produtos/editar/:id', component: ProdutosFormComponent, canActivate: [AuthGuard] ,data: { permissoes: [Role.ADMIN] }},
 
   { path: 'mercados', component: MercadoListComponent, canActivate: [AuthGuard] },
-  { path: 'mercados/novo', component: MercadoFormComponent, canActivate: [AuthGuard] },
-  { path: 'mercados/editar/:id', component: MercadoFormComponent, canActivate: [AuthGuard] },
+  { path: 'mercados/novo', component: MercadoFormComponent, canActivate: [AuthGuard] ,data: { permissoes: [Role.ADMIN] } },
+  { path: 'mercados/editar/:id', component: MercadoFormComponent, canActivate: [AuthGuard] ,data: { permissoes: [Role.ADMIN] }},
 
   { path: 'carrinho/:id', component: CarrinhoFormComponent, canActivate: [AuthGuard] },
 

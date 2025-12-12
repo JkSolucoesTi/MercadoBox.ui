@@ -17,6 +17,10 @@ private TOKEN_KEY = 'mb_token';
 
 constructor() { }
 
+isAdmin(): boolean {
+  return this.possuiPermissao('ADMIN');
+}
+
   salvarToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
   }

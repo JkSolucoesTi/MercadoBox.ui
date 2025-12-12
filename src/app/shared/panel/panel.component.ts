@@ -4,6 +4,7 @@ import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
 import { ModalService } from 'src/app/services/modal.service';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 
 @Component({
@@ -15,9 +16,12 @@ import { ModalService } from 'src/app/services/modal.service';
 })
 export class PanelComponent implements OnInit {
 
-  constructor(private router: Router , private modalService : ModalService) { }
+  constructor(private router: Router , private modalService : ModalService, private authService : AuthServiceService) { }
+
+  permissao : boolean = true;
 
   ngOnInit(): void {
+    this.permissao = this.authService.possuiPermissao('ADMIN')
   }
 
   //botão de rota
