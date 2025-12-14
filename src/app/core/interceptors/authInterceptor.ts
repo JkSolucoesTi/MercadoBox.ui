@@ -8,9 +8,6 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthServiceService);
   const router = inject(Router);
-
-  debugger;
-
   const token = authService.obterToken();
 
   if (!token) {

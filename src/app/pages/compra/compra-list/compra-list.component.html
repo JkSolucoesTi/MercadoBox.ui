@@ -3,38 +3,55 @@
     [btnDescricao]="'Compra'" [modal]="false">=
   </app-panel>
 
-  <form [formGroup]="form">
+  <div class="flex justify-content-end mb-3">
+    <button pButton icon="pi pi-filter" label="Filtro" class="p-button-link btn-filtro" (click)="sidebarVisible = true">
+    </button>
+  </div>
 
-    <div class="filtros grid">
+  <p-sidebar [(visible)]="sidebarVisible" position="right" styleClass="sidebar-filtros" [baseZIndex]="10000">
 
-      <div class="col-12 md:col-3 filtro-item">
-        <i class="pi pi-shopping-cart mr-2 text-primary"></i>
-        <label>Mercado</label>
-        <p-dropdown [options]="mercados" optionLabel="nome" optionValue="id" formControlName="mercadoId"
-          optionLabel="nome" optionValue="id" placeholder="Selecione" inputClass="input-padrao"
-          [showClear]="true"></p-dropdown>
+    <h3 class="mb-4">Filtre suas Compras</h3>
+
+    <form [formGroup]="form">
+
+      <div class="filtros grid">
+
+        <div class="col-12 md:col-3 filtro-item">
+          <div class="filtro-header">
+            <i class="pi pi-shopping-cart mr-2 text-primary"></i>
+            <label>Mercado</label>
+          </div>
+          <p-dropdown [options]="mercados" optionLabel="nome" optionValue="id" formControlName="mercadoId"
+            optionLabel="nome" optionValue="id" placeholder="Selecione" inputClass="input-padrao"
+            [showClear]="true"></p-dropdown>
+        </div>
+
+        <div class="col-12 md:col-3 filtro-item">
+          <div class="filtro-header">
+            <i class="pi pi-calendar mr-2 text-primary"></i>
+            <label>De :</label>
+          </div>
+          <p-calendar formControlName="dataDe" dateFormat="dd/mm/yy" inputClass="input-padrao"
+            appendTo="body"></p-calendar>
+        </div>
+
+        <div class="col-12 md:col-3 filtro-item">
+          <div class="filtro-header">
+            <i class="pi pi-calendar mr-2 text-primary"></i>
+            <label>Até :</label>
+          </div>
+          <p-calendar formControlName="dataAte" dateFormat="dd/mm/yy" inputClass="input-padrao"
+            appendTo="body"></p-calendar>
+        </div>
+
+        <div class="col-12 md:col-3 botoes">
+          <button pButton icon="pi pi-search" class="p-button-success" (click)="obterCompras()"></button>
+          <!-- <button pButton icon="pi pi-times" class="p-button-danger" (click)="limpar()"></button> -->
+        </div>
+
       </div>
-
-      <div class="col-12 md:col-3 filtro-item">
-        <i class="pi pi-calendar mr-2 text-primary"></i>
-        <label>De :</label>
-        <p-calendar formControlName="dataDe" dateFormat="dd/mm/yy" inputClass="input-padrao"></p-calendar>
-      </div>
-
-      <div class="col-12 md:col-3 filtro-item">
-        <i class="pi pi-calendar mr-2 text-primary"></i>
-        <label>Até :</label>
-        <p-calendar formControlName="dataAte" dateFormat="dd/mm/yy" inputClass="input-padrao"></p-calendar>
-      </div>
-
-      <div class="col-12 md:col-3 botoes">
-        <button pButton icon="pi pi-search" class="p-button-success" (click)="obterCompras()"></button>
-        <button pButton icon="pi pi-times" class="p-button-danger" (click)="limpar()"></button>
-      </div>
-
-    </div>
-  </form>
-
+    </form>
+  </p-sidebar>
 
   <p-divider />
 

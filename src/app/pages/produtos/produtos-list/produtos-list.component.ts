@@ -175,7 +175,6 @@ export class ProdutosListComponent implements OnInit {
   }
 
   onBarcodeScanned(code: any) {
-    debugger
     this.form.get('produto')?.setValue(code);   
     this.search(code); 
     this.showScanner = false;

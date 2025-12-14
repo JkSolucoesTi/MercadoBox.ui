@@ -18,6 +18,8 @@ import { PaginatedResult } from 'src/app/model/Dto/response/paginacoResponse';
 import { MercadoResponse } from 'src/app/model/Dto/response/mercadoResponse';
 import { ApiResponse } from 'src/app/model/apiResponse/apiResponse';
 import { PaginatorModule } from 'primeng/paginator';
+import { SidebarModule } from 'primeng/sidebar';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-compra-list',
@@ -33,7 +35,8 @@ import { PaginatorModule } from 'primeng/paginator';
     DropdownModule,
     ReactiveFormsModule,
     PaginatorModule,
-    PanelComponent
+    PanelComponent,
+    SidebarModule 
   ],
   templateUrl: './compra-list.component.html',
   styleUrls: ['./compra-list.component.scss']
@@ -42,6 +45,7 @@ export class CompraListComponent {
   mercados: MercadoResponse[] = [];
   compras: CompraReponse[] = [];
   form: any;
+  sidebarVisible = false;
 
   first: number = 0;
   rows: number = 10;
@@ -50,7 +54,7 @@ export class CompraListComponent {
 
 
 
-  constructor(private fb: FormBuilder, private compraService: CompraService, private notificacao: NotificacaoService, private router: Router, private mercadoService: MercadoService) {
+  constructor(private fb: FormBuilder, private compraService: CompraService, private notificacao: NotificacaoService, private router: Router, private mercadoService: MercadoService, private primengConfig: PrimeNGConfig) {
   }
 
   ngOnInit(): void {
@@ -61,6 +65,7 @@ export class CompraListComponent {
       dataAte: [null, Validators.required]
     });
     this.obterMercados();   
+    this.calendario();
   }
 
   obterCompras(): void {
@@ -74,6 +79,7 @@ export class CompraListComponent {
         } else {
           this.notificacao.info('Compras', 'Não existem compras neste periodo');
         }
+        this.sidebarVisible = false;
       },
       error: (err: any) => {
         this.notificacao.error('Mensagem', "Não foi possível carregar a Lista de Compras");
@@ -106,5 +112,24 @@ export class CompraListComponent {
     this.rows = event.rows;
     this.paginaAtual = event.page + 1;
     this.obterCompras();
+  }
+
+  calendario(){
+    this.primengConfig.setTranslation({
+    dateFormat: 'dd/mm/yy',
+    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+    dayNamesMin: ['D','S','T','Q','Q','S','S'],
+    monthNames: [
+      'Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+      'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'
+    ],
+    monthNamesShort: [
+      'Jan','Fev','Mar','Abr','Mai','Jun',
+      'Jul','Ago','Set','Out','Nov','Dez'
+    ],
+    today: 'Hoje',
+    clear: 'Limpar'
+  });
   }
 }

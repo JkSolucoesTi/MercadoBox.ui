@@ -44,7 +44,6 @@ export class MercadoListComponent implements OnInit {
   }
 
   carregarMercados(page : number,pageSize : number,filtro : string) {
-    debugger;
     this.mercadoService.listarMercadoPaginado(page,pageSize,filtro)
       .subscribe({
               next: (response: PaginatedResult<MercadoResponse>) => {

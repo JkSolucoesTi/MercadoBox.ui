@@ -51,7 +51,6 @@ export class LoginComponent implements OnInit {
   }
 
   logar() {
-    debugger;
     if (this.form.invalid) return;
 
     this.login.email = field(this.form, "email").value;

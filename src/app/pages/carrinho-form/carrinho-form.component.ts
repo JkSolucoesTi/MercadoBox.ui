@@ -148,7 +148,6 @@ export class CarrinhoFormComponent implements OnInit, OnChanges {
   }
 
   removerItem(item: ItemCarrinho) {
-    debugger;
     this.compraService.removerItemCarrinho(item.compraId!, item.id!)
       .subscribe({
         next: (response) => {
