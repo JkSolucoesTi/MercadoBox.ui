@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
 
   form!: FormGroup;
   login = new LoginSignature();
-  erroLogin: string | null = null;
+  erroLogin: string = "";
 
   constructor(
     private fb: FormBuilder,
@@ -51,7 +51,10 @@ export class LoginComponent implements OnInit {
   }
 
   logar() {
-    if (this.form.invalid) return;
+    // if (this.form.invalid) {
+    //   return;
+    // }
+  
 
     this.login.email = field(this.form, "email").value;
     this.login.password = field(this.form, "password").value;

@@ -10,14 +10,10 @@
             <p class="subtitle">Seu carrinho inteligente</p>
         </div>
 
-                <p-message 
-            *ngIf="erroLogin"
-            severity="error" 
-            [text]="erroLogin"
-            style="margin-bottom: 1rem;">
+        <p-message *ngIf="erroLogin" severity="error" [text]="erroLogin" style="margin-bottom: 1rem;">
         </p-message>
 
-       <form [formGroup]="form">
+        <form [formGroup]="form">
 
             <div class="form-area">
 
@@ -26,8 +22,8 @@
                 <input type="password" formControlName="password" pInputText class="input"
                     placeholder="Digite sua senha" />
 
-               <button type="button" pButton label="Entrar" class="btn-login" (click)="logar()">
-               </button>
+                <button type="button" pButton label="Entrar" class="btn-login" (click)="logar()">
+                </button>
                 <a class="forgot-link">Esqueci minha senha</a>
             </div>
         </form>

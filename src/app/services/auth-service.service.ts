@@ -3,8 +3,8 @@ import { jwtDecode } from 'jwt-decode';
 
 interface JwtPayload {
   email: string;
-  sub: string;       // id
-  permissoes: string[]; // LISTA DE PERMISSÕES ENVIADA PELO BACKEND
+  sub: string;       
+  permissoes: string[]; 
   exp: number;
 }
 

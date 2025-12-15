@@ -1,9 +1,14 @@
-/* ================================
-   SIDEBAR
-================================ */
 :host ::ng-deep .sidebar-filtros {
   width: 380px;
   padding: 1rem;
+}
+
+:host ::ng-deep .dropdown-sem-seta .p-dropdown-trigger {
+  display: none !important;
+}
+
+:host ::ng-deep .dropdown-sem-seta .p-dropdown-label {
+  padding-right: 0.75rem !important;
 }
 
 @media (max-width: 768px) {
@@ -12,9 +17,6 @@
   }
 }
 
-/* ================================
-   FILTROS (sempre em coluna)
-================================ */
 .filtro-container,
 .filtros {
   display: flex;
@@ -22,9 +24,6 @@
   gap: 1rem;
 }
 
-/* ================================
-   ITEM DE FILTRO
-================================ */
 .filtro-item {
   display: flex;
   flex-direction: column;
@@ -37,9 +36,6 @@
   }
 }
 
-/* ================================
-   INPUTS PrimeNG (forçando largura real)
-================================ */
 :host ::ng-deep .filtro-item .p-dropdown,
 :host ::ng-deep .filtro-item .p-calendar,
 :host ::ng-deep .filtro-item .p-inputtext {
@@ -48,15 +44,11 @@
   height: 2.75rem;
 }
 
-/* input interno */
 :host ::ng-deep .filtro-item .p-dropdown .p-dropdown-label,
 :host ::ng-deep .filtro-item .p-calendar .p-inputtext {
   width: 100% !important;
 }
 
-/* ================================
-   BOTÕES (largura total)
-================================ */
 .botoes,
 .botao {
   display: flex;
@@ -75,16 +67,12 @@
 :host ::ng-deep .sidebar-filtros {
   overflow-x: hidden;
 }
-:host ::ng-deep .p-dropdown-trigger {
-  display: none !important;
-}
 
-/* ================================
-   CALENDÁRIO MENOR (popup)
-================================ */
+
+
 :host ::ng-deep .p-datepicker {
-  font-size: 0.8rem;      /* 🔥 reduz tudo */
-  width: 17rem;           /* largura controlada */
+  font-size: 0.8rem;      
+  width: 17rem;           
 }
 
 :host ::ng-deep .p-datepicker table {
@@ -99,7 +87,8 @@
   padding: 0.3rem;
 }
 
-/* cabeçalho (mês/ano) */
 :host ::ng-deep .p-datepicker-header {
   padding: 0.3rem;
 }
+
+

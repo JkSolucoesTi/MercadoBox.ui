@@ -20,6 +20,7 @@ import { ApiResponse } from 'src/app/model/apiResponse/apiResponse';
 import { PaginatorModule } from 'primeng/paginator';
 import { SidebarModule } from 'primeng/sidebar';
 import { PrimeNGConfig } from 'primeng/api';
+import { CompraCardComponent } from '../compra-card/compra-card.component';
 
 @Component({
   selector: 'app-compra-list',
@@ -36,7 +37,8 @@ import { PrimeNGConfig } from 'primeng/api';
     ReactiveFormsModule,
     PaginatorModule,
     PanelComponent,
-    SidebarModule 
+    SidebarModule,
+    CompraCardComponent
   ],
   templateUrl: './compra-list.component.html',
   styleUrls: ['./compra-list.component.scss']

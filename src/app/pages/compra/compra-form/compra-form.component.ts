@@ -14,6 +14,7 @@ import { StatusE } from 'src/app/model/enum/statusE';
 import { CompraSignature } from 'src/app/model/Dto/signature/compraSignature';
 import { MercadoResponse } from 'src/app/model/Dto/response/mercadoResponse';
 import { NotificacaoService } from 'src/app/shared/notificacao.service';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 @Component({
   selector: 'app-compra-form',
@@ -28,6 +29,7 @@ export class CompraFormComponent implements OnInit {
   form!: FormGroup;
 
   constructor(
+    private authService : AuthServiceService,
     private mercadoService: MercadoService,
     private notificacao: NotificacaoService,
     private compraService: CompraService,
@@ -65,6 +67,7 @@ export class CompraFormComponent implements OnInit {
       compra.mercadoId = this.form.get('mercadoId')?.value,
         compra.data = this.form.get('data')?.value,
         compra.itens = [],
+        compra.idUsuario = Number(this.authService.obterPayload()?.sub);
 
         this.compraService.criarCompra(compra).subscribe(
           {

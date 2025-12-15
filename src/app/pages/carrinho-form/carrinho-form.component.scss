@@ -1,5 +1,13 @@
+:root {
+  --footer-height: 150px;
+}
+
 .container{
-  padding-bottom: 120px;
+  padding-bottom: var(--footer-height);
+}
+
+:host ::ng-deep .p-datatable-wrapper {
+  padding-bottom: 130px; /* altura do footer */
 }
 
 label {

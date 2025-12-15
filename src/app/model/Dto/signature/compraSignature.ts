@@ -2,11 +2,12 @@ import { ItemCarrinho } from "../../carrinho/itemCarrinho";
 
 export class CompraSignature {
 
-      id?: number;
+      id?: number;      
       mercadoId?: number;
       data?: string;
       itens: ItemCarrinho[] = [];
-
+      idUsuario?:number;
+      
   public Create(idMercado: number, data: string, itens: ItemCarrinho[]): CompraSignature {
     const compra = new CompraSignature();
     compra.mercadoId = idMercado;
