@@ -21,6 +21,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { SidebarModule } from 'primeng/sidebar';
 import { PrimeNGConfig } from 'primeng/api';
 import { CompraCardComponent } from '../compra-card/compra-card.component';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 @Component({
   selector: 'app-compra-list',
@@ -56,7 +57,14 @@ export class CompraListComponent {
 
 
 
-  constructor(private fb: FormBuilder, private compraService: CompraService, private notificacao: NotificacaoService, private router: Router, private mercadoService: MercadoService, private primengConfig: PrimeNGConfig) {
+  constructor(
+    private authService : AuthServiceService,
+    private fb: FormBuilder, 
+    private compraService: CompraService, 
+    private notificacao: NotificacaoService, 
+    private router: Router, 
+    private mercadoService: MercadoService, 
+    private primengConfig: PrimeNGConfig) {
   }
 
   ngOnInit(): void {
@@ -71,9 +79,12 @@ export class CompraListComponent {
   }
 
   obterCompras(): void {
-
+    debugger;
+    /*Criar uma request para enviar alguma parametros para a service*/
     const f = this.form.value;
-    this.compraService.listarCompraPaginado(this.paginaAtual,this.rows,f.mercadoId,f.dataDe,f.dataAte).subscribe({
+    var id_usuario = Number(this.authService.obterPayload()?.sub);
+
+    this.compraService.listarCompraPaginado(this.paginaAtual,this.rows,f.mercadoId,f.dataDe,f.dataAte,id_usuario).subscribe({
       next: (response :PaginatedResult<CompraReponse>) => {
         if (response.itens.length > 0) {
           this.compras = response.itens;

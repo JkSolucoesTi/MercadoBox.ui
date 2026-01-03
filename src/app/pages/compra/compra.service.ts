@@ -49,14 +49,15 @@ export class CompraService {
     return this.http.post<ApiResponse<boolean>>(`${environment.apiUrl}/${this.controller}/AtualizarStatus`, singnature);
   }
 
-  listarCompraPaginado(pagina: number, tamanhoPagina: number, mercado_id: number, data_inicio: Date, data_fim: Date): Observable<PaginatedResult<CompraReponse>> {
+  listarCompraPaginado(pagina: number, tamanhoPagina: number, mercado_id: number, data_inicio: Date, data_fim: Date,id_usuario: number): Observable<PaginatedResult<CompraReponse>> {
 
     let params = new HttpParams()
       .set('page', pagina)
       .set('pageSize', tamanhoPagina)
       .set('mercado_id', mercado_id || '')
       .set('data_inicio', Utils.toDateString(data_inicio) )
-      .set('data_fim', Utils.toDateString(data_fim));
+      .set('data_fim', Utils.toDateString(data_fim))
+      .set('id_usuario',id_usuario);
 
     return this.http.get<PaginatedResult<CompraReponse>>(`${environment.apiUrl}/${this.controller}/GetCompras`, { params });
   }

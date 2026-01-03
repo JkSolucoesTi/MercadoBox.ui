@@ -1,15 +1,18 @@
-<p-card styleClass="mercado-card">
+<p-card styleClass="mercado-card card-relative">
 
-  <div class="flex align-items-center gap-3 mb-3">
-    <img 
-      [src]="'assets/carrefour.png'" 
-      alt="Logo mercado"
-      class="mercado-logo"
-    />
-    <div class="mercado-nome" >
-        {{ mercado.nome }}
+  <ng-template pTemplate="header">
+    <div class="card-header">
+      <img [src]="'assets/carrefour.png'" class="mercado-logo" />
+
+      <div class="mercado-nome">{{ mercado.nome }}</div>
+
+      <button pButton 
+              icon="pi pi-pencil"
+              class="edit-btn p-button-rounded p-button-text p-button-sm"
+              (click)="editar(mercado.id)">
+      </button>
     </div>
-  </div>
+  </ng-template>
 
   <div class="mb-2 flex align-items-center gap-2 text-gray-700">
     <i class="pi pi-map-marker"></i>

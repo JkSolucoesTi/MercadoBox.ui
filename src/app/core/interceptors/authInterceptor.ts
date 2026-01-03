@@ -14,18 +14,15 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
-  // 🔥 Verifica expiração do token
   const payload: any = jwtDecode(token);
-  const tempoAtual = Math.floor(Date.now() / 1000); // em segundos
+  const tempoAtual = Math.floor(Date.now() / 1000); 
 
   if (payload.exp && payload.exp < tempoAtual) {
-    // Token expirado!
     authService.logout();
     router.navigate(['/login']);
     return throwError(() => new Error('Token expirado'));
   }
 
-  // 🔥 Token válido → adiciona no header
   const reqComToken = req.clone({
     setHeaders: {
       Authorization: `Bearer ${token}`,
@@ -35,7 +32,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(reqComToken).pipe(
     catchError((erro: HttpErrorResponse) => {
       if (erro.status === 401) {
-        // Backend pode mandar 401 → forçar logout
         authService.logout();
         router.navigate(['/login']);
       }

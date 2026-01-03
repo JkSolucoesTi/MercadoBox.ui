@@ -68,7 +68,7 @@ export class CompraFormComponent implements OnInit {
         compra.data = this.form.get('data')?.value,
         compra.itens = [],
         compra.idUsuario = Number(this.authService.obterPayload()?.sub);
-
+        
         this.compraService.criarCompra(compra).subscribe(
           {
             next: (response) => {

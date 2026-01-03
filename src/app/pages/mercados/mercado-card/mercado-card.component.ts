@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { MercadoResponse } from 'src/app/model/Dto/response/mercadoResponse';
 
@@ -6,12 +8,15 @@ import { MercadoResponse } from 'src/app/model/Dto/response/mercadoResponse';
   selector: 'app-mercado-card',
   standalone:true,
   imports:[
-    CardModule
+    CardModule,
+    ButtonModule
   ],
   templateUrl: './mercado-card.component.html',
   styleUrls: ['./mercado-card.component.scss']
 })
 export class MercadoCardComponent {
+
+  constructor(private router: Router){}
 
   @Input() mercado!: MercadoResponse
 
@@ -19,4 +24,9 @@ export class MercadoCardComponent {
     const endereco = `${this.mercado.nome} ${this.mercado.endereco}`;
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(endereco)}`;
   }
+
+ editar(id: number | undefined){
+  debugger;
+    this.router.navigate(['/mercados/editar/', id]);
+ }
 }

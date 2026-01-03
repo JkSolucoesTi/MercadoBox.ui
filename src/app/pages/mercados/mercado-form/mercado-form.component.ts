@@ -28,6 +28,7 @@ export class MercadoFormComponent implements OnInit {
   form!: FormGroup;
   mercado!: MercadoSignature
   id?: number;
+  labelBtn: string = "Salvar"
 
   constructor(
     private fb: FormBuilder,
@@ -40,23 +41,42 @@ export class MercadoFormComponent implements OnInit {
   ngOnInit(): void {
 
     this.form = this.fb.group({
+      id:[null],
       nome: ['', Validators.required],
       endereco: ['', Validators.required],
       cidade: ['', Validators.required],
       estado: ['', Validators.required],
-      cnpj: ['', [Validators.required , Validators.maxLength(18) ]],
-      telefone: ['', Validators.required],
-      descricao: ['', Validators.required]
+      cnpj: ['', [Validators.required, Validators.maxLength(18)]],
+      telefone: ['', Validators.required]
     })
 
+    debugger;
     this.id = this.route.snapshot.params['id'];
     if (this.id) {
-      this.mercadoService.buscarPorId(this.id).subscribe(dados => this.mercado = dados);
+      this.mercadoService.buscarPorId(this.id).subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.notificacao.success('Mercado', response.message)
+            this.form.get('id')?.setValue(response.data.id);
+            this.form.get('nome')?.setValue(response.data.nome);
+            this.form.get('endereco')?.setValue(response.data.endereco);
+            this.form.get('cidade')?.setValue(response.data.cidade);
+            this.form.get('estado')?.setValue(response.data.estado);
+            this.form.get('cnpj')?.setValue(response.data.cnpj);
+            this.form.get('telefone')?.setValue(response.data.telefone);
+            this.form.get('descricao')?.setValue(response.data.descricao);
+            this.labelBtn = "Editar";
+          } else {
+            debugger;
+            this.notificacao.error('Mercado', response.message);
+          }
+        }
+      });
     }
   }
 
   salvarMercado() {
-    
+    debugger;
     this.mercado = this.form.value;
     if (this.mercado.id) {
       this.mercadoService.atualizar(this.mercado.id, this.mercado).subscribe({
@@ -64,8 +84,8 @@ export class MercadoFormComponent implements OnInit {
           if (response.success) {
             this.router.navigate(['/mercados']);
             this.notificacao.success('Mercado', response.message)
-          }else{
-            this.notificacao.error('Mercado',response.message);
+          } else {
+            this.notificacao.error('Mercado', response.message);
           }
         }
         , error: (erro) => {
@@ -89,3 +109,4 @@ export class MercadoFormComponent implements OnInit {
     }
   }
 }
+

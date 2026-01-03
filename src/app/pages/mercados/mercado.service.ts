@@ -45,8 +45,8 @@ export class MercadoService {
         return this.http.get<PaginatedResult<MercadoResponse>>(`${environment.apiUrl}/${this.controller}/GetMercados`, { params });
   }
 
-  buscarPorId(id: number): Observable<Mercado> {
-    return this.http.get<Mercado>(`${environment.apiUrl}/${this.controller}/${id}`);
+  buscarPorId(id: number): Observable<ApiResponse<Mercado>> {
+    return this.http.get<ApiResponse<Mercado>>(`${environment.apiUrl}/${this.controller}/${id}`);
   }
 
   criar(mercado: MercadoSignature): Observable<ApiResponse<MercadoResponse>> {

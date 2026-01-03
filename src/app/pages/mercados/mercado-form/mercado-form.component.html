@@ -32,13 +32,8 @@
         <label>Telefone</label>
         <input type="text" formControlName="telefone" pInputText name="telefone" required  mask="(00) 0000-00000" placeholder="Telefone"/>
       </div>
-
-      <div class="field">
-        <label>Descrição</label>
-        <input type="text" formControlName="descricao" pInputText  name="descricao" required  placeholder="Descrição"/>
-      </div>
     
-      <button pButton type="submit" label="Salvar" icon="pi pi-save" class="p-button-success" 
+      <button pButton type="submit" label={{labelBtn}} icon="pi pi-save" class="p-button-success" 
       [disabled]="form.invalid"
       ></button>
     </form>
