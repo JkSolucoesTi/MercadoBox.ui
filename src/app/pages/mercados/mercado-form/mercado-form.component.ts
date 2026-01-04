@@ -9,6 +9,7 @@ import { CardModule } from 'primeng/card';
 import { MercadoSignature } from 'src/app/model/Dto/signature/mercadoSignature';
 import { NotificacaoService } from 'src/app/shared/notificacao.service';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-mercado-form',
@@ -19,6 +20,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     ButtonModule,
     RouterModule,
     CardModule,
+    CheckboxModule,
     ReactiveFormsModule],
   templateUrl: './mercado-form.component.html',
   styleUrls: ['./mercado-form.component.scss']
@@ -47,7 +49,8 @@ export class MercadoFormComponent implements OnInit {
       cidade: ['', Validators.required],
       estado: ['', Validators.required],
       cnpj: ['', [Validators.required, Validators.maxLength(18)]],
-      telefone: ['', Validators.required]
+      telefone: ['', Validators.required],
+      ativo: [false],
     })
 
     debugger;
@@ -65,9 +68,9 @@ export class MercadoFormComponent implements OnInit {
             this.form.get('cnpj')?.setValue(response.data.cnpj);
             this.form.get('telefone')?.setValue(response.data.telefone);
             this.form.get('descricao')?.setValue(response.data.descricao);
+            this.form.get('ativar')?.setValue(response.data.ativo)
             this.labelBtn = "Editar";
           } else {
-            debugger;
             this.notificacao.error('Mercado', response.message);
           }
         }
@@ -76,7 +79,6 @@ export class MercadoFormComponent implements OnInit {
   }
 
   salvarMercado() {
-    debugger;
     this.mercado = this.form.value;
     if (this.mercado.id) {
       this.mercadoService.atualizar(this.mercado.id, this.mercado).subscribe({

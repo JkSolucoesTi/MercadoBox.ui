@@ -6,4 +6,5 @@ export class MercadoSignature{
     estado?: string;
     cnpj?: string;
     telefone?: string;
+    ativo?:boolean;
 }

@@ -57,7 +57,7 @@ export class MercadoListComponent implements OnInit {
   }
 
   deletarMercado(id: number) {
-    this.mercadoService.deletar(id).subscribe(() => {
+    this.mercadoService.desativar(id).subscribe(() => {
     });
   }
 

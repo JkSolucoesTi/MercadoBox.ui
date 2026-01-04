@@ -19,6 +19,7 @@ export interface Mercado {
   telefone: string;
   descricao: string;
   quantidade: number;
+  ativo:boolean;
 }
 
 @Injectable({
@@ -50,14 +51,14 @@ export class MercadoService {
   }
 
   criar(mercado: MercadoSignature): Observable<ApiResponse<MercadoResponse>> {
-    return this.http.post<ApiResponse<MercadoResponse>>(`${environment.apiUrl}/${this.controller}/Create`, mercado);
+    return this.http.post<ApiResponse<MercadoResponse>>(`${environment.apiUrl}/${this.controller}/Criar`, mercado);
   }
 
   atualizar(id: number, mercado: MercadoSignature): Observable<ApiResponse<MercadoResponse>> {
     return this.http.put<ApiResponse<MercadoSignature>>(`${environment.apiUrl}/${this.controller}/${id}`, mercado);
   }
 
-  deletar(id: number): Observable<void> {
+  desativar(id: number): Observable<void> {
     return this.http.delete<void>(`${environment.apiUrl}/${this.controller}/${id}`);
   }
 }
