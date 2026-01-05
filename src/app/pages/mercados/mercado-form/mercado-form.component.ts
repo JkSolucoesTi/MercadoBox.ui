@@ -53,7 +53,6 @@ export class MercadoFormComponent implements OnInit {
       ativo: [false],
     })
 
-    debugger;
     this.id = this.route.snapshot.params['id'];
     if (this.id) {
       this.mercadoService.buscarPorId(this.id).subscribe({
@@ -68,7 +67,7 @@ export class MercadoFormComponent implements OnInit {
             this.form.get('cnpj')?.setValue(response.data.cnpj);
             this.form.get('telefone')?.setValue(response.data.telefone);
             this.form.get('descricao')?.setValue(response.data.descricao);
-            this.form.get('ativar')?.setValue(response.data.ativo)
+            this.form.get('ativo')?.setValue(response.data.ativo)
             this.labelBtn = "Editar";
           } else {
             this.notificacao.error('Mercado', response.message);

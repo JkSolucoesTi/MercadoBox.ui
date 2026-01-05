@@ -79,8 +79,6 @@ export class CompraListComponent {
   }
 
   obterCompras(): void {
-    debugger;
-    /*Criar uma request para enviar alguma parametros para a service*/
     const f = this.form.value;
     var id_usuario = Number(this.authService.obterPayload()?.sub);
 

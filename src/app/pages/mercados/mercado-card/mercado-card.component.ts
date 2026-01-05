@@ -26,7 +26,6 @@ export class MercadoCardComponent {
   }
 
  editar(id: number | undefined){
-  debugger;
     this.router.navigate(['/mercados/editar/', id]);
  }
 }
