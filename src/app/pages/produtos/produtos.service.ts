@@ -1,3 +1,4 @@
+import { ApiResponse } from './../../model/apiResponse/apiResponse';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -34,8 +35,8 @@ export class ProdutosService {
       return this.http.get<PaginatedResult<ProdutoResponse>>(`${environment.apiUrl}/Produtos/GetProdutos`, { params });
 }
 
-  buscarPorId(id: number): Observable<ProdutoResponse> {
-    return this.http.get<ProdutoResponse>(`${environment.apiUrl}/${this.controller}/${id}`);
+  buscarPorId(id: number): Observable<ApiResponse<ProdutoResponse>> {
+    return this.http.get<ApiResponse<ProdutoResponse>>(`${environment.apiUrl}/${this.controller}/${id}`);
   }
 
   searchByCodigo(signature: ProdutoPesquisaSignature): Observable<ProdutoResponse[]> {
@@ -46,12 +47,12 @@ export class ProdutosService {
     return this.http.post<ProdutoResponse[]>(`${environment.apiUrl}/${this.controller}/searchByCodigo`, signature);
   }
 
-  criar(produto: ProdutoSignature): Observable<ProdutoResponse> {
-    return this.http.post<ProdutoSignature>(`${environment.apiUrl}/${this.controller}/Create` , produto);
+  criar(produto: ProdutoSignature): Observable<ApiResponse<ProdutoResponse>> {
+    return this.http.post<ApiResponse<ProdutoSignature>>(`${environment.apiUrl}/${this.controller}/Create` , produto);
   }
 
-  atualizar(produto: ProdutoCompleto): Observable<ProdutoCompleto> {
-    return this.http.put<ProdutoCompleto>(`${environment.apiUrl}/${this.controller}/${produto.id}`, produto);
+  atualizar(produto: ProdutoCompleto): Observable<ApiResponse<ProdutoCompleto>> {
+    return this.http.put<ApiResponse<ProdutoCompleto>>(`${environment.apiUrl}/${this.controller}/${produto.id}`, produto);
   }
 
   deletar(id: number): Observable<void> {

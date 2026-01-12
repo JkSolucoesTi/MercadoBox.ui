@@ -7,12 +7,12 @@
       <div class="field">
         <label for="nome">Codigo de Barras - EAN13</label>
         <div class="p-inputgroup">
-        <input id="nome" type="text" pInputText formControlName="codigo" required [maxlength]="13"
-          placeholder="Codigo de Barras do Produto"/>
-        <button pButton type="button" icon="pi pi-camera" (click)="openScanner()"></button>
+          <input id="nome" type="text" pInputText formControlName="codigo" required [maxlength]="13"
+            placeholder="Codigo de Barras do Produto" />
+          <button pButton type="button" icon="pi pi-camera" (click)="openScanner()"></button>
         </div>
         <app-barcode-scanner *ngIf="showScanner" (scanned)="onBarcodeScanned($event)" (close)="closeScanner()">
-        </app-barcode-scanner>        
+        </app-barcode-scanner>
       </div>
 
 
@@ -34,9 +34,13 @@
           placeholder="Descrição do Produto" />
       </div>
 
+      <div class="field">
+        <p-checkbox inputId="ativo" formControlName="ativo" [binary]="true" label="Ativar"></p-checkbox>
+      </div>
 
-      <button pButton type="submit" label="Salvar" icon="pi pi-save" class="p-button-success" 
-      [disabled]="form.invalid"></button>
+
+      <button pButton type="submit" label="Salvar" icon="pi pi-save" class="p-button-success"
+        [disabled]="form.invalid"></button>
 
     </form>
     <div>

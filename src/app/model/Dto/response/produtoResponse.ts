@@ -6,4 +6,5 @@ export class ProdutoResponse {
     categoriaId?:number;
     categoria?: string;
     descricao?: string;
+    ativo?:boolean;
 }

@@ -8,7 +8,6 @@ import { MercadoService } from '../mercado.service';
 import { CardModule } from 'primeng/card';
 import { MercadoSignature } from 'src/app/model/Dto/signature/mercadoSignature';
 import { NotificacaoService } from 'src/app/shared/notificacao.service';
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({

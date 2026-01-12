@@ -1,14 +1,24 @@
-<p-card styleClass="mercado-card">
-  <div class="flex align-items-center gap-3 mb-3">
+<p-card styleClass="produto-card">
+  <div class="flex align-items-center gap-3 mb-3 header-card">
     <i class="pi pi-search icon-scan" (click)="abrirModal()"></i>
+
     <div>
       <div class="font-semibold text-lg">{{ produto.nome }}</div>
       <span class="badge-compra">{{ produto.categoria }}</span>
     </div>
+
+    <button
+      pButton
+      icon="pi pi-pencil"
+      class="edit-btn p-button-rounded p-button-text p-button-sm"
+      (click)="editar(produto.id)">
+    </button>
   </div>
+
   <div class="mb-2 flex align-items-center gap-2 text-gray-700">
     <i class="pi pi-barcode"></i>
     <span>{{ produto.codigo }}</span>
   </div>
+
   <div class="text-gray-600 text-sm mb-1">{{ produto.descricao }}</div>
 </p-card>
