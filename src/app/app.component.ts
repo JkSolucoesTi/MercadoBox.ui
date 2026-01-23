@@ -25,6 +25,7 @@ import { AuthServiceService } from './services/auth-service.service';
   </div>
 </div>
   <ng-template #loginOnly>
+    <app-loader [visible]="(loaderService.loading$ | async) ?? false"></app-loader>
   <router-outlet></router-outlet>
 </ng-template>
   `,

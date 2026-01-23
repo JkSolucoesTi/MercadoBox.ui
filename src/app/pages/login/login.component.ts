@@ -59,10 +59,10 @@ export class LoginComponent implements OnInit {
     this.login.email = field(this.form, "email").value;
     this.login.password = field(this.form, "password").value;
 
-    this.loginService.login(this.login).subscribe({
+    this.loginService.login(this.login).subscribe({     
       next: (response: ApiResponse<LoginResponse>) => {
         if (response.success === false) {
-              this.erroLogin = response.message;   // <-- AQUI
+              this.erroLogin = response.message;
               return;
         } else {
           this.authService.salvarToken(response.data.token);
