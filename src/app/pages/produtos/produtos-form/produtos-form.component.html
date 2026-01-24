@@ -38,9 +38,15 @@
         <p-checkbox inputId="ativo" formControlName="ativo" [binary]="true" label="Ativar"></p-checkbox>
       </div>
 
+      <div class="field">
+        <button pButton type="submit" label="Salvar" icon="pi pi-save" class="p-button-success"
+          [disabled]="form.invalid"></button>
+      </div>
 
-      <button pButton type="submit" label="Salvar" icon="pi pi-save" class="p-button-success"
-        [disabled]="form.invalid"></button>
+      <div class="field">
+        <button pButton type="submit" label="Voltar" icon="pi pi-chevron-left" class="p-button-info"
+          routerLink="/produtos"></button>
+      </div>
 
     </form>
     <div>
