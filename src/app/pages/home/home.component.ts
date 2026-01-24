@@ -34,13 +34,13 @@ export class HomeComponent implements OnInit {
     nome: 'Compras',
     rota: '/compras',
     icone: 'pi pi-wallet',
-    descricao: 'Monte seu carrinho e acompanhe em tempo real o total da sua compra.'
+    descricao: 'Monte seu carrinho e acompanhe o total da sua compra.'
   },
   {
     nome: 'Produtos',
     rota: '/produtos',
     icone: 'pi pi-box',
-    descricao: 'Pesquise produtos pelo nome ou utilize o código de barras.'
+    descricao: 'Pesquise produtos pelo nome ou código de barras.'
   },
   {
     nome: 'Mercados',
