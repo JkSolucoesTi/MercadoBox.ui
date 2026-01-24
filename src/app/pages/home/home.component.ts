@@ -29,11 +29,26 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-    menus = [
-    { nome: 'Compras', rota: '/compras', icone: 'pi pi-wallet' },
-    { nome: 'Produtos', rota: '/produtos', icone: 'pi pi-box' },
-    { nome: 'Mercados', rota: '/mercados', icone: 'pi pi-shopping-cart' }
-  ];
+   menus = [
+  {
+    nome: 'Compras',
+    rota: '/compras',
+    icone: 'pi pi-wallet',
+    descricao: 'Monte seu carrinho e acompanhe em tempo real o total da sua compra.'
+  },
+  {
+    nome: 'Produtos',
+    rota: '/produtos',
+    icone: 'pi pi-box',
+    descricao: 'Pesquise produtos pelo nome ou utilize o código de barras.'
+  },
+  {
+    nome: 'Mercados',
+    rota: '/mercados',
+    icone: 'pi pi-shopping-cart',
+    descricao: 'Encontre mercados próximos e navegue pelo Google Maps.'
+  }
+];
 
   navegar(rota: string) {
     this.router.navigate([rota]);
