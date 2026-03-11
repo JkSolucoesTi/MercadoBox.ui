@@ -24,6 +24,11 @@
 
                 <button type="button" pButton label="Entrar" class="btn-login" (click)="logar()">
                 </button>
+                <div class="register-area">
+                    <span>Não tem conta?</span>
+                    <a [routerLink]="['/cadastro']" class="register-link">Cadastre-se</a>
+                </div>
+
                 <a class="forgot-link">Esqueci minha senha</a>
             </div>
         </form>

@@ -12,6 +12,8 @@ import { CompraListComponent } from './pages/compra/compra-list/compra-list.comp
 import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from '../app/core/guards/auth.guard';
 import { Role } from './model/enums/role.enum';
+import { EnviarEmailComponent } from './Email/enviar-email/enviar-email.component';
+import { CadastroComponent } from './pages/cadastro/cadastro.component';
 
 export const routes: Routes = [
 
@@ -34,6 +36,8 @@ export const routes: Routes = [
   { path: 'compras', component: CompraListComponent, canActivate: [AuthGuard] },
   { path: 'compras/novo', component: CompraFormComponent, canActivate: [AuthGuard] },
 
+  {path:'email',component: EnviarEmailComponent},
+  {path:'cadastro',component:CadastroComponent},
   { path: '**', redirectTo: 'login' }
 ];
 

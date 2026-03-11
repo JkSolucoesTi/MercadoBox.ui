@@ -1,0 +1,75 @@
+:host ::ng-deep .p-datatable {
+  background: #ffffff;
+}
+
+:host ::ng-deep .p-datatable-wrapper {
+  background: #ffffff;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr {
+  background: #ffffff;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th {
+  background: #f8f9fa;
+  color: #495057;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr:nth-child(even) {
+  background: #fcfcfc;
+}
+
+/* força largura mínima da tabela */
+:host ::ng-deep .p-datatable-table {
+  min-width: 1000px;
+}
+
+:host {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+p-card {
+  width: 1100px;
+  max-width: 95vw;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.mt-5 {
+  margin-top: 3rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* VERDE */
+.status-success {
+  background: #e6f4ea;
+  color: #1e7e34;
+}
+
+/* AZUL */
+.status-pending {
+  background: #e7f1ff;
+  color: #0d6efd;
+}
+
+/* VERMELHO */
+.status-error {
+  background: #fdecea;
+  color: #dc3545;
+}

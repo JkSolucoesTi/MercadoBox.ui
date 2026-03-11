@@ -100,3 +100,21 @@
     margin: 0 auto;
   }
 }
+
+.register-area {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.register-link {
+  margin-left: 5px;
+  font-weight: 600;
+  color: var(--primary-color);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}

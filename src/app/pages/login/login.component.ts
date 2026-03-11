@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
@@ -23,8 +23,9 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
     InputTextModule,
     ButtonModule,
     CardModule,
-    MessageModule
-  ],
+    MessageModule,
+    RouterModule
+],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })

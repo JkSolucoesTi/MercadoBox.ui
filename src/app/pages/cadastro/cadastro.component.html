@@ -1,0 +1,35 @@
+<div class="register-container">
+  <p-card header="Cadastro - MercadoBox" class="register-card">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="p-fluid">
+
+      <div class="field">
+        <label for="email">Email</label>
+        <span class="p-input-icon-left">
+          <i class="pi pi-envelope"></i>
+          <input id="email" type="email" pInputText formControlName="email" placeholder="Digite seu email" />
+        </span>
+        <small *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="p-error">
+          Email inválido
+        </small>
+      </div>
+
+      <div class="field">
+        <label for="password">Senha</label>
+        <p-password formControlName="password" [feedback]="false" [toggleMask]="true" placeholder="Digite sua senha">
+        </p-password>
+        <small *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="p-error">
+          A senha deve ter no mínimo 6 caracteres
+        </small>
+      </div>
+      <div class="field">
+        <label for="cpf">CPF</label>
+        <p-inputMask formControlName="cpf" mask="999.999.999-99" placeholder="Digite seu CPF">
+        </p-inputMask>
+      </div>
+
+      <button pButton type="submit" label="Salvar" icon="pi pi-check" class="p-button-success w-full mt-3">
+      </button>
+
+    </form>
+  </p-card>
+</div>
