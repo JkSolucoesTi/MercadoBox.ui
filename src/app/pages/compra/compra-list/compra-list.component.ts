@@ -75,6 +75,7 @@ export class CompraListComponent {
       dataAte: [null, Validators.required]
     });
     this.obterMercados();   
+    this.obterCompras();
     this.calendario();
   }
 

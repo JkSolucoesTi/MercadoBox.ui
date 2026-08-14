@@ -55,6 +55,7 @@ export class EnviarEmailComponent {
           this.loading = false;
         },
         error: err => {
+          debugger;
           this.loading = false;
           this.Message = 'Erro ao importar arquivo.';
           this.show = true;
@@ -77,8 +78,8 @@ export class EnviarEmailComponent {
         },
         error: err => {
           this.show = true;
-          this.loading = false;
-          this.Message = err.error;
+          this.loading = false;          
+          this.Message = err.error.data;
           this.fileUpload.clear();
         }
       });
