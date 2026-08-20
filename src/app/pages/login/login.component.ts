@@ -52,11 +52,10 @@ export class LoginComponent implements OnInit {
   }
 
   logar() {
-    // if (this.form.invalid) {
-    //   return;
-    // }
+     if (this.form.invalid) {
+       return;
+     }
   
-
     this.login.email = field(this.form, "email").value;
     this.login.password = field(this.form, "password").value;
 
@@ -66,8 +65,8 @@ export class LoginComponent implements OnInit {
               this.erroLogin = response.message;
               return;
         } else {
-          this.authService.salvarToken(response.data.token);
-          this.router.navigate(['/home']);
+          this.authService.salvarToken(response.data.token);          
+          this.router.navigate(['/home']);         
         }
       },
       error: () => {
@@ -75,4 +74,6 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
+  
 }

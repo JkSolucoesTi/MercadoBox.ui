@@ -1,0 +1,45 @@
+<p-dialog
+  [visible]="(locationService.promptVisible$ | async) ?? false"
+  [modal]="true"
+  [closable]="false"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '90vw', maxWidth: '460px' }"
+  header="Permissão de Localização"
+>
+  <div class="location-dialog-content">
+    <div class="icon-wrapper">
+      <i class="pi pi-map-marker text-primary text-4xl"></i>
+    </div>
+    <div class="text-wrapper">
+      <p class="dialog-title">Precisamos da sua localização</p>
+      <p class="dialog-description">
+        Para encontrarmos os mercados mais próximos de você, precisamos acessar sua localização.
+      </p>
+      <small class="dialog-hint">
+        Você pode continuar utilizando o MercadoBox normalmente mesmo se optar por não permitir agora.
+      </small>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="dialog-footer">
+      <button
+        pButton
+        type="button"
+        label="Agora não"
+        icon="pi pi-times"
+        class="p-button-text p-button-secondary"
+        (click)="onAgoraNao()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Permitir localização"
+        icon="pi pi-check"
+        class="p-button-primary"
+        (click)="onPermitir()"
+      ></button>
+    </div>
+  </ng-template>
+</p-dialog>

@@ -1,0 +1,44 @@
+<div class="location-badge-container" [class.compact]="compact">
+  <ng-container *ngIf="(locationService.locationStatus$ | async) as status">
+    
+    <!-- IDENTIFIED -->
+    <div
+      *ngIf="status === LocationStatus.IDENTIFIED"
+      class="badge-pill identified"
+      [pTooltip]="getTooltip(locationService.currentLocation$ | async)"
+      tooltipPosition="bottom"
+      (click)="atualizarLocalizacao()"
+    >
+      <i class="pi pi-map-marker icon-status"></i>
+      <span class="badge-text">{{ getDisplayLocation(locationService.currentLocation$ | async) }}</span>
+      <i class="pi pi-refresh icon-action"></i>
+    </div>
+
+    <!-- REQUESTING -->
+    <div *ngIf="status === LocationStatus.REQUESTING" class="badge-pill requesting">
+      <i class="pi pi-spin pi-spinner icon-status"></i>
+      <span class="badge-text">Identificando...</span>
+    </div>
+
+    <!-- NOT_IDENTIFIED / DENIED / UNAVAILABLE / ERROR -->
+    <div
+      *ngIf="status !== LocationStatus.IDENTIFIED && status !== LocationStatus.REQUESTING"
+      class="badge-pill not-identified"
+      (click)="solicitarLocalizacao()"
+      pTooltip="Clique para identificar sua localização"
+      tooltipPosition="bottom"
+    >
+      <i class="pi pi-map-marker icon-status"></i>
+      <span class="badge-text">Localização não identificada</span>
+      <button
+        pButton
+        type="button"
+        icon="pi pi-plus"
+        label="Identificar"
+        class="p-button-xs p-button-rounded p-button-outlined"
+        (click)="$event.stopPropagation(); solicitarLocalizacao()"
+      ></button>
+    </div>
+
+  </ng-container>
+</div>

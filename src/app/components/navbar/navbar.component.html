@@ -10,12 +10,17 @@
     />
   </ng-template>
 <ng-template pTemplate="end">
-  <button 
-    pButton 
-    icon="pi pi-sign-out" 
-    class="p-button-text p-button-plain"
-    (click)="sair()"
-    style="margin-right: 1rem;">
-  </button>
+  <div class="navbar-end-actions">
+    <app-location-status-badge></app-location-status-badge>
+    <button 
+      pButton 
+      icon="pi pi-sign-out" 
+      class="p-button-text p-button-plain"
+      (click)="sair()"
+      pTooltip="Sair"
+      tooltipPosition="bottom"
+    >
+    </button>
+  </div>
 </ng-template>
 </p-menubar>

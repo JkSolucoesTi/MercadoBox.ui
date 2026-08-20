@@ -6,7 +6,7 @@ import { TableModule } from 'primeng/table';
 import { BadgeModule } from 'primeng/badge';
 import { Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
-
+import { LocationStatusBadgeComponent } from 'src/app/components/location/location-status-badge/location-status-badge.component';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +17,8 @@ import { CardModule } from 'primeng/card';
     BadgeModule,
     CardModule,
     ButtonModule,
-    DividerModule
+    DividerModule,
+    LocationStatusBadgeComponent
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']

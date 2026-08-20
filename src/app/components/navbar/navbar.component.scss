@@ -22,3 +22,10 @@
     height: 56px;
   }
 }
+
+.navbar-end-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-right: 0.5rem;
+}

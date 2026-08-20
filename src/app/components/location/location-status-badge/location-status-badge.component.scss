@@ -1,0 +1,79 @@
+.location-badge-container {
+  display: inline-flex;
+  align-items: center;
+
+  .badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    user-select: none;
+
+    .icon-status {
+      font-size: 0.95rem;
+    }
+
+    .badge-text {
+      white-space: nowrap;
+    }
+
+    .icon-action {
+      font-size: 0.75rem;
+      opacity: 0.7;
+      margin-left: 0.25rem;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover .icon-action {
+      opacity: 1;
+      transform: rotate(45deg);
+    }
+
+    &.identified {
+      background-color: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+
+      &:hover {
+        background-color: #d1fae5;
+        border-color: #6ee7b7;
+      }
+    }
+
+    &.requesting {
+      background-color: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+      cursor: default;
+    }
+
+    &.not-identified {
+      background-color: #f8fafc;
+      color: #64748b;
+      border: 1px solid #e2e8f0;
+
+      &:hover {
+        background-color: #f1f5f9;
+        color: #334155;
+      }
+
+      .p-button-xs {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.5rem;
+        height: 1.6rem;
+      }
+    }
+  }
+
+  &.compact {
+    .badge-pill {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.8rem;
+    }
+  }
+}

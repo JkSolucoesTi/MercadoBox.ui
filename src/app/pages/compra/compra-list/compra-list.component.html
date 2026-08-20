@@ -4,7 +4,8 @@
   </app-panel>
 
   <div class="flex justify-content-end mb-3">
-    <button pButton icon="pi pi-filter-slash" label="Filtro" class="p-button-link btn-filtro" (click)="sidebarVisible = true">
+    <button pButton icon="pi pi-filter-slash" label="Filtro" class="p-button-link btn-filtro"
+      (click)="sidebarVisible = true">
     </button>
   </div>
 
@@ -21,9 +22,9 @@
             <i class="pi pi-shopping-cart mr-2 text-primary"></i>
             <label>Mercado</label>
           </div>
-          <p-dropdown class="dropdown-sem-seta" [options]="mercados" optionLabel="nome" optionValue="id" formControlName="mercadoId"
-            optionLabel="nome" optionValue="id" placeholder="Selecione" inputClass="input-padrao"
-            [showClear]="true"></p-dropdown>
+          <p-dropdown class="dropdown-sem-seta" [options]="mercados" optionLabel="nome" optionValue="id"
+            formControlName="mercadoId" optionLabel="nome" optionValue="id" placeholder="Selecione"
+            inputClass="input-padrao" [showClear]="true"></p-dropdown>
         </div>
 
         <div class="col-12 md:col-3 filtro-item">
@@ -54,7 +55,7 @@
   </p-sidebar>
 
   <p-divider />
-  <app-compra-card [compras]="compras" ></app-compra-card>
+  <app-compra-card [compras]="compras"></app-compra-card>
 </div>
 
 <div class="paginator-fixed">

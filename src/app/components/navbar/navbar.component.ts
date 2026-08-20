@@ -5,12 +5,13 @@ import { CommonModule } from '@angular/common';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { ButtonModule } from 'primeng/button';
 import { Role } from 'src/app/model/enums/role.enum';
+import { LocationStatusBadgeComponent } from '../location/location-status-badge/location-status-badge.component';
 
 @Component({
   selector: 'app-navbar',
-  standalone:true,
+  standalone: true,
   templateUrl: './navbar.component.html',
-  imports: [MenubarModule, RouterModule,CommonModule,ButtonModule],
+  imports: [MenubarModule, RouterModule, CommonModule, ButtonModule, LocationStatusBadgeComponent],
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
