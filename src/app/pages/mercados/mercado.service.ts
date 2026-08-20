@@ -9,6 +9,8 @@ import { MercadoSignature } from '../../model/Dto/signature/mercadoSignature';
 import { environment } from 'src/environments/environment';
 import { PaginatedResult } from '../../model/Dto/response/paginacoResponse';
 
+import { MercadoProximo } from '../../model/mercado/mercado-proximo.model';
+
 export interface Mercado {
   id?: number;
   nome: string;
@@ -60,5 +62,14 @@ export class MercadoService {
 
   desativar(id: number): Observable<void> {
     return this.http.delete<void>(`${environment.apiUrl}/${this.controller}/${id}`);
+  }
+
+  obterMercadosProximos(latitude: number, longitude: number, raioMetros: number = 3000): Observable<ApiResponse<MercadoProximo[]>> {
+    const params = new HttpParams()
+      .set('latitude', latitude.toString())
+      .set('longitude', longitude.toString())
+      .set('raioMetros', raioMetros.toString());
+
+    return this.http.get<ApiResponse<MercadoProximo[]>>(`${environment.apiUrl}/${this.controller}/proximos`, { params });
   }
 }

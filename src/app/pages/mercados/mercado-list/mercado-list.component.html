@@ -3,31 +3,258 @@
     [btnDescricao]="'Mercado'" [modal]="false">
   </app-panel>
 
-  <div class="search-row  gap-2 mb-3 mt-3">
-    <form [formGroup]="form" class="search-form">
-      <input type="text" pInputText placeholder="Pesquisar mercado..." class="search-input"
-        formControlName="pesquisa" />
-    </form>
-
-    <button pButton icon="pi pi-search" class="p-button-success" (click)="pesquisar()">
+  <!-- ═══════════════════════════════════════════════════════ TABS ═══ -->
+  <div class="tabs-row">
+    <button
+      id="tab-meus-mercados"
+      class="tab-btn"
+      [class.active]="abaAtiva === 'meus'"
+      (click)="selecionarAba('meus')">
+      <i class="pi pi-shopping-cart"></i>
+      <span>Meus Mercados</span>
     </button>
-
-    <button pButton icon="pi pi-times" class="p-button-danger" (click)="limparPesquisa()">
+    <button
+      id="tab-proximos"
+      class="tab-btn"
+      [class.active]="abaAtiva === 'proximos'"
+      (click)="selecionarAba('proximos')">
+      <i class="pi pi-map-marker"></i>
+      <span>Próximos a mim</span>
+      <span class="tab-badge" *ngIf="abaAtiva === 'proximos' && mercadosProximos.length > 0">
+        {{ mercadosProximos.length }}
+      </span>
     </button>
   </div>
 
   <p-divider />
 
-  <!-- Cards dos mercados -->
-  <div class="grid">
-    <div class="col-12 md:col-6 lg:col-4" *ngFor="let mercado of mercados">
-      <app-mercado-card [mercado]="mercado"></app-mercado-card>
+  <!-- ══════════════════════════════════════════════════ ABA: MEUS ═══ -->
+  <ng-container *ngIf="abaAtiva === 'meus'">
+    <div class="search-row gap-2 mb-3 mt-3">
+      <form [formGroup]="form" class="search-form">
+        <input type="text" pInputText placeholder="Pesquisar mercado..." class="search-input"
+          formControlName="pesquisa" />
+      </form>
+
+      <button pButton icon="pi pi-search" class="p-button-success" (click)="pesquisar()"></button>
+      <button pButton icon="pi pi-times" class="p-button-danger" (click)="limparPesquisa()"></button>
     </div>
-  </div>
+
+    <!-- Cards dos mercados -->
+    <div class="grid">
+      <div class="col-12 md:col-6 lg:col-4" *ngFor="let mercado of mercados">
+        <app-mercado-card [mercado]="mercado"></app-mercado-card>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- ═══════════════════════════════════════════════ ABA: PRÓXIMOS ═══ -->
+  <ng-container *ngIf="abaAtiva === 'proximos'">
+
+    <!-- ── Estado: Localização não identificada ── -->
+    <ng-container *ngIf="(locationService.locationStatus$ | async) !== LocationStatus.IDENTIFIED &&
+                         (locationService.locationStatus$ | async) !== LocationStatus.REQUESTING">
+      <div class="empty-location-state">
+        <div class="empty-location-icon">
+          <i class="pi pi-map-marker"></i>
+        </div>
+        <h3 class="empty-location-title">Localização necessária</h3>
+        <p class="empty-location-desc">
+          Permita o acesso à sua localização para encontrar os mercados mais próximos de você.
+        </p>
+        <button
+          id="btn-permitir-localizacao"
+          pButton
+          label="Permitir localização"
+          icon="pi pi-crosshairs"
+          class="p-button-success btn-allow-location"
+          (click)="solicitarLocalizacao()">
+        </button>
+      </div>
+    </ng-container>
+
+    <!-- ── Estado: Solicitando localização ── -->
+    <ng-container *ngIf="(locationService.locationStatus$ | async) === LocationStatus.REQUESTING">
+      <div class="empty-location-state">
+        <div class="empty-location-icon requesting">
+          <i class="pi pi-spin pi-spinner"></i>
+        </div>
+        <h3 class="empty-location-title">Identificando sua localização…</h3>
+        <p class="empty-location-desc">Aguarde enquanto obtemos sua posição.</p>
+      </div>
+    </ng-container>
+
+    <!-- ── Estado: Localização identificada ── -->
+    <ng-container *ngIf="(locationService.locationStatus$ | async) === LocationStatus.IDENTIFIED">
+
+      <!-- Barra de controles -->
+      <div class="proximos-toolbar">
+
+        <!-- Seletor de raio -->
+        <div class="raio-selector">
+          <span class="raio-label"><i class="pi pi-sliders-h"></i> Raio:</span>
+          <div class="raio-options">
+            <button
+              *ngFor="let opcao of raioOpcoes"
+              [id]="'btn-raio-' + opcao.value"
+              class="raio-btn"
+              [class.active]="raioMetros === opcao.value"
+              (click)="mudarRaio(opcao.value)">
+              {{ opcao.label }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Botão atualizar -->
+        <button
+          id="btn-atualizar-proximos"
+          pButton
+          icon="pi pi-refresh"
+          label="Atualizar"
+          class="p-button-outlined p-button-sm btn-refresh"
+          [class.p-button-loading]="carregandoProximos"
+          [disabled]="carregandoProximos"
+          (click)="buscarProximos()"
+          pTooltip="Refazer busca com a localização atual">
+        </button>
+      </div>
+
+      <!-- Skeleton loader -->
+      <ng-container *ngIf="carregandoProximos">
+        <div class="skeleton-wrapper">
+          <div class="skeleton-row" *ngFor="let i of [1,2,3,4,5]">
+            <div class="skeleton-cell wide shimmer"></div>
+            <div class="skeleton-cell medium shimmer"></div>
+            <div class="skeleton-cell wide shimmer"></div>
+            <div class="skeleton-cell narrow shimmer"></div>
+            <div class="skeleton-cell narrow shimmer"></div>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Erro na busca -->
+      <ng-container *ngIf="!carregandoProximos && erroBuscaProximos">
+        <div class="empty-location-state error-state">
+          <div class="empty-location-icon error">
+            <i class="pi pi-exclamation-triangle"></i>
+          </div>
+          <h3 class="empty-location-title">Falha ao buscar mercados</h3>
+          <p class="empty-location-desc">Verifique sua conexão e tente novamente.</p>
+          <button pButton label="Tentar novamente" icon="pi pi-refresh"
+            class="p-button-outlined" (click)="buscarProximos()">
+          </button>
+        </div>
+      </ng-container>
+
+      <!-- Sem resultados -->
+      <ng-container *ngIf="!carregandoProximos && !erroBuscaProximos && mercadosProximos.length === 0">
+        <div class="empty-location-state">
+          <div class="empty-location-icon info">
+            <i class="pi pi-search"></i>
+          </div>
+          <h3 class="empty-location-title">Nenhum mercado encontrado</h3>
+          <p class="empty-location-desc">
+            Não encontramos supermercados no raio de
+            <strong>{{ raioMetros / 1000 | number:'1.0-0' }} km</strong>.
+            Tente aumentar o raio de busca.
+          </p>
+        </div>
+      </ng-container>
+
+      <!-- Tabela de mercados próximos -->
+      <ng-container *ngIf="!carregandoProximos && !erroBuscaProximos && mercadosProximos.length > 0">
+        <p-table
+          id="tabela-mercados-proximos"
+          [value]="mercadosProximos"
+          [tableStyle]="{'width':'100%'}"
+          styleClass="proximos-table"
+          [scrollable]="true"
+          scrollHeight="flex">
+
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="col-rank">#</th>
+              <th class="col-nome">Mercado</th>
+              <th class="col-tipo">Tipo</th>
+              <th class="col-endereco">Endereço</th>
+              <th class="col-distancia">Distância</th>
+              <th class="col-acoes">Ações</th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-mercado let-rowIndex="rowIndex">
+            <tr class="proximos-row">
+
+              <!-- Ranking -->
+              <td class="col-rank">
+                <span class="rank-badge" [class.rank-gold]="rowIndex === 0"
+                  [class.rank-silver]="rowIndex === 1"
+                  [class.rank-bronze]="rowIndex === 2">
+                  {{ rowIndex + 1 }}
+                </span>
+              </td>
+
+              <!-- Nome -->
+              <td class="col-nome">
+                <span class="mercado-nome-text">{{ mercado.nome }}</span>
+              </td>
+
+              <!-- Tipo -->
+              <td class="col-tipo">
+                <span class="tipo-badge"
+                  [class.tipo-supermarket]="mercado.tipo === 'Supermercado'"
+                  [class.tipo-convenience]="mercado.tipo === 'Conveniência'"
+                  [class.tipo-grocery]="mercado.tipo === 'Mercearia'">
+                  {{ mercado.tipo }}
+                </span>
+              </td>
+
+              <!-- Endereço -->
+              <td class="col-endereco">
+                <span class="endereco-text">{{ mercado.endereco || '—' }}</span>
+              </td>
+
+              <!-- Distância -->
+              <td class="col-distancia">
+                <span class="distancia-chip">
+                  <i class="pi pi-map-marker distancia-icon"></i>
+                  {{ mercado.distanciaFormatada }}
+                </span>
+              </td>
+
+              <!-- Ações -->
+              <td class="col-acoes">
+                <a [href]="googleMapsUrlProximo(mercado)" target="_blank" rel="noopener noreferrer">
+                  <button
+                    pButton
+                    icon="pi pi-directions"
+                    label="Ver no Maps"
+                    class="p-button-sm p-button-outlined p-button-success btn-maps">
+                  </button>
+                </a>
+              </td>
+
+            </tr>
+          </ng-template>
+
+        </p-table>
+
+        <div class="proximos-footer">
+          <i class="pi pi-info-circle"></i>
+          Dados via OpenStreetMap · {{ mercadosProximos.length }} mercados encontrados
+        </div>
+      </ng-container>
+
+    </ng-container>
+    <!-- /IDENTIFIED -->
+
+  </ng-container>
+  <!-- /ABA PROXIMOS -->
+
 </div>
 
-<!-- Paginator fixo (seu original, INALTERADO) -->
-<div class="paginator-fixed">
+<!-- Paginator fixo — aparece apenas na aba "Meus Mercados" -->
+<div class="paginator-fixed" *ngIf="abaAtiva === 'meus'">
   <p-paginator [first]="first" [rows]="rows" [totalRecords]="totalRecords" [pageLinkSize]="2"
     [rowsPerPageOptions]="[5, 10, 15]" [showFirstLastIcon]="false" (onPageChange)="onPageChange($event)">
   </p-paginator>
