@@ -1,35 +1,104 @@
 <div class="register-container">
-  <p-card header="Cadastro - MercadoBox" class="register-card">
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="p-fluid">
 
-      <div class="field">
-        <label for="email">Email</label>
-        <span class="p-input-icon-left">
-          <i class="pi pi-envelope"></i>
-          <input id="email" type="email" pInputText formControlName="email" placeholder="Digite seu email" />
-        </span>
-        <small *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="p-error">
-          Email inválido
-        </small>
+  <div class="background-overlay"></div>
+
+  <div class="register-card">
+
+    <div class="logo-area">
+      <img src="assets/logo.png" alt="MercadoBox" class="logo" />
+      <h2>Criar Conta</h2>
+      <p class="subtitle">Junte-se ao MercadoBox</p>
+    </div>
+
+    <p-message *ngIf="erroMensagem" severity="error" [text]="erroMensagem" style="margin-bottom: 1rem; display: block;"></p-message>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-area">
+
+        <!-- Nome -->
+        <div class="field-wrapper">
+          <div class="input-icon-wrap">
+            <i class="pi pi-user input-icon"></i>
+            <input
+              id="nome"
+              type="text"
+              pInputText
+              formControlName="nome"
+              class="input"
+              placeholder="Seu nome completo" />
+          </div>
+          <small class="p-error" *ngIf="f['nome'].invalid && f['nome'].touched">
+            <span *ngIf="f['nome'].errors?.['required']">Nome é obrigatório.</span>
+            <span *ngIf="f['nome'].errors?.['minlength']">Nome deve ter ao menos 3 caracteres.</span>
+          </small>
+        </div>
+
+        <!-- Email -->
+        <div class="field-wrapper">
+          <div class="input-icon-wrap">
+            <i class="pi pi-envelope input-icon"></i>
+            <input
+              id="email"
+              type="email"
+              pInputText
+              formControlName="email"
+              class="input"
+              placeholder="Seu e-mail" />
+          </div>
+          <small class="p-error" *ngIf="f['email'].invalid && f['email'].touched">
+            <span *ngIf="f['email'].errors?.['required']">E-mail é obrigatório.</span>
+            <span *ngIf="f['email'].errors?.['email']">Formato de e-mail inválido.</span>
+          </small>
+        </div>
+
+        <!-- Senha -->
+        <div class="field-wrapper">
+          <p-password
+            id="password"
+            formControlName="password"
+            [feedback]="true"
+            [toggleMask]="true"
+            placeholder="Crie uma senha (mín. 6 caracteres)"
+            styleClass="w-full">
+          </p-password>
+          <small class="p-error" *ngIf="f['password'].invalid && f['password'].touched">
+            <span *ngIf="f['password'].errors?.['required']">Senha é obrigatória.</span>
+            <span *ngIf="f['password'].errors?.['minlength']">A senha deve ter no mínimo 6 caracteres.</span>
+          </small>
+        </div>
+
+        <!-- Confirmar Senha -->
+        <div class="field-wrapper">
+          <p-password
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            [feedback]="false"
+            [toggleMask]="true"
+            placeholder="Confirme sua senha"
+            styleClass="w-full">
+          </p-password>
+          <small class="p-error" *ngIf="f['confirmPassword'].touched && registerForm.errors?.['senhasDiferentes']">
+            As senhas não coincidem.
+          </small>
+        </div>
+
+        <!-- Botão -->
+        <button
+          type="submit"
+          pButton
+          label="Criar conta"
+          icon="pi pi-check"
+          class="btn-register"
+          [loading]="loading">
+        </button>
+
+        <div class="login-area">
+          <span>Já tem conta?</span>
+          <a [routerLink]="['/login']" class="login-link">Fazer login</a>
+        </div>
+
       </div>
-
-      <div class="field">
-        <label for="password">Senha</label>
-        <p-password formControlName="password" [feedback]="false" [toggleMask]="true" placeholder="Digite sua senha">
-        </p-password>
-        <small *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="p-error">
-          A senha deve ter no mínimo 6 caracteres
-        </small>
-      </div>
-      <div class="field">
-        <label for="cpf">CPF</label>
-        <p-inputMask formControlName="cpf" mask="999.999.999-99" placeholder="Digite seu CPF">
-        </p-inputMask>
-      </div>
-
-      <button pButton type="submit" label="Salvar" icon="pi pi-check" class="p-button-success w-full mt-3">
-      </button>
-
     </form>
-  </p-card>
+  </div>
 </div>
