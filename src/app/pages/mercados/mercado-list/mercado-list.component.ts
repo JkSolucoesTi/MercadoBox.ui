@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { MercadoService } from '../mercado.service';
@@ -18,6 +18,9 @@ import { LocationStatus } from 'src/app/model/user/user-location.model';
 import { MercadoProximo } from 'src/app/model/mercado/mercado-proximo.model';
 import { Subscription } from 'rxjs';
 import { TooltipModule } from 'primeng/tooltip';
+import { CompraService } from '../../compra/compra.service';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { CompraSignature } from 'src/app/model/Dto/signature/compraSignature';
 
 export type AbaAtiva = 'meus' | 'proximos';
 
@@ -58,10 +61,17 @@ export class MercadoListComponent implements OnInit, OnDestroy {
   carregandoProximos = false;
   erroBuscaProximos = false;
   raioMetros = 3000;
+  salvandoMercadoId: number | null = null;
+  mercadosSalvosIds = new Set<string>(); // para feedback imediato por Nome+Endereco
+  iniciandoCompraId: number | null = null;
+
   readonly raioOpcoes = [
     { label: '1 km', value: 1000 },
     { label: '3 km', value: 3000 },
     { label: '5 km', value: 5000 },
+    { label: '10 km', value: 10000 },
+    { label: '15 km', value: 15000 },
+    { label: '30 km', value: 30000 },
   ];
 
   // ─── Localização ───────────────────────────────────────────────────────────
@@ -72,6 +82,9 @@ export class MercadoListComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private mercadoService: MercadoService,
     private notificacao: NotificacaoService,
+    private compraService: CompraService,
+    private authService: AuthServiceService,
+    private router: Router,
     public locationService: LocationService
   ) {}
 
@@ -106,7 +119,7 @@ export class MercadoListComponent implements OnInit, OnDestroy {
   }
 
   // ─── Mercados Próximos ─────────────────────────────────────────────────────
-  buscarProximos(): void {
+  buscarProximos(forceRefresh = false): void {
     const loc = this.locationService.getCurrentLocationValue();
     if (!loc) return;
 
@@ -114,7 +127,7 @@ export class MercadoListComponent implements OnInit, OnDestroy {
     this.erroBuscaProximos = false;
     this.mercadosProximos = [];
 
-    this.mercadoService.obterMercadosProximos(loc.latitude, loc.longitude, this.raioMetros)
+    this.mercadoService.obterMercadosProximos(loc.latitude, loc.longitude, this.raioMetros, forceRefresh)
       .subscribe({
         next: (response) => {
           this.mercadosProximos = response.data ?? [];
@@ -146,6 +159,119 @@ export class MercadoListComponent implements OnInit, OnDestroy {
 
   googleMapsUrlProximo(mercado: MercadoProximo): string {
     return `https://www.google.com/maps/search/?api=1&query=${mercado.latitude},${mercado.longitude}`;
+  }
+
+  formatarDistancia(mercado: MercadoProximo): string {
+    if (mercado.distanciaKm !== undefined && mercado.distanciaKm !== null) {
+      if (mercado.distanciaKm < 1.0) {
+        return `${Math.round(mercado.distanciaKm * 1000)} m`;
+      }
+      return `${mercado.distanciaKm.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} km`;
+    }
+    return mercado.distanciaFormatada || '';
+  }
+
+  obterChaveMercado(mercado: MercadoProximo): string {
+    return `${mercado.nome?.trim().toLowerCase()}_${mercado.endereco?.trim().toLowerCase() || ''}`;
+  }
+
+  isMercadoSalvo(mercado: MercadoProximo): boolean {
+    const chave = this.obterChaveMercado(mercado);
+    if (this.mercadosSalvosIds.has(chave)) return true;
+
+    return this.mercados.some(m =>
+      m.nome?.trim().toLowerCase() === mercado.nome?.trim().toLowerCase()
+    );
+  }
+
+  salvarMercadoProximo(mercado: MercadoProximo): void {
+    this.salvandoMercadoId = Number(mercado.id);
+
+    const payload = {
+      nome: mercado.nome,
+      endereco: mercado.endereco || '',
+      cidade: '',
+      estado: '',
+      cnpj: '',
+      telefone: '',
+      ativo: true
+    };
+
+    this.mercadoService.obterOuCriar(payload).subscribe({
+      next: (response) => {
+        this.salvandoMercadoId = null;
+        if (response.success && response.data) {
+          this.mercadosSalvosIds.add(this.obterChaveMercado(mercado));
+          this.notificacao.success('Mercado Salvo', `${mercado.nome} foi adicionado aos seus mercados.`);
+          this.carregarMercados(1, this.rows, '');
+        } else {
+          this.notificacao.error('Mercado', response.message || 'Erro ao salvar mercado.');
+        }
+      },
+      error: () => {
+        this.salvandoMercadoId = null;
+        this.notificacao.error('Mercado', 'Não foi possível salvar o mercado.');
+      }
+    });
+  }
+
+  iniciarCompraComMercado(mercado: MercadoProximo): void {
+    this.iniciandoCompraId = Number(mercado.id);
+
+    const payload = {
+      nome: mercado.nome,
+      endereco: mercado.endereco || '',
+      cidade: '',
+      estado: '',
+      cnpj: '',
+      telefone: '',
+      ativo: true
+    };
+
+    // Garante que o mercado existe no banco antes de abrir a compra
+    this.mercadoService.obterOuCriar(payload).subscribe({
+      next: (respMercado) => {
+        if (!respMercado.success || !respMercado.data) {
+          this.iniciandoCompraId = null;
+          this.notificacao.error('Compra', 'Erro ao vincular mercado para a compra.');
+          return;
+        }
+
+        const mercadoId = respMercado.data.id;
+        const idUsuario = Number(this.authService.obterPayload()?.sub);
+
+        const compra: CompraSignature = {
+          id: 0,
+          mercadoId: mercadoId,
+          data: new Date().toISOString(),
+          itens: [],
+          idUsuario: idUsuario,
+          Create: function() { return this; },
+          adicionarItem: function() {},
+          adicionarItens: function() {}
+        };
+
+        this.compraService.criarCompra(compra).subscribe({
+          next: (respCompra) => {
+            this.iniciandoCompraId = null;
+            if (respCompra.success && respCompra.data) {
+              this.notificacao.success('Compra Iniciada', `Compra aberta no ${mercado.nome}!`);
+              this.router.navigate(['/carrinho/' + respCompra.data.guid]);
+            } else {
+              this.notificacao.error('Compra', respCompra.message || 'Erro ao iniciar compra.');
+            }
+          },
+          error: () => {
+            this.iniciandoCompraId = null;
+            this.notificacao.error('Compra', 'Não foi possível iniciar a compra.');
+          }
+        });
+      },
+      error: () => {
+        this.iniciandoCompraId = null;
+        this.notificacao.error('Compra', 'Erro ao obter dados do mercado.');
+      }
+    });
   }
 
   // ─── Meus Mercados ─────────────────────────────────────────────────────────
@@ -182,3 +308,4 @@ export class MercadoListComponent implements OnInit, OnDestroy {
     this.carregarMercados(this.paginaAtual, this.rows, '');
   }
 }
+

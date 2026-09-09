@@ -114,8 +114,8 @@
           class="p-button-outlined p-button-sm btn-refresh"
           [class.p-button-loading]="carregandoProximos"
           [disabled]="carregandoProximos"
-          (click)="buscarProximos()"
-          pTooltip="Refazer busca com a localização atual">
+          (click)="buscarProximos(true)"
+          pTooltip="Refazer busca com a localização atual (ignora cache)">
         </button>
       </div>
 
@@ -141,7 +141,7 @@
           <h3 class="empty-location-title">Falha ao buscar mercados</h3>
           <p class="empty-location-desc">Verifique sua conexão e tente novamente.</p>
           <button pButton label="Tentar novamente" icon="pi pi-refresh"
-            class="p-button-outlined" (click)="buscarProximos()">
+            class="p-button-outlined" (click)="buscarProximos(true)">
           </button>
         </div>
       </ng-container>
@@ -218,20 +218,59 @@
               <td class="col-distancia">
                 <span class="distancia-chip">
                   <i class="pi pi-map-marker distancia-icon"></i>
-                  {{ mercado.distanciaFormatada }}
+                  {{ formatarDistancia(mercado) }}
                 </span>
               </td>
 
               <!-- Ações -->
               <td class="col-acoes">
-                <a [href]="googleMapsUrlProximo(mercado)" target="_blank" rel="noopener noreferrer">
+                <div class="acoes-buttons-wrapper">
+                  <!-- Botão Iniciar Compra -->
                   <button
                     pButton
-                    icon="pi pi-directions"
-                    label="Ver no Maps"
-                    class="p-button-sm p-button-outlined p-button-success btn-maps">
+                    icon="pi pi-shopping-bag"
+                    label="Comprar"
+                    class="p-button-sm p-button-success btn-comprar-acao"
+                    [loading]="iniciandoCompraId === mercado.id"
+                    [disabled]="iniciandoCompraId !== null || salvandoMercadoId !== null"
+                    (click)="iniciarCompraComMercado(mercado)"
+                    pTooltip="Iniciar compra neste mercado">
                   </button>
-                </a>
+
+                  <!-- Botão Salvar / Cadastrar Mercado -->
+                  <button
+                    *ngIf="!isMercadoSalvo(mercado)"
+                    pButton
+                    icon="pi pi-bookmark"
+                    label="Salvar"
+                    class="p-button-sm p-button-outlined p-button-primary btn-salvar-acao"
+                    [loading]="salvandoMercadoId === mercado.id"
+                    [disabled]="salvandoMercadoId !== null || iniciandoCompraId !== null"
+                    (click)="salvarMercadoProximo(mercado)"
+                    pTooltip="Adicionar à lista de Meus Mercados">
+                  </button>
+
+                  <!-- Estado Já Salvo -->
+                  <button
+                    *ngIf="isMercadoSalvo(mercado)"
+                    pButton
+                    icon="pi pi-check"
+                    label="Salvo"
+                    class="p-button-sm p-button-text p-button-secondary btn-salvo-badge"
+                    [disabled]="true"
+                    pTooltip="Este mercado já está na sua lista">
+                  </button>
+
+                  <!-- Link Google Maps -->
+                  <a [href]="googleMapsUrlProximo(mercado)" target="_blank" rel="noopener noreferrer">
+                    <button
+                      pButton
+                      icon="pi pi-directions"
+                      class="p-button-sm p-button-outlined p-button-secondary btn-maps-icon"
+                      pTooltip="Ver localização no Google Maps">
+                    </button>
+                  </a>
+                </div>
               </td>
 
             </tr>

@@ -190,7 +190,7 @@
 .col-tipo   { width: 120px; }
 .col-endereco { min-width: 160px; }
 .col-distancia { width: 110px; text-align: center; }
-.col-acoes  { width: 130px; text-align: center; }
+.col-acoes  { min-width: 230px; text-align: right; }
 
 // ─── Rank badge ───────────────────────────────────────────────────
 .rank-badge {
@@ -250,10 +250,37 @@
   font-size: 0.78rem;
 }
 
-// ─── Botão Maps ──────────────────────────────────────────────────
-.btn-maps {
-  white-space: nowrap;
-  font-size: 0.8rem !important;
+.acoes-buttons-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.btn-comprar-acao {
+  font-size: 0.78rem !important;
+  padding: 5px 10px !important;
+  font-weight: 600;
+}
+
+.btn-salvar-acao {
+  font-size: 0.78rem !important;
+  padding: 5px 10px !important;
+}
+
+.btn-salvo-badge {
+  font-size: 0.78rem !important;
+  padding: 5px 8px !important;
+  color: #15803d !important;
+  font-weight: 600;
+  cursor: default;
+}
+
+.btn-maps-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0 !important;
+  border-radius: 6px;
 }
 
 // ─── Footer info ─────────────────────────────────────────────────
