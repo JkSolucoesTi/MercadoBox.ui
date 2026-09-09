@@ -161,6 +161,17 @@ export class MercadoListComponent implements OnInit, OnDestroy {
     return `https://www.google.com/maps/search/?api=1&query=${mercado.latitude},${mercado.longitude}`;
   }
 
+  obterLogoMercado(nomeMercado: string): string {
+    const nome = (nomeMercado || '').toLowerCase();
+    if (nome.includes('chama')) {
+      return 'assets/chama_supermercados.png';
+    }
+    if (nome.includes('carrefour')) {
+      return 'assets/carrefour.png';
+    }
+    return 'assets/carrefour.png';
+  }
+
   formatarDistancia(mercado: MercadoProximo): string {
     if (mercado.distanciaKm !== undefined && mercado.distanciaKm !== null) {
       if (mercado.distanciaKm < 1.0) {

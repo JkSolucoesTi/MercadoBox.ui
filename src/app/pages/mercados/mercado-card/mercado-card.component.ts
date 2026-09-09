@@ -20,12 +20,23 @@ export class MercadoCardComponent {
 
   @Input() mercado!: MercadoResponse
 
-    get googleMapsUrl(): string {
+  get googleMapsUrl(): string {
     const endereco = `${this.mercado.nome} ${this.mercado.endereco}`;
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(endereco)}`;
   }
 
- editar(id: number | undefined){
+  get logoMercado(): string {
+    const nome = (this.mercado?.nome || '').toLowerCase();
+    if (nome.includes('chama')) {
+      return 'assets/chama_supermercados.png';
+    }
+    if (nome.includes('carrefour')) {
+      return 'assets/carrefour.png';
+    }
+    return 'assets/carrefour.png';
+  }
+
+  editar(id: number | undefined){
     this.router.navigate(['/mercados/editar/', id]);
- }
+  }
 }

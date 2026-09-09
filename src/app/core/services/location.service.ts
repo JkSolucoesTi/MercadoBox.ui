@@ -89,83 +89,104 @@ export class LocationService {
 
     this.locationStatusSubject.next(LocationStatus.REQUESTING);
 
-    return new Promise((resolve) => {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const rawLat = position.coords.latitude;
-          const rawLng = position.coords.longitude;
-          const accuracy = position.coords.accuracy;
+    const obterPosicao = (highAccuracy: boolean, timeoutMs: number, maxAgeMs: number): Promise<GeolocationPosition> => {
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: highAccuracy,
+          timeout: timeoutMs,
+          maximumAge: maxAgeMs
+        });
+      });
+    };
 
-          const locationData: UserLocation = {
-            latitude: rawLat,
-            longitude: rawLng,
-            accuracy: accuracy,
-            timestamp: new Date(),
-            address: null
-          };
+    let position: GeolocationPosition | null = null;
+    let ultimoErro: GeolocationPositionError | null = null;
 
-          // Consulta reverse geocoding no backend
-          try {
-            const addressResponse = await this.fetchReverseGeocode(rawLat, rawLng, accuracy);
-            if (addressResponse && addressResponse.address) {
-              locationData.address = addressResponse.address;
-            }
-          } catch (e) {
-            console.warn('Reverse geocoding não disponível ou falhou:', e);
-          }
-
-          this.saveLocationToCache(locationData);
-          this.currentLocationSubject.next(locationData);
-          this.locationStatusSubject.next(LocationStatus.IDENTIFIED);
-
-          const localDescricao = locationData.address?.neighborhood
-            ? `${locationData.address.neighborhood}, ${locationData.address.city || ''}`
-            : locationData.address?.city || 'Localização obtida';
-
-          this.notificacao.success(
-            'Localização identificada',
-            localDescricao
-          );
-
-          resolve(locationData);
-        },
-        (error: GeolocationPositionError) => {
-          let errorMessage = 'Não foi possível obter sua localização.';
-
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              this.locationStatusSubject.next(LocationStatus.DENIED);
-              errorMessage = 'Não conseguimos acessar sua localização. Você poderá continuar utilizando o MercadoBox normalmente.';
-              this.notificacao.info('Localização', errorMessage);
-              break;
-
-            case error.POSITION_UNAVAILABLE:
-              this.locationStatusSubject.next(LocationStatus.UNAVAILABLE);
-              errorMessage = 'Não foi possível determinar sua localização. Verifique se o serviço de localização está ativado e tente novamente.';
-              this.notificacao.warn('Localização', errorMessage);
-              break;
-
-            case error.TIMEOUT:
-              this.locationStatusSubject.next(LocationStatus.ERROR);
-              errorMessage = 'Tempo esgotado ao tentar obter sua localização.';
-              this.notificacao.warn('Localização', errorMessage);
-              break;
-
-            default:
-              this.locationStatusSubject.next(LocationStatus.ERROR);
-              this.notificacao.error('Localização', errorMessage);
-              break;
-          }
-
-          resolve(null);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
+    try {
+      // 1ª Tentativa: Alta precisão com timeout estendido e cache razoável (1 minuto)
+      position = await obterPosicao(true, 12000, 60000);
+    } catch (err: any) {
+      ultimoErro = err;
+      // Se deu timeout ou posição indisponível no iOS/Android, tenta baixa precisão imediatamente (rede/Wi-Fi)
+      if (err.code === err.TIMEOUT || err.code === err.POSITION_UNAVAILABLE) {
+        try {
+          position = await obterPosicao(false, 10000, 300000);
+        } catch (fallbackErr: any) {
+          ultimoErro = fallbackErr;
         }
+      }
+    }
+
+    if (position) {
+      const rawLat = position.coords.latitude;
+      const rawLng = position.coords.longitude;
+      const accuracy = position.coords.accuracy;
+
+      const locationData: UserLocation = {
+        latitude: rawLat,
+        longitude: rawLng,
+        accuracy: accuracy,
+        timestamp: new Date(),
+        address: null
+      };
+
+      // Consulta reverse geocoding no backend
+      try {
+        const addressResponse = await this.fetchReverseGeocode(rawLat, rawLng, accuracy);
+        if (addressResponse && addressResponse.address) {
+          locationData.address = addressResponse.address;
+        }
+      } catch (e) {
+        console.warn('Reverse geocoding não disponível ou falhou:', e);
+      }
+
+      this.saveLocationToCache(locationData);
+      this.currentLocationSubject.next(locationData);
+      this.locationStatusSubject.next(LocationStatus.IDENTIFIED);
+
+      const localDescricao = locationData.address?.neighborhood
+        ? `${locationData.address.neighborhood}, ${locationData.address.city || ''}`
+        : locationData.address?.city || 'Localização obtida';
+
+      this.notificacao.success(
+        'Localização identificada',
+        localDescricao
       );
-    });
+
+      return locationData;
+    }
+
+    // Tratamento de Erros
+    if (ultimoErro) {
+      let errorMessage = 'Não foi possível obter sua localização.';
+
+      switch (ultimoErro.code) {
+        case ultimoErro.PERMISSION_DENIED:
+          this.locationStatusSubject.next(LocationStatus.DENIED);
+          errorMessage = 'Permissão de localização negada. Se estiver no iPhone, verifique Ajustes > Safari > Localização.';
+          this.notificacao.info('Localização', errorMessage);
+          break;
+
+        case ultimoErro.POSITION_UNAVAILABLE:
+          this.locationStatusSubject.next(LocationStatus.UNAVAILABLE);
+          errorMessage = 'Não foi possível determinar sua localização. Verifique se os Serviços de Localização do seu dispositivo estão ativos.';
+          this.notificacao.warn('Localização', errorMessage);
+          break;
+
+        case ultimoErro.TIMEOUT:
+          this.locationStatusSubject.next(LocationStatus.ERROR);
+          errorMessage = 'Tempo esgotado ao tentar obter sua localização. Tente novamente em local aberto ou conectado ao Wi-Fi.';
+          this.notificacao.warn('Localização', errorMessage);
+          break;
+
+        default:
+          this.locationStatusSubject.next(LocationStatus.ERROR);
+          this.notificacao.error('Localização', errorMessage);
+          break;
+      }
+    }
+
+    return null;
   }
 
   /**

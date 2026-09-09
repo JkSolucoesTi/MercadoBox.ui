@@ -196,7 +196,10 @@
 
               <!-- Nome -->
               <td class="col-nome">
-                <span class="mercado-nome-text">{{ mercado.nome }}</span>
+                <div class="flex align-items-center gap-2">
+                  <img [src]="obterLogoMercado(mercado.nome)" class="tabela-mercado-logo" alt="Logo" />
+                  <span class="mercado-nome-text">{{ mercado.nome }}</span>
+                </div>
               </td>
 
               <!-- Tipo -->
