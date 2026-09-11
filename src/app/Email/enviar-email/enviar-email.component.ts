@@ -9,6 +9,7 @@ import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DialogModule } from 'primeng/dialog';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-enviar-email',
@@ -48,7 +49,8 @@ export class EnviarEmailComponent {
 
     this.loading = true;
 
-    this.http.post<Pessoa[]>('https://localhost:7054/api/Cadastro/UploadCsv', formData)
+
+    this.http.post<Pessoa[]>( `${environment.apiUrl}/Cadastro/UploadCsv`, formData)
       .subscribe({
         next: res => {
           this.pessoas = res;
@@ -68,7 +70,7 @@ export class EnviarEmailComponent {
     if (!this.pessoas.length) return;
     this.loading = true;
     this.http
-      .post('https://localhost:7054/api/Cadastro/EnviarEmail', this.pessoas)
+      .post(`${environment.apiUrl}/Cadastro/EnviarEmail`, this.pessoas)
       .subscribe({
         next: (res : any) => {
           this.pessoas = res;
